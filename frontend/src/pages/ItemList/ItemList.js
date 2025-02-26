@@ -1,29 +1,36 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import styles from './ItemList.module.css';
+
+import { fetchDishes, addDishToOrder } from '../../services/dishes/disheslist';
 import { OrderContext } from '../../context/OrderContext';
+
+import styles from './ItemList.module.css';
 
 const ItemList = () => {
   const { updateOrderCount } = useContext(OrderContext);
   const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8001/dishes')
-      .then((response) => setDishes(response.data))
-      .catch((error) => console.error('Ошибка при загрузке данных:', error));
+    const loadDishes = async () => {
+      try {
+        const data = await fetchDishes();
+        setDishes(data);
+      } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+      }
+    };
+
+    loadDishes();
   }, []);
 
-  // Функция для добавления блюда в заказ
   const handleAddToOrder = async (dishId) => {
     try {
-      await axios.post(`http://127.0.0.1:8001/order/add/${dishId}`);
+      await addDishToOrder(dishId);
       updateOrderCount();
     } catch (error) {
       console.error('Ошибка при добавлении блюда в заказ:', error);
     }
   };
-
 
   return (
     <div className={styles.container}>

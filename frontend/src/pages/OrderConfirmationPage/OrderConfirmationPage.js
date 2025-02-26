@@ -1,22 +1,25 @@
 import React, { useState, useContext, useEffect } from 'react';
-import styles from './OrderConfirmationPage.module.css';
+import { useNavigate } from 'react-router-dom';
+import { confirmOrder } from '../../services/dishes/order';
 import { OrderContext } from '../../context/OrderContext';
+import styles from './OrderConfirmationPage.module.css';
 
 const OrderConfirmationPage = () => {
   const [showHeart, setShowHeart] = useState(false);
   const { updateOrderCount } = useContext(OrderContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-        const navbar = document.querySelector('nav');
-        if (navbar) {
-            navbar.style.backgroundColor = 'white';
-        }
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.backgroundColor = 'white';
+    }
 
-        return () => {
-            if (navbar) {
-                navbar.style.backgroundColor = '';
-            }
-        };
+    return () => {
+      if (navbar) {
+        navbar.style.backgroundColor = '';
+      }
+    };
   }, []);
 
   const handleNoClick = () => {
@@ -29,19 +32,9 @@ const OrderConfirmationPage = () => {
 
   const handleYesClick = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8001/order/done', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: 'заказ заказан' }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Ошибка при отправке данных');
-      }
-
+      await confirmOrder();
       updateOrderCount();
+      navigate('/done');
     } catch (error) {
       console.error('Ошибка:', error);
       alert('Произошла ошибка при отправке данных.');
@@ -59,9 +52,7 @@ const OrderConfirmationPage = () => {
         <button className={styles.buttonYes} onClick={handleYesClick}>
           Да
         </button>
-        <h1 className={styles.question}>
-            или
-        </h1>
+        <h1 className={styles.question}>или</h1>
         <button className={styles.buttonNo} onClick={handleNoClick}>
           Нет
         </button>

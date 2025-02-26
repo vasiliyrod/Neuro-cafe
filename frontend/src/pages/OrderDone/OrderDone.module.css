@@ -1,1 +1,88 @@
-// стили успешного оформления
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #FDFAF0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 35vh;
+  width: 100%;
+  background-color: rgb(110, 121, 110);
+}
+
+.title {
+  font-family: "Amatic SC", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2rem;
+  margin: 0.5rem 0 0;
+  color: #fff;
+}
+
+.main {
+  font-family: "Amatic SC", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.3rem;
+  color: black;
+  height: 4vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  width: 17vh;
+  border: none;
+  border-radius: 10px;
+  background-color: #FDFAF0;
+}
+
+.image {
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  height: 25%;
+}
+
+.section1 {
+  font-family: "Amatic SC", serif;
+  font-weight: 400;
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 19vh;
+  margin-top: 5vh;
+  padding-left: 8vh;
+  padding-right: 8vh;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(110, 121, 110);
+}
+
+.title1 {
+  font-family: "Amatic SC", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.3rem;
+  margin: 0.5rem 0 0;
+  color: #fff;
+}
+
+.main1 {
+  font-family: "Amatic SC", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.3rem;
+  color: white;
+  height: 6vh;
+  margin-top: 3vh;
+  width: 60%;
+  border: none;
+  border-radius: 10px;
+  background-color: #2B3133;
+}

@@ -89,7 +89,7 @@ const OrderPage = () => {
           onClick={handleOrderClick}
         >
           Оформить заказ
-        </button>
+      </button>
     </div>
   );
 };

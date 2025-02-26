@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import styles from './ItemDetail.module.css';
+
+import { fetchDishDetails } from '../../services/dishes/dishdetail';
+
 import Navbar from '../../components/Nav/Navbar';
+import styles from './ItemDetail.module.css';
 
 const ItemDetail = () => {
   const { id } = useParams();
   const [dish, setDish] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8001/dishes/${id}`)
-      .then((response) => setDish(response.data))
-      .catch((error) => console.error('Ошибка при загрузке данных:', error));
+    const loadDishDetails = async () => {
+      try {
+        const data = await fetchDishDetails(id);
+        setDish(data);
+      } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+      }
+    };
+
+    loadDishDetails();
   }, [id]);
 
   if (!dish) {

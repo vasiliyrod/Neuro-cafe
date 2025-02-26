@@ -20,20 +20,20 @@ const StartPage = () => {
             />
           </div>
           <div className={styles.section}>
-            <p className={styles.sectionText}>Выбирай быстро, смело и по настроению!</p>
+            <p className={styles.sectionText1}>Выбирай быстро, смело<br/> и по настроению!<br/></p>
           </div>
           <div className={styles.section}>
             <Link to={`/chat`} className={styles.sectionButton}>ОТКРЫТЬ ЧАТ</Link>
           </div>
           <div className={styles.section}>
-            <p className={styles.sectionText}>И просто наслаждайся!</p>
+            <p className={styles.sectionText}><br/><br/>И просто наслаждайся!</p>
           </div>
         </div>
       </div>
 
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
-          <p className={styles.footerText}>Контакты:</p>
+          <p className={styles.footerText}>КОНТАКТЫ:</p>
           <p className={styles.footerText}>Email: {organisation.email}</p>
           <p className={styles.footerText}>Телефон: {organisation.phone}</p>
           <a
@@ -48,7 +48,7 @@ const StartPage = () => {
               className={styles.icon}
             />
           </a>
-          <p className={styles.footerText}>От команды ГОСТА</p>
+          <p className={styles.footerText1}>От команды ГОСТА</p>
         </div>
       </footer>
     </div>

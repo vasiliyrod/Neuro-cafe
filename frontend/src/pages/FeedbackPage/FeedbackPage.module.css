@@ -1,0 +1,137 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  background-color: #F3F1EB;
+  padding: 20px;
+  margin-top: 15vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.title2 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+}
+
+.title1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+}
+
+.title {
+  font-size: 1.9rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: "Amatic SC", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.ratingContainer {
+  margin-bottom: 20px;
+}
+
+.star {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #D7E2D7;
+  transition: color 0.2s ease;
+}
+
+.star.filled {
+  color: #FDB496;
+}
+
+.commentInput {
+  width: 80%;
+  max-width: 500px;
+  height: 100px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  resize: vertical;
+  color: #2B3133;
+}
+
+.inputtext {
+  width: 80%;
+  max-width: 500px;
+  height: 100px;
+  padding: 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  margin-bottom: 20px;
+  resize: vertical;
+  color: #2B3133;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  font-size: 2rem;
+  background-color: #2B3133;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 40px;
+  transition: background-color 0.3s ease;
+  font-family: "Amatic SC", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.submitButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: black;
+}
+
+.yes {
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  width: 12vh;
+  height: 7vh;
+  font-size: 1.3rem;
+  border: none;
+  background-color: #FDB496;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  resize: vertical;
+  color: #2B3133;
+  margin-right: 3vh;
+}
+
+.no {
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  background-color: #FDB496;
+  width: 12vh;
+  height: 7vh;
+  font-size: 1.3rem;
+  border: none;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  resize: vertical;
+  color: #2B3133;
+  margin-left: 3vh;
+}

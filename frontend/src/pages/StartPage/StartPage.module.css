@@ -45,33 +45,43 @@
 
 .sectionText {
   font-family: "Amatic SC", serif;
-  font-weight: 400;
+  font-weight: 600;
   font-style: normal;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin: 0.5rem 0 0;
   color: #ccc;
 }
 
+.sectionText1 {
+  font-family: "Amatic SC", serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 2rem;
+  margin: 0.5rem 0 0;
+  color: #ccc;
+}
+
+
 .image {
-  margin-top: 20vh;
   height: 50vh;
   object-fit: contain;
 }
 
 .sectionButton {
-  margin-top: 7%;
+  margin-top: 10vh;
   height: 7vh;
-  font-family: "Instrument Serif", serif;
+  font-family: "Kelly Slab", serif;
   font-weight: 400;
   font-style: bold;
   font-size: 1.2rem;
   color: #DEDBD2;
   background-color: rgba(110, 121, 110, 0.9);
   padding: 5px;
-  border: 10px solid rgba(110, 121, 110, 0.9);
+  border: 1px solid rgba(110, 121, 110, 0.9);
   border-radius: 4px;
   backdrop-filter: blur(3px);
   text-decoration: none;
+  box-shadow: 0 0 2rem #ADC0AD;
 }
 
 .footer {
@@ -87,24 +97,34 @@
 }
 
 .footerText {
-  margin: 5px 0; /* Отступы между строками текста */
-  font-size: 14px; /* Размер текста */
+  margin-top: 10px 0;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 1.2rem;
 }
 
-/* Стили для ссылки с иконкой */
+.footerText1 {
+  margin: 20px;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 0.8rem;
+}
+
 .iconLink {
-  display: inline-block; /* Чтобы ссылка вела себя как блок */
-  margin-top: 10px; /* Отступ сверху */
-  text-decoration: none; /* Убираем подчеркивание */
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
 }
 
 .icon {
-  width: 32px; /* Размер иконки */
+  width: 32px;
   height: 32px;
-  filter: brightness(0) invert(1); /* Делаем иконку белой */
-  transition: opacity 0.3s ease; /* Плавное изменение прозрачности */
+  filter: brightness(0) invert(1);
+  transition: opacity 0.3s ease;
 }
 
 .icon:hover {
-  opacity: 0.8; /* Эффект при наведении */
+  opacity: 0.8;
 }

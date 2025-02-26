@@ -3,6 +3,7 @@ from typing import List, Dict
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import random
+from typing import Optional
 
 app = FastAPI()
 
@@ -234,7 +235,7 @@ async def chat(request: ChatRequest):
 
     return {
         "message": bot_message,
-        "dishes": random.sample(dishes, 3)
+        "dishes": random.sample(dishes, 3) if "t" in user_message.lower() else []
     }
 
 
@@ -264,3 +265,23 @@ organisation = Organisation(
 @app.get("/infocafe", response_model=Organisation)
 def get_info():
     return organisation
+
+
+class Feedback(BaseModel):
+    overallRating: int
+    aiRating: int
+    atmosphereRating: int
+    staffRating: int
+    foodRating: int
+    comment: str
+    recommend: Optional[bool]
+
+
+# Эндпоинт для приема отзывов
+@app.post("/feedback")
+async def submit_feedback(feedback: Feedback):
+    try:
+        print("Получен отзыв:", feedback.dict())
+        return {"message": "Отзыв успешно получен!", "data": feedback.dict()}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

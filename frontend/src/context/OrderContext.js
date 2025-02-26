@@ -6,7 +6,6 @@ export const OrderContext = createContext();
 export const OrderProvider = ({ children }) => {
   const [orderCount, setOrderCount] = useState(0);
 
-  // Функция для получения количества блюд в заказе
   const fetchOrderCount = async () => {
     try {
       const response = await axios.get('http://127.0.0.1:8001/order/count');
