@@ -224,7 +224,6 @@ frontend/build/
 frontend/.DS_Store
 
 # Игнорировать файлы, созданные npm/yarn
-frontend/package-lock.json
 frontend/yarn.lock
 
 # Игнорировать файлы, созданные FastAPI (если есть)

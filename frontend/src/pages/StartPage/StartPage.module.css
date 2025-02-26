@@ -86,14 +86,14 @@
 
 .footer {
   background-color: rgb(110, 121, 110);
-  color: white; /* Белый текст */
-  padding: 20px; /* Отступы внутри футера */
-  text-align: center; /* Выравнивание текста по центру */
+  color: white;
+  padding: 20px;
+  text-align: center;
 }
 
 .footerContent {
-  max-width: 600px; /* Ограничение ширины содержимого */
-  margin: 0 auto; /* Центрирование содержимого */
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .footerText {
