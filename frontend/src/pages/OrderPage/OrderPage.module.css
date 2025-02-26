@@ -1,0 +1,75 @@
+.container {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 13vh;
+}
+
+.item {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #778477;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.removeButton {
+  padding: 10px 20px;
+  background-color: #FDB496;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quantity {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.total {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.orderButton {
+  width: 100%;
+  padding: 15px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.orderButton:hover {
+  background-color: #218838;
+}
+
+.orderButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

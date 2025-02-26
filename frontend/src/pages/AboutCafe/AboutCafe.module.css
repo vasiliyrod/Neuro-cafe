@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.welcomeText {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.addressText {
+  font-size: 1.5rem;
+  color: #555;
+}
+
+.footer {
+  background-color: rgb(110, 121, 110);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.footerContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footerText {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.iconLink {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);
+  transition: opacity 0.3s ease;
+}
+
+.icon:hover {
+  opacity: 0.8;
+}

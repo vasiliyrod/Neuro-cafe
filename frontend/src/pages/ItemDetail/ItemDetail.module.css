@@ -1,0 +1,23 @@
+.container {
+  font-family: 'Arial, sans-serif';
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  margin-top: 13vh;
+}
+
+.button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #778477;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #FDB496;
+}
