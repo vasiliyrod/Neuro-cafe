@@ -22,6 +22,8 @@ const OrderPage = () => {
 
   const isOrderEmpty = orderItems.length === 0;
 
+
+
   useEffect(() => {
         const navbar = document.querySelector('nav');
         if (navbar) {
@@ -42,55 +44,71 @@ const OrderPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>ВАШ ЗАКАЗ</h1>
+    <div className={styles.container1}>
+        <div className={styles.container}>
+          <h1 className={styles.title}>ВАШ ЗАКАЗ</h1>
 
-      {orderItems.map((item) => (
-        <div key={item.id} className={styles.item}>
-          <h2>{item.name}</h2>
-          <p>{item.cost * item.quantity} р</p>
-          <p>{item.weight} г</p>
-          <div className={styles.quantityControl}>
-            <button
-              onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-              className={styles.button}
-              disabled={item.quantity <= 0}
-            >
-              -1
-            </button>
-            <span className={styles.quantity}>{item.quantity}</span>
-            <button
-              onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-              className={styles.button}
-            >
-              +1
-            </button>
+          {orderItems.map((item) => (
+            <div key={item.id} className={styles.item}>
+              <div className={styles.column}>
+                  <img
+                      src={item.img_link}
+                      alt="dish_photo"
+                      className={styles.image}
+                    />
+              </div>
+              <div className={styles.column}>
+                <h2 className={styles.name}>{item.name}</h2>
+                <div className={styles.column3}>
+
+                    <button
+                        onClick={() => handleRemoveFromOrder(item.id)}
+                        className={styles.removeButton}
+                      >
+                        Удалить
+                      </button>
+                     <Link to={`/item/${item.id}`} className={styles.button}>
+                       Узнать больше
+                     </Link>
+                 </div>
+              </div>
+
+              <div className={styles.column1}>
+                  <p className={styles.cost}>{item.cost * item.quantity} р</p>
+                  <span className={styles.quantity}>{item.quantity} шт.</span>
+                  <div className={styles.quantityControl}>
+                    <button
+                      onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                      className={styles.button1}
+                      disabled={item.quantity <= 0}
+                    >
+                      -1
+                    </button>
+                    <button
+                      onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                      className={styles.button1}
+                    >
+                      +1
+                    </button>
+                  </div>
+              </div>
+            </div>
+          ))}
+
+          <div className={styles.total}>
+            <h2 className={styles.title}>ИТОГО</h2>
+            <p className={styles.amount}>{total} РУБ</p>
           </div>
+
           <button
-            onClick={() => handleRemoveFromOrder(item.id)}
-            className={styles.removeButton}
-          >
-            Удалить
+              className={styles.orderButton}
+              disabled={isOrderEmpty}
+              onClick={handleOrderClick}
+            >
+              Оформить заказ
           </button>
-          <Link to={`/item/${item.id}`} className={styles.button}>
-            Узнать больше
-          </Link>
         </div>
-      ))}
-
-      <div className={styles.total}>
-        <h2>ИТОГО</h2>
-        <p>{total} РУБ</p>
       </div>
-
-      <button
-          className={styles.orderButton}
-          disabled={isOrderEmpty}
-          onClick={handleOrderClick}
-        >
-          Оформить заказ
-      </button>
-    </div>
   );
 };
 

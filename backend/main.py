@@ -46,7 +46,7 @@ dishes = [
         all_ingredients="кукуруза! масло!",
         desc="Сочная курочка",
         weight=100,
-        img_link="https://example.com/chicken.jpg",
+        img_link="https://i.postimg.cc/8PZ55dVy/3.webp",
         cuisine="русская"
     ),
     Dish(
@@ -57,7 +57,7 @@ dishes = [
         all_ingredients="говядина! специи!",
         desc="Нежная говядина",
         weight=151,
-        img_link="https://example.com/beef.jpg",
+        img_link="https://i.postimg.cc/9QSQPW0Z/2.png",
         cuisine="европейская"
     ),
     Dish(
@@ -68,7 +68,7 @@ dishes = [
         all_ingredients="банан!",
         desc="Сладкий банан",
         weight=15,
-        img_link="https://example.com/banana.jpg",
+        img_link="https://i.postimg.cc/52jtFH4f/1.webp",
         cuisine="фрукты"
     ),
     Dish(
@@ -79,18 +79,18 @@ dishes = [
         all_ingredients="кукуруза! соль!",
         desc="Свежая кукуруза",
         weight=13,
-        img_link="https://example.com/corn.jpg",
+        img_link="https://i.postimg.cc/52jtFH4f/1.webp",
         cuisine="вегетарианская"
     ),
     Dish(
         id=5,
         type="hot",
-        name="Нунуну",
+        name="Нунуну lknyyjt djfbshjdfbsjzcxn ducd scvd",
         cost=300,
         all_ingredients="нунуну! специи!",
         desc="Необычное блюдо",
         weight=1,
-        img_link="https://example.com/nununu.jpg",
+        img_link="https://i.postimg.cc/8PZ55dVy/3.webp",
         cuisine="экзотическая"
     ),
     Dish(
@@ -101,7 +101,7 @@ dishes = [
         all_ingredients="булулу! масло!",
         desc="Сытное блюдо",
         weight=16,
-        img_link="https://example.com/bululu.jpg",
+        img_link="https://i.postimg.cc/8PZ55dVy/3.webp",
         cuisine="азиатская"
     ),
 ]

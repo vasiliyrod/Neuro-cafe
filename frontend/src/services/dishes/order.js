@@ -15,6 +15,7 @@ export const fetchOrder = async () => {
       quantity: item.quantity,
       name: item.dish.name,
       cost: item.dish.cost,
+      img_link: item.dish.img_link,
       weight: item.dish.weight,
     }));
   } catch (error) {

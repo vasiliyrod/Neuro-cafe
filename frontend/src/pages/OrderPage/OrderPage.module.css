@@ -1,33 +1,71 @@
+.container1 {
+  font-family: Arial, sans-serif;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  margin-top: 7vh;
+  background-color: #F3F1EB;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .container {
   font-family: Arial, sans-serif;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
-  margin-top: 13vh;
+  padding-top: 1vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .item {
   border: 1px solid #ccc;
-  padding: 20px;
+  width: 85%;
+  height: 20vh;
+  padding: 10px;
   margin-bottom: 20px;
-  border-radius: 8px;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #D9D9D9;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-top: 30px;
 }
 
 .quantityControl {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 10px 0;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+
+.quantityControl > * {
+  margin-right: 10px;
+}
+
+.quantityControl > *:last-child {
+  margin-right: 0;
 }
 
 .button {
-  padding: 10px 20px;
-  background-color: #778477;
+  background-color: #2B3133;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   text-decoration: none;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 1rem;
+  width: 30%;
+  height: 30%;
 }
 
 .button:disabled {
@@ -35,41 +73,155 @@
   cursor: not-allowed;
 }
 
+.column3 {
+  display: flex;
+  flex-direction: column; /* Элементы в колонку */
+  align-items: flex-start; /* Выравниваем элементы по левому краю */
+  gap: 10px; /* Расстояние между кнопками */
+}
+
 .removeButton {
-  padding: 10px 20px;
   background-color: #FDB496;
   color: black;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 0.8rem;
+  width: 100%; /* Занимает всю ширину контейнера */
+  padding: 6px; /* Добавляем отступы */
+  text-align: center; /* Выравниваем текст по центру */
+}
+
+.button {
+  background-color: #2B3133;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 1rem;
+  width: 90%; /* Занимает всю ширину контейнера */
+  padding: 7px; /* Добавляем отступы */
+  text-align: center; /* Выравниваем текст по центру */
 }
 
 .quantity {
-  font-size: 1.2rem;
   font-weight: bold;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.cost {
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 1.5rem;
+  margin-bottom: 10px; /* Отступ снизу для цены */
+}
+
+.column1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Выравниваем элементы по верхнему краю */
+  height: 100%; /* Занимает всю высоту контейнера */
+  padding-top: 10px; /* Отступ сверху */
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Равномерное распределение по высоте */
+  height: 100%; /* Занимает всю высоту контейнера */
+  padding-bottom: 20px;
+  align-items: center;
 }
 
 .total {
-  margin-top: 20px;
-  text-align: right;
+  margin-top: 5px;
+  text-align: center;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 2rem;
 }
 
 .orderButton {
-  width: 100%;
+  width: 60%;
   padding: 15px;
-  background-color: #28a745;
-  color: #fff;
+  background-color: #2B3133;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
-  font-size: 1.2rem;
+  margin-bottom: 10vh;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 2rem;
 }
 
 .orderButton:hover {
-  background-color: #218838;
+  background-color: black;
 }
 
 .orderButton:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.title {
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 2.6rem;
+  margin-top: 10vh;
+}
+
+.image {
+    width: 23vh;
+    height: 23vh;
+    border-radius: 30px;
+    overflow: hidden;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.raw {
+    flex-direction: raw;
+}
+
+.name {
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: clamp(1rem, 4vw, 1.7rem);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 2;
+  max-height: 12vh;
+  text-wrap: balance;
+}
+
+.button1 {
+  padding: 9px 13px;
+  background-color: #778477;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 0.8rem;
 }
