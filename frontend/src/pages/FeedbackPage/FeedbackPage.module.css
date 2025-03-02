@@ -55,9 +55,9 @@
 }
 
 .commentInput {
-  width: 80%;
+  width: 70%;
   max-width: 500px;
-  height: 100px;
+  height: 90px;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -69,7 +69,7 @@
 
 .inputtext {
   width: 80%;
-  max-width: 500px;
+  max-width: 370px;
   height: 100px;
   padding: 20px;
   font-size: 1rem;
@@ -108,12 +108,12 @@
   font-family: "Kelly Slab", serif;
   font-weight: 400;
   font-style: bold;
-  width: 12vh;
-  height: 7vh;
+  width: 10vh;
+  height: 5vh;
   font-size: 1.3rem;
   border: none;
   background-color: #FDB496;
-  border-radius: 20px;
+  border-radius: 15px;
   margin-bottom: 20px;
   resize: vertical;
   color: #2B3133;
@@ -125,11 +125,11 @@
   font-weight: 400;
   font-style: bold;
   background-color: #FDB496;
-  width: 12vh;
-  height: 7vh;
+  width: 10vh;
+  height: 5vh;
   font-size: 1.3rem;
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   margin-bottom: 20px;
   resize: vertical;
   color: #2B3133;

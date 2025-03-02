@@ -76,12 +76,12 @@
   font-size: 1.2rem;
   color: #DEDBD2;
   background-color: rgba(110, 121, 110, 0.9);
-  padding: 5px;
+  padding: 10px 15px;
   border: 1px solid rgba(110, 121, 110, 0.9);
   border-radius: 4px;
   backdrop-filter: blur(3px);
   text-decoration: none;
-  box-shadow: 0 0 2rem #ADC0AD;
+  box-shadow: 0 0 2rem #F1DBD2;
 }
 
 .footer {

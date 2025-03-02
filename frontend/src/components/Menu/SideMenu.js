@@ -27,16 +27,19 @@ class SideMenu extends Component {
           <div className={styles.sideMenuOverlay} onClick={this.toggleMenu} />
           <div className={styles.sideMenuContent}>
             <div className={styles.link}>
-                <li><a href="/about_cafe" className={styles.current}>О нас</a></li>
+                ⓘ<a href="/about_cafe" className={styles.current}> О нас</a>
             </div>
             <div className={styles.link}>
-                <li><a href="/menu" className={styles.current}>Меню</a></li>
+                𓌉◯𓇋<a href="/menu" className={styles.current}>Меню</a>
             </div>
             <div className={styles.link}>
-                <li><a href="/chat" className={styles.current}>Чат с ИИ</a></li>
+                🗪<a href="/chat" className={styles.current}> Чат с ИИ</a>
             </div>
             <div className={styles.link}>
-                <li><a href="/order" className={styles.current}>Корзина</a></li>
+                🗑️<a href="/order" className={styles.current}> Корзина</a>
+            </div>
+            <div className={styles.link}>
+                  ⟳  <a href="/" className={styles.current}> Лист ожидания</a>
             </div>
           </div>
         </aside>

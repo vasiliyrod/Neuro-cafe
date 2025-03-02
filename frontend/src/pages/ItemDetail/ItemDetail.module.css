@@ -1,23 +1,220 @@
 .container {
   font-family: 'Arial, sans-serif';
-  max-width: 400px;
+  width: 100%;
   margin: 0 auto;
-  padding: 20px;
   text-align: center;
-  margin-top: 13vh;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  font-family: "Amatic SC", serif;
+  font-weight: 600;
+  text-align: left;
+}
+
+.section {
+  margin-top: 15vh;
+  position: relative;
+  width: 100%;
+  max-width: 550px;
+  margin-bottom: 20px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 0 6rem #778477;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(217, 217, 217, 0.8);
+  color: white;
+  padding-left: 20px;
+  width: 97%;
+  margin-bottom: 10%;
+  font-family: "Amatic SC", serif;
+  font-weight: 600;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dishInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.dishName {
+  margin: 3px;
+  font-size: 2rem;
+  color: black;
+  font-style: normal;
+}
+
+.dishPrice {
+  margin: 5px 5px 5px;
+  font-size: 2rem;
+  color: #626A62;
+  font-family: "Kelly Slab", serif;
+  font-weight: 500;
+  font-style: bold;
+}
+
+.cuisineSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: rgba(217, 217, 217, 1);
+  height: 100%;
+  width: 40%;
+  border: none;
+  padding-top: 3px;
+  padding-bottom: 15px;
+}
+
+.cuisine {
+  font-size: 1.2rem;
+  color: #7A0000;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+}
+
+.addButton {
+  background-color: #778477;
+  color: white;
+  border: none;
+  border-radius: 11px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 12px;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  margin-bottom: 3px;
 }
 
 .button {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 0px;
   padding: 10px 20px;
-  background-color: #778477;
-  color: #fff;
+  background-color: #F3F1EB;
+  color: black;
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: 15px;
+  font-size: 1.24rem;
+  width: 25vh;
   transition: background-color 0.3s ease;
+  text-align: center;
 }
 
 .button:hover {
-  background-color: #FDB496;
+  background-color: #aFDB496;
+}
+
+.weight {
+  color: black;
+  font-size: 1rem;
+}
+
+.title {
+  color: #778477;
+  font-size: 3rem;
+  padding-left: 25px;
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: #F3F1EB;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  min-height: 200px;
+}
+
+.title1 {
+  color: #F3F1EB;
+  font-size: 3rem;
+  padding-left: 25px;
+}
+
+.title2 {
+  color: #F3F1EB;
+  font-size: 1.3rem;
+}
+
+.info1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: #778477;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 800px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  min-height: 200px;
+  padding-bottom: 60px;
+}
+
+.infoColumn {
+  flex: 1;
+  min-width: 250px;
+}
+
+.desc {
+  padding-left: 50px;
+  font-size: 1.3rem;
+}
+
+.desc1 {
+  padding-left: 7px;
+  font-size: 1.3rem;
+}
+
+.ingredientsList {
+  list-style-type: circle;
+  padding-left: 30px;
+  font-size: 1.6rem;
+}
+
+.ingredientsList li {
+  margin-bottom: 5px;
+}
+
+.padding {
+  padding-left: 50px;
+}
+
+@media (max-width: 768px) {
+  .info {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .info1 {
+    padding: 15px;
+  }
 }

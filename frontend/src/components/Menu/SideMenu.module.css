@@ -39,6 +39,7 @@
   max-width: 26rem;
   background-color: #617061;
   box-shadow: 0 0 2rem #ADC0AD;
+  padding-top: 70px;
 }
 
 .sideMenuOverlay {
@@ -56,6 +57,10 @@
 }
 
 .link{
-    padding-left: 15vh;
-    padding-top: 10vh;
+    padding-left: 20%;
+    padding-top: 4vh;
+    font-size: 1.3rem;
+    font-family: "Kelly Slab", serif;
+    font-weight: 400;
+    font-style: normal;
 }

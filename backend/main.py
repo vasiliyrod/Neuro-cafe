@@ -21,6 +21,7 @@ class Dish(BaseModel):
     name: str
     desc: str
     all_ingredients: str
+    main_ingredients: str
     img_link: str
     cost: int
     weight: int
@@ -44,7 +45,12 @@ dishes = [
         name="Курика",
         cost=600,
         all_ingredients="кукуруза! масло!",
-        desc="Сочная курочка",
+        main_ingredients="Сочная, курочк, рмивари, ркиасгик, а саискиа, киа иас, иарки аркиа, саи аик асвиа ",
+        desc="Сочная курочк рмивари ркиасгик а саискиа киа иас иарки аркиа саи аик асвиа "
+             "иа аки агиаг  иаркикарквиа виававо ааовивиа вси ика"
+             "акакнпа пквм анпма нмам акгпа иави аив а пв иависпврс рпварвкарвиа авпа а рап ма враварва рви арвиави"
+             "а гвисалвваваи ваии гвраура п аркип кат рооип рвип шивочивьп ват пвип огарва вовои рваи"
+             " вааровиоавиориа паври арвиа рви авмгаи нгукщагнмагунка гнука гиаивауауауракриарив аи кварвиаквриа",
         weight=100,
         img_link="https://i.postimg.cc/8PZ55dVy/3.webp",
         cuisine="русская"
@@ -55,6 +61,7 @@ dishes = [
         name="Говядина",
         cost=800,
         all_ingredients="говядина! специи!",
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
         desc="Нежная говядина",
         weight=151,
         img_link="https://i.postimg.cc/9QSQPW0Z/2.png",
@@ -66,6 +73,7 @@ dishes = [
         name="Банан",
         cost=50,
         all_ingredients="банан!",
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
         desc="Сладкий банан",
         weight=15,
         img_link="https://i.postimg.cc/52jtFH4f/1.webp",
@@ -77,6 +85,7 @@ dishes = [
         name="Кукуруза",
         cost=100,
         all_ingredients="кукуруза! соль!",
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
         desc="Свежая кукуруза",
         weight=13,
         img_link="https://i.postimg.cc/52jtFH4f/1.webp",
@@ -87,6 +96,7 @@ dishes = [
         type="hot",
         name="Нунуну lknyyjt djfbshjdfbsjzcxn ducd scvd",
         cost=300,
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
         all_ingredients="нунуну! специи!",
         desc="Необычное блюдо",
         weight=1,
@@ -98,6 +108,79 @@ dishes = [
         type="hot",
         name="Булулу",
         cost=400,
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
+        all_ingredients="булулу! масло!",
+        desc="Сытное блюдо",
+        weight=16,
+        img_link="https://i.postimg.cc/8PZ55dVy/3.webp",
+        cuisine="азиатская"
+    ),
+    Dish(
+        id=7,
+        type="hot",
+        name="Курика",
+        cost=600,
+        all_ingredients="кукуруза! масло!",
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
+        desc="Сочная курочка",
+        weight=100,
+        img_link="https://i.postimg.cc/8PZ55dVy/3.webp",
+        cuisine="русская"
+    ),
+    Dish(
+        id=8,
+        type="hot",
+        name="Говядина",
+        cost=800,
+        all_ingredients="говядина! специи!",
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
+        desc="Нежная говядина",
+        weight=151,
+        img_link="https://i.postimg.cc/9QSQPW0Z/2.png",
+        cuisine="европейская"
+    ),
+    Dish(
+        id=9,
+        type="cold",
+        name="Банан",
+        cost=50,
+        all_ingredients="банан!",
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
+        desc="Сладкий банан",
+        weight=15,
+        img_link="https://i.postimg.cc/52jtFH4f/1.webp",
+        cuisine="фрукты"
+    ),
+    Dish(
+        id=10,
+        type="tasty",
+        name="Кукуруза",
+        cost=100,
+        all_ingredients="кукуруза! соль!",
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
+        desc="Свежая кукуруза",
+        weight=13,
+        img_link="https://i.postimg.cc/52jtFH4f/1.webp",
+        cuisine="вегетарианская"
+    ),
+    Dish(
+        id=11,
+        type="sweet",
+        name="Нунуну lknyyjt djfbshjdfbsjzcxn ducd scvd",
+        cost=300,
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
+        all_ingredients="нунуну! специи!",
+        desc="Необычное блюдо",
+        weight=1,
+        img_link="https://i.postimg.cc/8PZ55dVy/3.webp",
+        cuisine="экзотическая"
+    ),
+    Dish(
+        id=12,
+        type="sweet",
+        name="Булулу",
+        cost=400,
+        main_ingredients="кукуруза! масло! gtcjr cf[fh cjkm",
         all_ingredients="булулу! масло!",
         desc="Сытное блюдо",
         weight=16,
@@ -231,12 +314,18 @@ async def chat(request: ChatRequest):
     else:
         bot_message = "Извините, я не понял ваш запрос."
 
-    print( random.sample(dishes, 3))
-
-    return {
+    history = {
         "message": bot_message,
         "dishes": random.sample(dishes, 3) if "t" in user_message.lower() else []
     }
+
+    print( random.sample(dishes, 3))
+
+    '''
+    вот тут и сохраняйте все в историю
+    '''
+
+    return history
 
 
 class Organisation(BaseModel):

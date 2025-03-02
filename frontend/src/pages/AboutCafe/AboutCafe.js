@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect} from 'react';
 
 import { OrganisationContext } from '../../context/OrganisationContext';
 
@@ -7,10 +7,49 @@ import styles from './AboutCafe.module.css';
 const AboutCafe = () => {
   const { organisation } = useContext(OrganisationContext);
 
+  useEffect(() => {
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.backgroundColor = 'white';
+    }
+
+    return () => {
+      if (navbar) {
+        navbar.style.backgroundColor = '';
+      }
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.welcomeText}>ДОБРО ПОЖАЛОВАТЬ</h1>
+        <h1 className={styles.welcomeText}>Добро пожаловать!</h1>
+        <p classname={styles.text_typical}>В наше NEURO кафе — идеальное место для <br/>
+        гурманов и любителей вкусной еды! </p>
+
+        <div className={styles.section}>
+            <img
+              src='https://i.postimg.cc/7ZTWMTzR/Group-12.png'
+              alt="NEURO Logo"
+              className={styles.image}
+            />
+        </div>
+
+         <div className={styles.title}>
+           <p>  О КАФЕ </p>
+         </div>
+
+         <p className={styles.text_typical1}>В нашем кафе каждый визит становится уникальным
+         кулинарным путешествием благодаря персонализированному подходу: вы выбираете блюдо,
+         основываясь на своих вкусовых предпочтениях и бюджете. </p>
+
+         <img
+              src="https://i.postimg.cc/FHcqnpC2/icons8-chatbot-48.png"
+              alt="NEURO Logo"
+              className={styles.image1}
+         />
+
+
         <p className={styles.addressText}>Адрес: {organisation.address}</p>
       </div>
 
