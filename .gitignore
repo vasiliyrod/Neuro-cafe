@@ -183,3 +183,53 @@ fabric.properties
 
 # idea folder, uncomment if you don't need it
 # .idea
+
+
+# Игнорировать папку node_modules (зависимости React)
+frontend/node_modules/
+
+# Игнорировать виртуальное окружение Python (если используется)
+backend/venv/
+backend/.venv/
+backend/env/
+backend/.env/
+
+# Игнорировать файлы, созданные Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+*.db
+*.sqlite3
+
+# Игнорировать файлы, созданные IDE
+.vscode/
+.idea/
+
+# Игнорировать логи и временные файлы
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Игнорировать файлы окружения (например, .env)
+.env
+.env.local
+.env.development
+.env.production
+
+# Игнорировать собранные файлы React (если есть)
+frontend/build/
+frontend/.DS_Store
+
+# Игнорировать файлы, созданные npm/yarn
+frontend/yarn.lock
+
+# Игнорировать файлы, созданные FastAPI (если есть)
+backend/.mypy_cache/
+backend/.pytest_cache/
+
+
+venv/
+.venv/
