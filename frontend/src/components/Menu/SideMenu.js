@@ -33,10 +33,10 @@ class SideMenu extends Component {
                 𓌉◯𓇋<a href="/menu" className={styles.current}>Меню</a>
             </div>
             <div className={styles.link}>
-                🗪<a href="/chat" className={styles.current}> Чат с ИИ</a>
+                ✎𓂃<a href="/chat" className={styles.current}> Чат с ИИ</a>
             </div>
             <div className={styles.link}>
-                🗑️<a href="/order" className={styles.current}> Корзина</a>
+                ☕︎<a href="/order" className={styles.current}> Корзина</a>
             </div>
             <div className={styles.link}>
                   ⟳  <a href="/" className={styles.current}> Лист ожидания</a>

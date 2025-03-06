@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://127.0.0.1:8001';
+import config from '../../config/config';
+
+const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
 
 export const getOrganisationInfo = async () => {
   try {

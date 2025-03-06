@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { sendChatMessage } from '../../services/chat/chat';
+import { sendChatMessage, getChatHistory } from '../../services/chat/chat';
 import { addDishToOrder } from '../../services/dishes/disheslist';
 import styles from './ChatAI.module.css';
 import { OrderContext } from '../../context/OrderContext';
+import { EditOrderContext } from '../../context/EditOrderContext';
 
 const ChatAIPage = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { updateOrderCount } = useContext(OrderContext);
+  const { orderItems, updateQuantity } = useContext(EditOrderContext);
   const [isListening, setIsListening] = useState(false);
 
   const chatWindowRef = useRef(null);
@@ -41,12 +43,35 @@ const ChatAIPage = () => {
   };
 
   useEffect(() => {
-    const welcomeMessage = {
-      text: 'Добро пожаловать! Задайте мне любой вопрос, и я помогу вам подобрать подходящие блюда.',
-      isUser: false,
-      dishes: [],
+    const loadHistory = async () => {
+      try {
+        const history = await getChatHistory();
+        if (history.messages && history.messages.length > 0) {
+//          const formattedMessages = history.messages.map((msg) => ({
+//            text: str      msg.message,
+//            isUser: bool   msg.sender === "client",
+//            dishes: []     msg.dishes || [],
+//          }));
+
+          setMessages(history.messages);
+        } else {
+          setMessages([{
+            text: 'Добро пожаловать! Задайте мне любой вопрос, и я помогу вам подобрать подходящие блюда.',
+            isUser: false,
+            dishes: [],
+          }]);
+        }
+      } catch (error) {
+        console.error('Ошибка при загрузке истории:', error);
+        setMessages([{
+          text: 'Добро пожаловать! Задайте мне любой вопрос, и я помогу вам подобрать подходящие блюда.',
+          isUser: false,
+          dishes: [],
+        }]);
+      }
     };
-    setMessages([welcomeMessage]);
+
+    loadHistory();
   }, []);
 
   useEffect(() => {
@@ -68,13 +93,20 @@ const ChatAIPage = () => {
     };
   }, []);
 
-
   const handleAddToOrder = async (dishId) => {
     try {
       await addDishToOrder(dishId);
+      updateQuantity(dishId, 1);
       updateOrderCount();
     } catch (error) {
       console.error('Ошибка при добавлении блюда в заказ:', error);
+    }
+  };
+
+  const handleUpdateQuantity = (id, newQuantity) => {
+    if (newQuantity >= 0) {
+      updateQuantity(id, newQuantity);
+      updateOrderCount();
     }
   };
 
@@ -119,28 +151,53 @@ const ChatAIPage = () => {
 
               {message.dishes && message.dishes.length > 0 && (
                 <div className={styles.dishesContainer}>
-                  {message.dishes.map((dish, dishIndex) => (
-                    <div key={dishIndex} className={styles.dish}>
-                      <img
-                        src={dish.img_link}
-                        alt="dish_photo"
-                        className={styles.image}
-                      />
-                      <div className={styles.dishInfo}>
-                        <h3>{dish.name}</h3>
-                        <p>Цена: {dish.cost} руб.</p>
-                        <div className={styles.dishButtons}>
-                          <button onClick={() => handleAddToOrder(dish.id)}
-                              className={styles.addButton}>
-                              Добавить в заказ
-                          </button>
-                          <Link to={`/item/${dish.id}`} className={styles.detailsButton}>
-                            Узнать больше
-                          </Link>
+                  {message.dishes.map((dish, dishIndex) => {
+                    const orderItem = orderItems.find((item) => item.id === dish.id);
+                    const quantity = orderItem ? orderItem.quantity : 0;
+
+                    return (
+                      <div key={dishIndex} className={styles.dish}>
+                        <img
+                          src={dish.img_link}
+                          alt="dish_photo"
+                          className={styles.image}
+                        />
+                        <div className={styles.dishInfo}>
+                          <h3>{dish.name}</h3>
+                          <p>Цена: {dish.cost} руб.</p>
+                          <div className={styles.dishButtons}>
+                            {quantity > 0 ? (
+                              <div className={styles.quantitySection}>
+                                <button
+                                  onClick={() => handleUpdateQuantity(dish.id, quantity - 1)}
+                                  className={styles.quantityButton}
+                                >
+                                  -
+                                </button>
+                                <span className={styles.quantity}>{quantity}</span>
+                                <button
+                                  onClick={() => handleUpdateQuantity(dish.id, quantity + 1)}
+                                  className={styles.quantityButton}
+                                >
+                                  +
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => handleAddToOrder(dish.id)}
+                                className={styles.addButton}
+                              >
+                                Добавить в заказ
+                              </button>
+                            )}
+                            <Link to={`/item/${dish.id}`} className={styles.detailsButton}>
+                              Узнать больше
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>

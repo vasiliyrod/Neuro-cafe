@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchDishDetails } from '../../services/dishes/dishdetail';
 import Navbar from '../../components/Nav/Navbar';
 import styles from './ItemDetail.module.css';
+import { OrderContext } from '../../context/OrderContext';
+import { EditOrderContext } from '../../context/EditOrderContext';
+import { addDishToOrder } from '../../services/dishes/disheslist';
 
 const ItemDetail = () => {
+  const { updateOrderCount } = useContext(OrderContext);
+  const { orderItems, updateQuantity } = useContext(EditOrderContext);
   const { id } = useParams();
   const [dish, setDish] = useState(null);
 
@@ -42,6 +47,28 @@ const ItemDetail = () => {
     .split(', ')
     .map((ingredient, index) => <li className={styles.desc1} key={index}>{ingredient}</li>);
 
+  const handleAddToOrder = async (dishId, e) => {
+    e.stopPropagation();
+    try {
+      await addDishToOrder(dishId);
+      updateQuantity(dishId, 1);
+      updateOrderCount();
+    } catch (error) {
+      console.error('Ошибка при добавлении блюда в заказ:', error);
+    }
+  };
+
+  const handleUpdateQuantity = (id, newQuantity, e) => {
+    e.stopPropagation();
+    if (newQuantity >= 0) {
+      updateQuantity(id, newQuantity);
+      updateOrderCount();
+    }
+  };
+
+  const orderItem = orderItems.find((item) => item.id === dish.id);
+  const quantity = orderItem ? orderItem.quantity : 0;
+
   return (
     <div>
       <Navbar />
@@ -59,7 +86,30 @@ const ItemDetail = () => {
             </div>
             <div className={styles.cuisineSection}>
               <h2 className={styles.cuisine}># {dish.cuisine}</h2>
-              <button className={styles.addButton}>Заказать</button>
+              {quantity > 0 ? (
+                <div className={styles.quantitySection}>
+                  <button
+                    onClick={(e) => handleUpdateQuantity(dish.id, quantity - 1, e)}
+                    className={styles.quantityButton}
+                  >
+                    -
+                  </button>
+                  <span className={styles.quantity}>{quantity}</span>
+                  <button
+                    onClick={(e) => handleUpdateQuantity(dish.id, quantity + 1, e)}
+                    className={styles.quantityButton}
+                  >
+                    +
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={(e) => handleAddToOrder(dish.id, e)}
+                  className={styles.addButton}
+                >
+                  Заказать
+                </button>
+              )}
             </div>
           </div>
         </div>

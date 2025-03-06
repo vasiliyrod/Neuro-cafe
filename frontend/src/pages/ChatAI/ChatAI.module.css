@@ -196,3 +196,26 @@
 .voiceButton.active {
   background-color: #ff6f61;
 }
+
+.quantity {
+  font-size: 0.9rem;
+  color: black;
+  padding-left: 7px;
+  padding-right: 7px;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+}
+
+.quantityButton {
+  background-color: #778477;
+  color: white;
+  border: none;
+  padding: 6px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: 0.7rem;
+}

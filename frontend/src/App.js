@@ -10,6 +10,7 @@ import AboutCafe from './pages/AboutCafe/AboutCafe';
 import OrderConfirmationPage from './pages/OrderConfirmationPage/OrderConfirmationPage';
 import OrderDone from './pages/OrderDone/OrderDone';
 import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
+//import OrderHistory from './pages/OrderHistory/OrderHistory';
 
 import Navbar from './components/Nav/Navbar';
 
@@ -27,7 +28,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<StartPage />} />
               <Route path="/chat" element={<ChatAIPage />} />
-              <Route path="/menu" element={<ItemList />} /> {/* Убрали пропс addToOrder */}
+              <Route path="/menu" element={<ItemList />} />
               <Route path="/item/:id" element={<ItemDetail />} />
               <Route path="/order" element={<OrderPage />} />
               <Route path="/about_cafe" element={<AboutCafe />} />

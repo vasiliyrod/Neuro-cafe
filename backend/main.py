@@ -296,6 +296,26 @@ def remove_from_order(dish_id: int):
 
 
 
+from typing import List, Dict
+
+class ChatHistory:
+    def __init__(self):
+        self.history: List[Dict] = []
+
+    def add_message(self, sender: bool, message: str, dishes: List[Dict] = None):
+        self.history.append({
+            "isUser": sender,
+            "text": message,
+            "dishes": dishes if dishes else []
+        })
+
+    def get_history(self):
+        return self.history
+
+chat_history = ChatHistory()
+
+
+
 class ChatRequest(BaseModel):
     message: str
 
@@ -309,23 +329,30 @@ class ChatResponse(BaseModel):
 async def chat(request: ChatRequest):
     user_message = request.message
 
+    chat_history.add_message(sender=True, message=user_message)
+
     if "привет" in user_message.lower():
         bot_message = "Привет! Как я могу вам помочь?"
     else:
         bot_message = "Извините, я не понял ваш запрос."
 
-    history = {
+    recommended_dishes = random.sample(dishes, 3) if "t" in user_message.lower() else []
+
+    chat_history.add_message(sender=False, message=bot_message, dishes=recommended_dishes)
+
+    return {
         "message": bot_message,
-        "dishes": random.sample(dishes, 3) if "t" in user_message.lower() else []
+        "dishes": recommended_dishes
     }
 
-    print( random.sample(dishes, 3))
+class ChatHistoryResponse(BaseModel):
+    messages: List[Dict]
 
-    '''
-    вот тут и сохраняйте все в историю
-    '''
-
-    return history
+# Эндпоинт для получения истории сообщений
+@app.get("/history", response_model=ChatHistoryResponse)
+async def get_history():
+    print(chat_history.get_history())
+    return {"messages": chat_history.get_history()}
 
 
 class Organisation(BaseModel):
@@ -344,8 +371,8 @@ organisation = Organisation(
     tg_link="https://www.figma.com/design/dFS3vG8wqJGe6wURNWP0Qx/Untitled?node-id=70-13&t=dBfULkzVN0n3MbQS-0",
     email='ExampleeCafe@gmail.com',
     phone='+7 (999) 999-99-99',
-    longitude=12.5,
-    latitude=13.5,
+    longitude=55.755864,
+    latitude=37.617698,
     address='ул. Пушкина, д. Колотушкина',
     desc='учшее кафе!'
 )
@@ -374,3 +401,149 @@ async def submit_feedback(feedback: Feedback):
         return {"message": "Отзыв успешно получен!", "data": feedback.dict()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+class Image(BaseModel):
+    id: int
+    link: str
+
+
+images = [
+    Image(
+        id=1,
+        link="https://i.postimg.cc/QCLh4SC0/cafe-1.jpg"
+    ),
+    Image(
+        id=2,
+        link="https://i.postimg.cc/NF1YWTrY/cafe-3.jpg"
+    ),
+    Image(
+        id=3,
+        link="https://i.postimg.cc/2jvzbp9J/cafe-garderob.jpg"
+    ),
+    Image(
+        id=25,
+        link="https://i.postimg.cc/SNhmcZwK/cafe-garderod-2.jpg"
+    ),
+]
+
+
+# Эндпоинт для получения всех картинок
+@app.get("/images", response_model=List[Image])
+def get_images():
+    return images
+
+
+
+
+class Person(BaseModel):
+    id: int
+    name: str
+    status: str
+    experience_years: int
+    achievements: str
+    photo_link: str
+
+
+staff = [
+    Person(
+        id=1,
+        name="Красивый Крабс",
+        status="Шеф-повар",
+        experience_years=10,
+        achievements="Повар мира 2025, Главный повар мира 2024",
+        photo_link="https://i.postimg.cc/XqsckqLk/image.jpg"
+    ),
+    Person(
+        id=2,
+        name="Прекрасный Боб",
+        status="Су-шеф",
+        experience_years=12,
+        achievements="Су-Повар мира 2025, Главный су-повар мира 2024",
+        photo_link="https://i.postimg.cc/FRgx1DJq/image-4.jpg"
+    ),
+    Person(
+        id=3,
+        name="Лейла Кулинарова",
+        status="Повар-кондитер",
+        experience_years=8,
+        achievements="Лучший повар вегетарианской кухни 2023, Награда за инновации в кулинарии 2024",
+        photo_link="https://i.postimg.cc/XNL8b1WB/image-1.jpg"
+    ),
+    Person(
+        id=4,
+        name="Анна Гастрономова",
+        status="Консультант по питанию",
+        experience_years=9,
+        achievements="Эксперт в области здорового питания 2025, Лауреат премии за лучший кулинарный блог 2024",
+        photo_link="https://i.postimg.cc/9MjpWvzZ/image-3.jpg"
+    ),
+    Person(
+        id=5,
+        name="Иван Степанов",
+        status="Кулинарный блогер",
+        experience_years=5,
+        achievements="Лучший кулинарный блогер 2024, Награда за лучший видеоблог о еде 2025",
+        photo_link="https://i.postimg.cc/cCxB3wRJ/image-2.jpg"
+    )
+]
+
+
+# Эндпоинт для получения поваров
+@app.get("/staff", response_model=List[Person])
+def get_staff():
+    return staff
+
+
+class Review(BaseModel):
+    id: int
+    username: str
+    ave_mark: float
+    text: str
+
+
+reviews = [
+    Review(
+        id=1,
+        username="Dahsa_dys",
+        ave_mark=4.3,
+        text="Ну такой фронтенд! Прям такой! ну красота какая! А поваров вообще видели? красавчикик!"
+             " А если добавить возможность бронирования столика - это вообще бомба!"
+    ),
+    Review(
+        id=2,
+        username="Fedya_newlife",
+        ave_mark=4.14,
+        text="А блюд то моих галактических еще нет!!!! Но мне нравится! Счастья в ваш дом!"
+    ),
+    Review(
+        id=3,
+        username="Nikoly",
+        ave_mark=3.3,
+        text="Я доволен, что у нас работают красивые девочки поварами! А телефончик можно у них взять?)"
+    ),
+    Review(
+        id=4,
+        username="Vasek",
+        ave_mark=2.1,
+        text="Да, максимум 5, а я вот 6 поставил. И кто запретит? БАНААААН! два БАНАНАААА! БОЛЬШЕ бананов! ну все, скип.."
+    ),
+    Review(
+        id=5,
+        username="Yandex_mop",
+        ave_mark=1.3,
+        text="Yandex! Yandex! Yandex! Yandex! Я mop. Я mop. Я mop."
+    ),
+    Review(
+        id=6,
+        username="Georgeee",
+        ave_mark=4.9,
+        text="Не понятно! А Roblox удалили что-ли? МАААААААААМ! ну ладно, ладно, я честно не играю в него!"
+    ),
+]
+
+
+# Эндпоинт для получения комментариев
+@app.get("/reviews", response_model=List[Review])
+def get_reviews():
+    return reviews
