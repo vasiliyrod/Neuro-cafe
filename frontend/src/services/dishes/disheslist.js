@@ -1,11 +1,16 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://127.0.0.1:8001';
+const API_BASE_URL = 'http://127.0.0.1:8080/api/v1';
 
 
 export const fetchDishes = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/dishes`);
+    const response = await axios.post(`${API_BASE_URL}/dishes`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {}
+    });
     return response.data;
   } catch (error) {
     console.error('Ошибка при загрузке данных:', error);

@@ -14,19 +14,18 @@ services:
       - internal-net
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
-    frontend:
-      build:
-        context: ./frontend
-        dockerfile: Dockerfile
-      ports:
-        - "3000:3000"
-      volumes:
-        - ./frontend:/app
-        - /app/node_modules
-      environment:
-        - CHOKIDAR_USEPOLLING=true
-      networks:
-        - app-network
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+ 
 
 
   # cache:

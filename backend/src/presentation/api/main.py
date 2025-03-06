@@ -5,6 +5,7 @@ from backend.src.config import Config, settings
 from backend.src.presentation.api.utils import get_hostname
 from backend.src.presentation.api import list_of_routes
 from backend.src.presentation.api.middleware import AuthMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 def bind_routes(application: FastAPI, setting: Config) -> None:
     for route in list_of_routes:
@@ -33,6 +34,13 @@ def get_app() -> FastAPI:
     add_pagination(application)
     application.state.settings = settings
     application.add_middleware(AuthMiddleware)
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:3000"],  # Разрешенные origins
+        allow_credentials=True,  # Разрешить куки и заголовки авторизации
+        allow_methods=["*"],  # Разрешить все методы (GET, POST, PUT, DELETE и т.д.)
+        allow_headers=["*"],  # Разрешить все заголовки
+    )
     return application
 
 
