@@ -53,7 +53,7 @@ const ReviewSlider = () => {
           el: '.swiper-pagination',
         }}
         autoplay={{
-          delay: 5000, // Delay of 5 seconds
+          delay: 5000,
           disableOnInteraction: false,
         }}
         loop
@@ -66,7 +66,7 @@ const ReviewSlider = () => {
                 <div className={styles.space}>
                   <p className={styles.ratingNumber}>{review.ave_mark.toFixed(1)}</p>
                   <p className={styles.mark}>{renderStars(review.ave_mark)}</p>
-                  {/* <p className={styles.username}>{review.username}</p> */}
+                  <p className={styles.username}>{review.username}</p>
                 </div>
                 <p className={styles.text}>{review.text}</p>
               </div>

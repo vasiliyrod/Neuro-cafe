@@ -22,6 +22,10 @@ const AboutCafe = () => {
     };
   }, []);
 
+  const latitude = 55.751244;
+  const longitude = 37.618423;
+
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -84,7 +88,7 @@ const AboutCafe = () => {
       <p className={styles.addressText}>Адрес: {organisation.address}</p>
 
       <div className={styles.centre}>
-        <YandexMap latitude={organisation.latitude} longitude={organisation.longitude} />
+        <YandexMap latitude={latitude} longitude={longitude} />
       </div>
 
       <footer className={styles.footer}>

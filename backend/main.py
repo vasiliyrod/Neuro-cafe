@@ -371,8 +371,8 @@ organisation = Organisation(
     tg_link="https://www.figma.com/design/dFS3vG8wqJGe6wURNWP0Qx/Untitled?node-id=70-13&t=dBfULkzVN0n3MbQS-0",
     email='ExampleeCafe@gmail.com',
     phone='+7 (999) 999-99-99',
-    longitude=55.755864,
-    latitude=37.617698,
+    longitude=37.618423,
+    latitude=55.751244,
     address='ул. Пушкина, д. Колотушкина',
     desc='учшее кафе!'
 )
