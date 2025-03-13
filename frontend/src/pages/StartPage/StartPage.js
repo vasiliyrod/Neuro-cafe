@@ -1,12 +1,22 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import styles from './StartPage.module.css';
-
-import { OrganisationContext } from '../../context/OrganisationContext';
+import styles from '@/pages/StartPage/StartPage.module.css';
+import { OrganisationContext } from '@/context/OrganisationContext';
 
 const StartPage = () => {
   const { organisation } = useContext(OrganisationContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!organisation || !organisation.email || !organisation.phone) {
+      navigate('/error');
+    }
+  }, [organisation, navigate]);
+
+  if (!organisation) {
+    navigate('/error');
+  }
 
   return (
     <div>

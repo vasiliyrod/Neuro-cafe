@@ -1,26 +1,26 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import { OrderCount } from '@/services/dishes/order';
 
 export const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
   const [orderCount, setOrderCount] = useState(0);
 
-  const fetchOrderCount = async () => {
+  const loadOrderCount = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8001/order/count');
-      setOrderCount(response.data);
+      const count = await OrderCount();
+      setOrderCount(count);
     } catch (error) {
       console.error('Ошибка при загрузке количества блюд:', error);
     }
   };
 
   useEffect(() => {
-    fetchOrderCount();
+    loadOrderCount();
   }, []);
 
   const updateOrderCount = () => {
-    fetchOrderCount();
+    loadOrderCount();
   };
 
   return (

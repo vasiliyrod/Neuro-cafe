@@ -1,6 +1,9 @@
 import axios from 'axios';
-import config from '../../config/config';
+import Cookies from 'js-cookie';
 
+import config from '@/config/config';
+
+const userID = Cookies.get('UID');
 const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
 
 
@@ -10,14 +13,14 @@ export const fetchDishes = async () => {
     {
         headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         }
       }
     );
     return response.data;
   } catch (error) {
-    console.error('Ошибка при загрузке данных:', error);
+    console.error('Ошибка при загрузке данных блюд:', error);
     throw error;
   }
 };
@@ -28,7 +31,7 @@ export const addDishToOrder = async (dishId) => {
     {
         headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         }
     }

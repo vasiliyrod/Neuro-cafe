@@ -3,7 +3,7 @@
   width: 95%;
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 0;
 }
 
 .slideWrapper {
@@ -15,7 +15,6 @@
   background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: 20px;
   min-height: 150px;
 }

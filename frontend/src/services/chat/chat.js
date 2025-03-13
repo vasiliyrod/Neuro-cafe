@@ -1,7 +1,9 @@
 import axios from 'axios';
-import config from '../../config/config';
+import Cookies from 'js-cookie';
+import config from '@/config/config';
 
 const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
+const userID = Cookies.get('UID');
 
 export const sendChatMessage = async (message) => {
   try {
@@ -12,7 +14,7 @@ export const sendChatMessage = async (message) => {
       {
         headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         }
       }
@@ -25,21 +27,20 @@ export const sendChatMessage = async (message) => {
   }
 };
 
-
 export const getChatHistory = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/history`,
-    {
+      {
         headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         }
-    }
+      }
     );
     return response.data;
   } catch (error) {
-    console.error('Ошибка при получении истории:', error);
+    console.error('Ошибка при получении истории сообщений:', error);
     throw error;
   }
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { submitFeedback } from '../../services/comments/comments';
-import styles from './FeedbackPage.module.css';
+import { useNavigate } from 'react-router-dom';
+
+import { submitFeedback } from '@/services/comments/comments';
+import styles from '@/pages/FeedbackPage/FeedbackPage.module.css';
 
 const FeedbackPage = () => {
   const [overallRating, setOverallRating] = useState(0);
@@ -11,6 +13,8 @@ const FeedbackPage = () => {
   const [comment, setComment] = useState('');
   const [recommend, setRecommend] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const navbar = document.querySelector('nav');
@@ -42,6 +46,8 @@ const FeedbackPage = () => {
       const response = await submitFeedback(feedbackData);
       console.log('Отзыв успешно отправлен:', response);
       setSubmitted(true);
+
+      navigate('/history');
     } catch (error) {
       console.error('Ошибка при отправке отзыва:', error);
       alert('Произошла ошибка при отправке отзыва.');

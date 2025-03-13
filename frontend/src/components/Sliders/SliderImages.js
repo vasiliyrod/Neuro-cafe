@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import styles from './SliderImages.module.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
-import { fetchImages } from '../../services/organisation/images';
+
+import styles from '@/components/Sliders/SliderImages.module.css';
+import { fetchImages } from '@/services/organisation/images';
 
 const ImageSlider = () => {
   const [images, setImages] = useState([]);

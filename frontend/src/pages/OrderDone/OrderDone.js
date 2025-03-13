@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './OrderDone.module.css';
+import styles from '@/pages/OrderDone/OrderDone.module.css';
 
 const OrderDone = () => {
   const navigate = useNavigate();
 
   const handleOrderClick = () => {
-     navigate('/');
+     navigate('/history');
   };
 
   const handleOrderClick1 = () => {
@@ -21,7 +21,7 @@ const OrderDone = () => {
               className={styles.main}
               onClick={handleOrderClick}
             >
-              На главную
+              История заказов
            </button>
           <h1 className={styles.title}>ВАШ ЗАКАЗ</h1>
           <h1 className={styles.title}>УСПЕШНО ОФОРМЛЕН!</h1>

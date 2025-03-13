@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Dict
 from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import random
 from typing import Optional
@@ -326,7 +327,11 @@ class ChatResponse(BaseModel):
 
 # Эндпоинт для чата
 @app.post("/chat", response_model=ChatResponse)
-async def chat(request: ChatRequest):
+async def chat(request_1: Request, request: ChatRequest):
+    headers = request_1.headers
+    print(headers["X-Auth-Token"])
+    print(headers['X-UID'])
+
     user_message = request.message
 
     chat_history.add_message(sender=True, message=user_message)
@@ -350,7 +355,10 @@ class ChatHistoryResponse(BaseModel):
 
 # Эндпоинт для получения истории сообщений
 @app.get("/history", response_model=ChatHistoryResponse)
-async def get_history():
+async def get_history(request: Request):
+    headers = request.headers
+    print(headers["X-Auth-Token"])
+    print(headers['X-UID'])
     print(chat_history.get_history())
     return {"messages": chat_history.get_history()}
 
@@ -371,8 +379,8 @@ organisation = Organisation(
     tg_link="https://www.figma.com/design/dFS3vG8wqJGe6wURNWP0Qx/Untitled?node-id=70-13&t=dBfULkzVN0n3MbQS-0",
     email='ExampleeCafe@gmail.com',
     phone='+7 (999) 999-99-99',
-    longitude=37.618423,
-    latitude=55.751244,
+    longitude=91.422759,
+    latitude=53.714688,
     address='ул. Пушкина, д. Колотушкина',
     desc='учшее кафе!'
 )
@@ -395,7 +403,10 @@ class Feedback(BaseModel):
 
 # Эндпоинт для приема отзывов
 @app.post("/feedback")
-async def submit_feedback(feedback: Feedback):
+async def get_history(request: Request):
+    headers = request.headers
+    print(headers["X-Auth-Token"])
+    print(headers['X-UID'])
     try:
         print("Получен отзыв:", feedback.dict())
         return {"message": "Отзыв успешно получен!", "data": feedback.dict()}
@@ -509,6 +520,10 @@ reviews = [
         ave_mark=4.3,
         text="Ну такой фронтенд! Прям такой! ну красота какая! А поваров вообще видели? красавчикик!"
              " А если добавить возможность бронирования столика - это вообще бомба!"
+             "Ну такой фронтенд! Прям такой! ну красота какая! А поваров вообще видели? красавчикик!"
+             " А если добавить возможность бронирования столика - это вообще бомба!"
+             "Ну такой фронтенд! Прям такой! ну красота какая! А поваров вообще видели? красавчикик!"
+             " А если добавить возможность бронирования столика - это вообще бомба!"
     ),
     Review(
         id=2,
@@ -547,3 +562,77 @@ reviews = [
 @app.get("/reviews", response_model=List[Review])
 def get_reviews():
     return reviews
+
+
+
+
+
+
+
+class Dishssss(BaseModel):
+    name: str
+    quantity: int
+    cost: int
+
+class Orderssss(BaseModel):
+    id: int
+    date: str
+    status: str
+    dishes: List[Dishssss]
+
+history = [
+    {
+        "id": 1,
+        "date": "12:15 13.03",
+        "status": "В работе",
+        "dishes": [
+            {"name": "Пицца Маргарита", "quantity": 2, 'cost': 3},
+            {"name": "Салат Цезарь", "quantity": 1, 'cost': 3},
+        ],
+    },
+    {
+        "id": 2,
+        "date": "12:10 13.03",
+        "status": "Завершен",
+        "dishes": [
+            {"name": "Паста Карбонара", "quantity": 1, 'cost': 3},
+            {"name": "Тирамису", "quantity": 1, 'cost': 3},
+        ],
+    },
+      {
+            "id": 3,
+            "date": "12:05 13.03",
+            "status": "Завершен",
+            "dishes": [
+                {"name": "Стейк из лосося", "quantity": 1, 'cost': 3},
+                {"name": "Картофель фри", "quantity": 2, 'cost': 3},
+            ],
+        },
+    {
+        "id": 4,
+        "date": "12:05 13.03",
+        "status": "Завершен",
+        "dishes": [
+            {"name": "Стейк из лосося", "quantity": 1, 'cost': 3},
+            {"name": "Картофель фри", "quantity": 2, 'cost': 3},
+        ],
+    },
+    {
+            "id": 5,
+            "date": "12:05 13.03",
+            "status": "Завершен",
+            "dishes": [
+                {"name": "Стейк из лосося", "quantity": 1, 'cost': 3},
+                {"name": "Картофель фри", "quantity": 2, 'cost': 3},
+            ],
+        },
+]
+
+# Эндпоинт для получения списка заказов
+@app.get("/order_history", response_model=List[Orderssss])
+async def get_history(request: Request):
+    headers = request.headers
+    print(headers["X-Auth-Token"])
+    print(headers['X-UID'])
+
+    return history

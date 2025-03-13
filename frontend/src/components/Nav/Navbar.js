@@ -1,11 +1,11 @@
 import React, { useRef, useContext } from 'react';
-
-import styles from './Navbar.module.css';
-import useScroll from '../../hooks/useScroll';
-import SideMenu from '../Menu/SideMenu';
-
-import { OrderContext } from '../../context/OrderContext';
 import { AiOutlineSchedule } from 'react-icons/ai';
+
+import styles from '@/components/Nav/Navbar.module.css';
+import useScroll from '@/hooks/useScroll';
+import SideMenu from '@/components/Menu/SideMenu';
+
+import { OrderContext } from '@/context/OrderContext';
 
 const Navbar = () => {
   const navRef = useRef(null);
@@ -19,7 +19,7 @@ const Navbar = () => {
         <div>
           <SideMenu />
         </div>
-        <h1 className={styles.name}><a href="/about_cafe">NEURO</a></h1>
+        <h1 className={styles.name}><a href="/">NEURO</a></h1>
         <ul>
           <li>
             <a href="/order" className={styles.order}>

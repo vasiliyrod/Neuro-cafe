@@ -1,4 +1,5 @@
-import config from '../../config/config';
+import config from '@/config/config';
+
 import axios from 'axios';
 
 const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
@@ -15,7 +16,7 @@ export const fetchImages = async () => {
     );
     return response.data;
   } catch (error) {
-    console.error('Ошибка при загрузке данных:', error);
+    console.error('Ошибка при загрузке данных интерьера:', error);
     throw error;
   }
 };

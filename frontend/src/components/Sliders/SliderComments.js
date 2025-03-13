@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import styles from './SliderComments.module.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
-import { fetchReviews } from '../../services/comments/comments';
+
+import { fetchReviews } from '@/services/comments/comments';
+import styles from '@/components/Sliders/SliderComments.module.css';
 
 const ReviewSlider = () => {
   const [reviews, setReviews] = useState([]);
@@ -19,7 +20,7 @@ const ReviewSlider = () => {
     return (
       <>
         {'★'.repeat(fullStars)}
-        {hasHalfStar && '½'}
+        {hasHalfStar && '✭'}
         {'☆'.repeat(emptyStars)}
       </>
     );
@@ -66,7 +67,7 @@ const ReviewSlider = () => {
                 <div className={styles.space}>
                   <p className={styles.ratingNumber}>{review.ave_mark.toFixed(1)}</p>
                   <p className={styles.mark}>{renderStars(review.ave_mark)}</p>
-                  <p className={styles.username}>{review.username}</p>
+                  {/* <p className={styles.username}>{review.username}</p> */}
                 </div>
                 <p className={styles.text}>{review.text}</p>
               </div>

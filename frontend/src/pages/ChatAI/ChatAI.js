@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { sendChatMessage, getChatHistory } from '../../services/chat/chat';
-import { addDishToOrder } from '../../services/dishes/disheslist';
-import styles from './ChatAI.module.css';
-import { OrderContext } from '../../context/OrderContext';
-import { EditOrderContext } from '../../context/EditOrderContext';
+
+import { sendChatMessage, getChatHistory } from '@/services/chat/chat';
+import { addDishToOrder } from '@/services/dishes/disheslist';
+import styles from '@/pages/ChatAI/ChatAI.module.css';
+import { OrderContext } from '@/context/OrderContext';
+import { EditOrderContext } from '@/context/EditOrderContext';
 
 const ChatAIPage = () => {
   const [messages, setMessages] = useState([]);

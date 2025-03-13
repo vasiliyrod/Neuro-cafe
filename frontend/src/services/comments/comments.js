@@ -1,6 +1,9 @@
 import axios from 'axios';
-import config from '../../config/config';
+import Cookies from 'js-cookie';
 
+import config from '@/config/config';
+
+const userID = Cookies.get('UID');
 const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
 
 export const submitFeedback = async (feedbackData) => {
@@ -8,10 +11,11 @@ export const submitFeedback = async (feedbackData) => {
     const response = await axios.post(`${API_BASE_URL}/feedback`, feedbackData, {
       headers: {
         [config.authHeader]: config.accessToken,
-        [config.userIDheader]: "123",
+        [config.userIDheader]: userID,
         'Content-Type': 'application/json',
       },
     });
+
     return response.data;
   } catch (error) {
     console.error('Ошибка при отправке отзыва:', error);

@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 90vh;
   padding-top: 10px;
-  background-color: #F3F1EB;
+  background-color: #FDFAF0;
   position: relative;
   align-items: center;
   justify-content: center;
@@ -12,10 +12,10 @@
 .container {
   max-width: 100%;
   max-width: 900px;
-  margin-top: 10vh;
+  margin-top: 4vh;
   display: flex;
   flex-direction: column;
-  height: calc(80vh - 80px);
+  height: calc(85vh - 80px);
   padding: 20px;
   overflow-y: auto;
   align-items: none;

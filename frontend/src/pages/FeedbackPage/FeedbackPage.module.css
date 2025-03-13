@@ -38,7 +38,6 @@
   font-style: normal;
 }
 
-
 .ratingContainer {
   margin-bottom: 20px;
 }
@@ -134,4 +133,14 @@
   resize: vertical;
   color: #2B3133;
   margin-left: 3vh;
+}
+
+.yes.selected {
+  background-color: #F1DBD2;
+  color: black;
+}
+
+.no.selected {
+  background-color: #F1DBD2;
+  color: black;
 }

@@ -1,18 +1,21 @@
 import React, { useContext, useEffect } from 'react';
-import { OrganisationContext } from '../../context/OrganisationContext';
-import styles from './AboutCafe.module.css';
-import ImageSlider from '../../components/Sliders/SliderImages';
-import StaffSlider from '../../components/Sliders/SliderStaff';
-import ReviewSlider from '../../components/Sliders/SliderComments';
-import YandexMap from '../../components/Map/YandexMap';
+
+import { OrganisationContext } from '@/context/OrganisationContext';
+import styles from '@/pages/AboutCafe/AboutCafe.module.css';
+import ImageSlider from '@/components/Sliders/SliderImages';
+import StaffSlider from '@/components/Sliders/SliderStaff';
+import ReviewSlider from '@/components/Sliders/SliderComments';
+import YandexMap from '@/components/Map/YandexMap';
+import Loader from '@/components/Loading/Loading';
+
 
 const AboutCafe = () => {
-  const { organisation } = useContext(OrganisationContext);
+  const { organisation, error } = useContext(OrganisationContext);
 
   useEffect(() => {
     const navbar = document.querySelector('nav');
     if (navbar) {
-      navbar.style.backgroundColor = 'white';
+      navbar.style.backgroundColor = '#778477';
     }
 
     return () => {
@@ -22,9 +25,20 @@ const AboutCafe = () => {
     };
   }, []);
 
-  const latitude = 55.751244;
-  const longitude = 37.618423;
+  if (error) {
+    return null;
+  }
 
+  if (!organisation || !organisation.latitude || !organisation.longitude) {
+    return <Loader />;
+  }
+
+  const latitude = parseFloat(organisation.latitude);
+  const longitude = parseFloat(organisation.longitude);
+
+  if (isNaN(latitude) || isNaN(longitude)) {
+    console.error('Некорректные координаты:', organisation.latitude, organisation.longitude);
+  }
 
   return (
     <div className={styles.container}>
@@ -48,8 +62,7 @@ const AboutCafe = () => {
         <div className={styles.gridContainer}>
           <p className={styles.text_typical1}>
             В нашем кафе каждый визит становится уникальным
-            кулинарным путешествием благодаря персонализированному подходу: вы выбираете блюдо,
-            основываясь на своих вкусовых предпочтениях и бюджете.
+            кулинарным путешествием благодаря персонализированному подходу.
           </p>
 
           <div>
@@ -63,8 +76,8 @@ const AboutCafe = () => {
           </div>
 
           <p className={styles.text_typical1}>
-            Узнайте больше о каждом блюде, его сочетаниях и секретах,
-            а также заказывайте с учетом индивидуальных предпочтений, исключая нежелательные ингредиенты.
+            Узнайте больше о каждом блюде и его сочетаниях,
+            заказывайте с учетом индивидуальных предпочтений, используя помощника с ИИ.
           </p>
         </div>
       </div>
@@ -98,8 +111,8 @@ const AboutCafe = () => {
           <p className={styles.footerText}>Телефон: {organisation.phone}</p>
           <a
             href={organisation.tg_link}
-            target="_blank"
-            rel="noopener noreferrer"
+            target="tg"
+            rel="tg"
             className={styles.iconLink}
           >
             <img

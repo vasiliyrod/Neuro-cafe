@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchDishDetails } from '../../services/dishes/dishdetail';
-import Navbar from '../../components/Nav/Navbar';
-import styles from './ItemDetail.module.css';
-import { OrderContext } from '../../context/OrderContext';
-import { EditOrderContext } from '../../context/EditOrderContext';
-import { addDishToOrder } from '../../services/dishes/disheslist';
+
+import { fetchDishDetails } from '@/services/dishes/dishdetail';
+import Navbar from '@/components/Nav/Navbar';
+import styles from '@/pages/ItemDetail/ItemDetail.module.css';
+import { OrderContext } from '@/context/OrderContext';
+import { EditOrderContext } from '@/context/EditOrderContext';
+import { addDishToOrder } from '@/services/dishes/disheslist';
 
 const ItemDetail = () => {
   const { updateOrderCount } = useContext(OrderContext);

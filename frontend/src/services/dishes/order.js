@@ -1,6 +1,10 @@
-import config from '../../config/config';
+import config from '@/config/config';
+
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
+const userID = Cookies.get('UID');
 
 export const fetchOrder = async () => {
   try {
@@ -8,7 +12,7 @@ export const fetchOrder = async () => {
     {
         headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         }
     }
@@ -41,7 +45,7 @@ export const updateQuantity = async (id, quantity) => {
       method: 'POST',
       headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         },
       body: JSON.stringify({ quantity: Number(quantity) }),
@@ -63,7 +67,7 @@ export const removeFromOrder = async (id) => {
       method: 'DELETE',
       headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         },
     });
@@ -83,7 +87,7 @@ export const addToOrder = async (dish) => {
       method: 'POST',
       headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         },
     });
@@ -103,7 +107,7 @@ export const confirmOrder = async () => {
       method: 'POST',
       headers: {
           [config.authHeader]: config.accessToken,
-          [config.userIDheader]: "123",
+          [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         },
       body: JSON.stringify({ status: 'заказ заказан' }),
@@ -116,6 +120,26 @@ export const confirmOrder = async () => {
     return response.json();
   } catch (error) {
     console.error('Ошибка:', error);
+    throw error;
+  }
+};
+
+
+export const OrderCount = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/order/count`,
+    {
+        headers: {
+          [config.authHeader]: config.accessToken,
+          [config.userIDheader]: userID,
+          'Content-Type': 'application/json'
+        }
+    }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка при загрузке количества блюд:', error);
     throw error;
   }
 };

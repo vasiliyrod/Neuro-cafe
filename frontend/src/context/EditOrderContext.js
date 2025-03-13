@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-import { fetchOrder, updateQuantity, removeFromOrder, addToOrder } from '../services/dishes/order';
+import { fetchOrder, updateQuantity, removeFromOrder, addToOrder } from '@/services/dishes/order';
 
 export const EditOrderContext = createContext();
 

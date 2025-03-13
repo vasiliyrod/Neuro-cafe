@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
-import styles from './SliderStaff.module.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/autoplay';
-import { fetchStaff } from '../../services/organisation/staff';
+
+import styles from '@/components/Sliders/SliderStaff.module.css';
+import { fetchStaff } from '@/services/organisation/staff';
 
 const StaffSlider = () => {
   const [staff, setStaff] = useState([]);
