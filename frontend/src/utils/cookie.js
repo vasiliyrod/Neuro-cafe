@@ -7,18 +7,18 @@ const UserIDChecker = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const userIDFromQuery = queryParams.get('UID');
+      const queryParams = new URLSearchParams(location.search);
+      const userIDFromQuery = queryParams.get('UID');
 
-    if (userIDFromQuery) {
-      Cookies.set('UID', userIDFromQuery, { expires: 7 });
-    } else {
-      const userIDFromCookies = Cookies.get('UID');
-      if (!userIDFromCookies) {
-        navigate('/errorlog');
+      if (userIDFromQuery) {
+        Cookies.set('UID', userIDFromQuery, { expires: 7 });
+      } else {
+        const userIDFromCookies = Cookies.get('UID');
+        if (!userIDFromCookies && location.pathname !== '/errorlog') {
+          navigate('/errorlog');
+        }
       }
-    }
-  }, [location, navigate]);
+    }, [location, navigate]);
 
   return children;
 };

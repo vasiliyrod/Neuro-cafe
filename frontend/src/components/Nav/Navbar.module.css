@@ -7,7 +7,6 @@
   transition: all 0.3s ease-in-out;
   z-index: 1000;
   height: 11vh;
-  weight: 100%;
   transition: background-color 0.3s ease;
   color: #DBD8CE;
 }
@@ -73,7 +72,7 @@
 }
 
 .nav .order{
-    color: #FFDACA;
+    color: #FFC4AC;
     font-family: "Instrument Serif", serif;
     font-weight: 400;
     font-style: normal;

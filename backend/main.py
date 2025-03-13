@@ -327,11 +327,7 @@ class ChatResponse(BaseModel):
 
 # Эндпоинт для чата
 @app.post("/chat", response_model=ChatResponse)
-async def chat(request_1: Request, request: ChatRequest):
-    headers = request_1.headers
-    print(headers["X-Auth-Token"])
-    print(headers['X-UID'])
-
+async def chat(request: ChatRequest):
     user_message = request.message
 
     chat_history.add_message(sender=True, message=user_message)
@@ -355,10 +351,7 @@ class ChatHistoryResponse(BaseModel):
 
 # Эндпоинт для получения истории сообщений
 @app.get("/history", response_model=ChatHistoryResponse)
-async def get_history(request: Request):
-    headers = request.headers
-    print(headers["X-Auth-Token"])
-    print(headers['X-UID'])
+async def get_history():
     print(chat_history.get_history())
     return {"messages": chat_history.get_history()}
 
@@ -403,10 +396,7 @@ class Feedback(BaseModel):
 
 # Эндпоинт для приема отзывов
 @app.post("/feedback")
-async def get_history(request: Request):
-    headers = request.headers
-    print(headers["X-Auth-Token"])
-    print(headers['X-UID'])
+async def submit_feedback(feedback: Feedback):
     try:
         print("Получен отзыв:", feedback.dict())
         return {"message": "Отзыв успешно получен!", "data": feedback.dict()}

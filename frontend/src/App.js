@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import ItemList from '@/pages/ItemList/ItemList';
 import ItemDetail from '@/pages/ItemDetail/ItemDetail';
@@ -21,7 +21,19 @@ import { OrderProvider } from '@/context/OrderContext';
 import { EditOrderProvider } from '@/context/EditOrderContext';
 import { OrganisationProvider } from '@/context/OrganisationContext';
 
+import styles from '@/App.module.css';
+
 const App = () => {
+  const NotFound = () => {
+      return (
+        <div className={styles.not_found_container}>
+          <h1>404</h1>
+          <h1>Страница не найдена</h1>
+          <p>Извините, запрашиваемая страница не существует.</p>
+        </div>
+      );
+    };
+
   return (
     <Router>
       <OrganisationProvider>
@@ -42,6 +54,8 @@ const App = () => {
                 <Route path="/history" element={<OrderHistory />} />
                 <Route path="/error" element={<ErrorPage />} />
                 <Route path="/errorlog" element={<ErrorLogPage />} />
+
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </UserIDChecker>
           </OrderProvider>

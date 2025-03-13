@@ -1,4 +1,5 @@
 import React, { useContext} from 'react';
+import { FaTelegramPlane } from "react-icons/fa";
 
 import styles from '@/pages/Errors/ErrorLog.module.css'
 import { OrganisationContext } from '@/context/OrganisationContext';
@@ -17,13 +18,13 @@ const ErrorPage = () => {
 
   return (
     <div className={styles.body_container}>
-        <p> Вы не авторизоованы.</p>
+        <p> Вы не авторизованы.</p>
         <img
             src='https://i.postimg.cc/7ZTWMTzR/Group-12.png'
             alt="ERROR"
           />
 
-        <p> Войдите через наше телеграм приложение.</p>
+        <p className={styles.text}> Войдите через наше телеграм приложение.</p>
 
         <a
             href={organisation.tg_link}
@@ -31,7 +32,7 @@ const ErrorPage = () => {
             rel="tg"
             className={styles.iconLink}
           >
-          Перейти в приложение
+          <FaTelegramPlane />
         </a>
     </div>
   );

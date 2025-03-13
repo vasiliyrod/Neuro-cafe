@@ -158,3 +158,18 @@
   justify-content: center;
   margin-bottom: 55px;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image {
+  animation: fadeIn 1s ease-in-out;
+}

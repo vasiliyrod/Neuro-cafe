@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AiTwotoneAudio } from "react-icons/ai";
 
 import { sendChatMessage, getChatHistory } from '@/services/chat/chat';
 import { addDishToOrder } from '@/services/dishes/disheslist';
 import styles from '@/pages/ChatAI/ChatAI.module.css';
 import { OrderContext } from '@/context/OrderContext';
 import { EditOrderContext } from '@/context/EditOrderContext';
+
 
 const ChatAIPage = () => {
   const [messages, setMessages] = useState([]);
@@ -223,7 +225,7 @@ const ChatAIPage = () => {
           onClick={toggleListening}
           className={`${styles.voiceButton} ${isListening ? styles.active : ''}`}
         >
-          {isListening ? '◼️' : '. ♬ ݁˖'}
+          {isListening ? '◼️' : <AiTwotoneAudio />}
         </button>
       </div>
     </div>
