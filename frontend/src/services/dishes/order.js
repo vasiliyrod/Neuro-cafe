@@ -1,8 +1,22 @@
-const API_BASE_URL = 'http://localhost:8001';
+import config from '@/config/config';
+
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
+const userID = Cookies.get('UID');
 
 export const fetchOrder = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/order`);
+    const response = await fetch(`${API_BASE_URL}/order`,
+    {
+        headers: {
+          [config.authHeader]: config.accessToken,
+          [config.userIDheader]: userID,
+          'Content-Type': 'application/json'
+        }
+    }
+    );
     if (!response.ok) {
       throw new Error(`Ошибка сервера: ${response.status} ${response.statusText}`);
     }
@@ -30,8 +44,10 @@ export const updateQuantity = async (id, quantity) => {
     const response = await fetch(`${API_BASE_URL}/order/update/${id}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-      },
+          [config.authHeader]: config.accessToken,
+          [config.userIDheader]: userID,
+          'Content-Type': 'application/json'
+        },
       body: JSON.stringify({ quantity: Number(quantity) }),
     });
     if (!response.ok) {
@@ -49,6 +65,11 @@ export const removeFromOrder = async (id) => {
   try {
     const response = await fetch(`${API_BASE_URL}/order/remove/${id}`, {
       method: 'DELETE',
+      headers: {
+          [config.authHeader]: config.accessToken,
+          [config.userIDheader]: userID,
+          'Content-Type': 'application/json'
+        },
     });
     if (!response.ok) {
       throw new Error(`Ошибка сервера: ${response.status} ${response.statusText}`);
@@ -64,6 +85,11 @@ export const addToOrder = async (dish) => {
   try {
     const response = await fetch(`${API_BASE_URL}/order/add/${dish.id}`, {
       method: 'POST',
+      headers: {
+          [config.authHeader]: config.accessToken,
+          [config.userIDheader]: userID,
+          'Content-Type': 'application/json'
+        },
     });
     if (!response.ok) {
       throw new Error(`Ошибка сервера: ${response.status} ${response.statusText}`);
@@ -80,8 +106,10 @@ export const confirmOrder = async () => {
     const response = await fetch(`${API_BASE_URL}/order/done`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-      },
+          [config.authHeader]: config.accessToken,
+          [config.userIDheader]: userID,
+          'Content-Type': 'application/json'
+        },
       body: JSON.stringify({ status: 'заказ заказан' }),
     });
 
@@ -92,6 +120,26 @@ export const confirmOrder = async () => {
     return response.json();
   } catch (error) {
     console.error('Ошибка:', error);
+    throw error;
+  }
+};
+
+
+export const OrderCount = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/order/count`,
+    {
+        headers: {
+          [config.authHeader]: config.accessToken,
+          [config.userIDheader]: userID,
+          'Content-Type': 'application/json'
+        }
+    }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка при загрузке количества блюд:', error);
     throw error;
   }
 };

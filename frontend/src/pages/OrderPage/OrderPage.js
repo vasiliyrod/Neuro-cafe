@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { EditOrderContext } from '../../context/EditOrderContext';
-import styles from './OrderPage.module.css';
-import { OrderContext } from '../../context/OrderContext';
+
+import { EditOrderContext } from '@/context/EditOrderContext';
+import styles from '@/pages/OrderPage/OrderPage.module.css';
+import { OrderContext } from '@/context/OrderContext';
 
 const OrderPage = () => {
   const { orderItems, total, updateQuantity, removeFromOrder } = useContext(EditOrderContext);

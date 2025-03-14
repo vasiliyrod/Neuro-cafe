@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Muli&display=swap");
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: top;
+  min-height: 100vh;
+  background-color: rgb(110, 121, 110);
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-style: normal;
+  padding: 20px;
+}
+
+.his {
+  text-align: center;
+  margin-top: 15vh;
+  margin-bottom: 30px;
+  color: #DBD8CE;
+}
+
+.orderContainer {
+  width: 100%;
+  max-width: 600px;
+}
+
+.order {
+  border: 1px solid #9fa4a8;
+  border-radius: 10px;
+  margin: 20px 0;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.completedBackground {
+  background-color: #B9C8CD;
+  color: #2B3133; /* Синий */
+  box-shadow: 0 0 0.7rem #2B3133;
+}
+
+.activeBackground {
+  background-color: #ffffff;
+  background-color: #D7E2D7;
+}
+
+.defaultBackground {
+  background-color: #F1DBD2;
+  background-color: #FDFAF0;
+  color: #fdb496;
+  box-shadow: 0 0 0.5rem #fdb496;
+}
+
+.order.active:not(.completedBackground) {
+  background-color: #a2f5a2;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orderDate {
+  font-weight: bold;
+}
+
+.orderStatus {
+  padding: 5px 40px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.orderStatus.завершен {
+  padding-right: 40px;
+  color: black;
+}
+
+.orderStatus.в_работе {
+  background-color: #f1c40f;
+  width: 40%;
+  color: #fff;
+}
+
+.orderStatus.отменен {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.orderToggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 16px;
+}
+
+.faChevronDown,
+.faTimes {
+  transition: opacity 0.3s ease;
+}
+
+.faTimes {
+  display: none;
+}
+
+.order.active .faTimes {
+  display: block;
+}
+
+.order.active .faChevronDown {
+  display: none;
+}
+
+.orderDetails {
+  margin-top: 20px;
+}
+
+.orderDetails h4 {
+  margin-bottom: 10px;
+  color: #2B3133;
+}
+
+.orderDetails ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.orderDetails li {
+  margin: 5px 0;
+}
+
+.totalCost {
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: right;
+  color: #2B3133;
+}

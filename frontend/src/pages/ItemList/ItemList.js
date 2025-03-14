@@ -1,9 +1,10 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { fetchDishes, addDishToOrder } from '../../services/dishes/disheslist';
-import { OrderContext } from '../../context/OrderContext';
-import { EditOrderContext } from '../../context/EditOrderContext';
-import styles from './ItemList.module.css';
+
+import { fetchDishes, addDishToOrder } from '@/services/dishes/disheslist';
+import { OrderContext } from '@/context/OrderContext';
+import { EditOrderContext } from '@/context/EditOrderContext';
+import styles from '@/pages/ItemList/ItemList.module.css';
 
 const ItemList = () => {
   const { updateOrderCount } = useContext(OrderContext);
@@ -11,13 +12,11 @@ const ItemList = () => {
   const [dishes, setDishes] = useState([]);
   const [selectedType, setSelectedType] = useState('all');
   const [types, setTypes] = useState([]);
-  const [isSticky, setIsSticky] = useState(false);
-  const headerRef = useRef(null);
 
   useEffect(() => {
     const navbar = document.querySelector('nav');
     if (navbar) {
-      navbar.style.backgroundColor = 'white';
+      navbar.style.backgroundColor = '#FDFAF0';
     }
 
     return () => {
@@ -64,35 +63,22 @@ const ItemList = () => {
     updateOrderCount();
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (headerRef.current) {
-        const headerBottom = headerRef.current.getBoundingClientRect().bottom;
-        setIsSticky(headerBottom <= 0);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <div className={styles.container}>
-      <div className={styles.banner}>
-        <img src="https://i.postimg.cc/P51PHSj0/8bb387ee878eddeb23ba.gif" alt="Баннер" className={styles.bannerImage} />
-      </div>
 
-      <div className={`${styles.typeHeader} ${isSticky ? styles.sticky : ''}`}>
-        {types.map((type) => (
-          <button
-            key={type}
-            onClick={() => setSelectedType(type)}
-            className={`${styles.typeButton} ${selectedType === type ? styles.active : ''}`}
-          >
-            {type === 'all' ? 'Меню' : type}
-          </button>
-        ))}
-      </div>
+      <div
+          className={styles.typeHeader}
+        >
+          {types.map((type) => (
+            <button
+              key={type}
+              onClick={() => setSelectedType(type)}
+              className={`${styles.typeButton} ${selectedType === type ? styles.active : ''}`}
+            >
+              {type === 'all' ? 'Меню' : type}
+            </button>
+          ))}
+        </div>
 
       <div className={styles.dishesContainer}>
         {filteredDishes.map((dish) => {

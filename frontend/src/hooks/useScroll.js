@@ -1,16 +1,22 @@
 import { useEffect } from 'react';
 
-const useScroll = (ref) => {
+const useScroll = (ref, options = {}) => {
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
-        ref.current.classList.add('scrolled');
-      } else {
-        ref.current.classList.remove('scrolled');
+      if (ref.current) {
+        const { offsetTop, offsetHeight } = ref.current;
+        const scrollY = window.scrollY;
+
+        if (scrollY > offsetTop && scrollY < offsetTop + offsetHeight) {
+          ref.current.classList.add('scrolled');
+        } else {
+          ref.current.classList.remove('scrolled');
+        }
       }
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);

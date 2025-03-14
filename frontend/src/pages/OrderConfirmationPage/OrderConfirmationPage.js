@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { confirmOrder } from '../../services/dishes/order';
-import { OrderContext } from '../../context/OrderContext';
-import styles from './OrderConfirmationPage.module.css';
+
+import { confirmOrder } from '@/services/dishes/order';
+import { OrderContext } from '@/context/OrderContext';
+import styles from '@/pages/OrderConfirmationPage/OrderConfirmationPage.module.css';
 
 const OrderConfirmationPage = () => {
   const [showHeart, setShowHeart] = useState(false);
