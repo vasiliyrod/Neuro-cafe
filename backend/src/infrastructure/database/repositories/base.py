@@ -5,67 +5,28 @@ from sqlalchemy import and_, select
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.core.domain.base import BaseDTO
-
+from backend.src.infrastructure.cache.redis_client import RedisAdapter
 
 ModelType = TypeVar("ModelType", bound=declarative_base)
 ObjectType = TypeVar("ObjectType", bound=BaseDTO)
 
 
-class GenericRepository(Generic[ModelType, ObjectType], ABC):
-    @abstractmethod
-    def get_by_id(self, id: int) -> ObjectType | None:
-        raise NotImplementedError
-
-    @abstractmethod
-    def list(self, **filters) -> list[ObjectType]:
-        raise NotImplementedError
-
+class GenericRepository[ObjectType](ABC):
+    
+    _object : type[ObjectType]
+    
     @abstractmethod
     def add(self, object: ObjectType) -> ObjectType:
         raise NotImplementedError
 
     @abstractmethod
-    def update(self, id: int, diff_object: ObjectType) -> ObjectType | None:
-        raise NotImplementedError
-
-    @abstractmethod
     def delete(self, id: int) -> None:
         raise NotImplementedError
-    
-    @abstractmethod
-    def _convert_dto_to_model(self, object: ObjectType) -> ModelType:
-        """ 
-        Преобразовать DTO в Model БД
-        
-        По дефолту конвертится поле в поле
-        Если кол-во/названия полей различаются, переопределить в дочернем Repository
-        """
-        raise NotImplementedError
-    
-    @abstractmethod
-    def _convert_model_to_dto(self, record: ModelType) -> ObjectType:
-        """ 
-        Преобразовать Модель БД в DTO
-        
-        По дефолту конвертится поле в поле
-        Если кол-во/названия полей различаются, переопределить в дочернем Repository
-        """
-        raise NotImplementedError
-    
-    @abstractmethod
-    def _update_record(self, record: ModelType, diff_object: ObjectType) -> ModelType:
-        """ 
-        Обновить поля экземпляра модели
-        
-        Если названия полей в модели и DTO различаются, переопределить в дочернем Repository
-        """
-        raise NotImplementedError
-    
 
-class GenericSqlRepository(GenericRepository[ModelType, ObjectType], ABC):
+
+class GenericSqlRepository[ModelType, ObjectType](GenericRepository[ObjectType], ABC):
     
     _model: type[ModelType]
-    _object : type[ObjectType]
     
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
@@ -75,7 +36,8 @@ class GenericSqlRepository(GenericRepository[ModelType, ObjectType], ABC):
         return stmt
 
     async def get_by_id(self, id: int) -> ObjectType | None:
-        record = self._get_model_by_id(id=id)
+        record = await self._get_model_by_id(id=id)
+
         if record is None:
             return None
         
@@ -129,12 +91,29 @@ class GenericSqlRepository(GenericRepository[ModelType, ObjectType], ABC):
             await self._session.flush()
     
     def _convert_dto_to_model(self, object: ObjectType) -> ModelType:
+        """ 
+        Преобразовать DTO в Model БД
+        
+        По дефолту конвертится поле в поле
+        Если кол-во/названия полей различаются, переопределить в дочернем Repository
+        """
         return self._model(**object.model_dump())
     
     def _convert_model_to_dto(self, record: ModelType) -> ObjectType:
+        """ 
+        Преобразовать Модель БД в DTO
+        
+        По дефолту конвертится поле в поле
+        Если кол-во/названия полей различаются, переопределить в дочернем Repository
+        """
         return self._object.model_validate(record)
     
     def _update_record(self, record: ModelType, diff_object: ObjectType) -> ModelType:
+        """ 
+        Обновить поля экземпляра модели
+        
+        Если названия полей в модели и DTO различаются, переопределить в дочернем Repository
+        """
         for field, val in diff_object.model_dump().items():
             if val is not None:
                 setattr(record, field, val)
@@ -144,3 +123,17 @@ class GenericSqlRepository(GenericRepository[ModelType, ObjectType], ABC):
         stmt = self._construct_get_stmt(id)
         result = await self._session.execute(stmt)
         return result.scalars().first()
+
+
+class GenericCacheRepository[ObjectType](GenericRepository[ObjectType], ABC):
+    def __init__(self):
+        self._cache = RedisAdapter()
+        
+    async def add(self, key: int | str, value: ObjectType) -> None:
+        self._cache.set(key=key, value=value)
+    
+    async def delete(self, key: int | str) -> None:
+        self._cache.remove(key=key)
+    
+    async def list(self, key: int | str) -> ObjectType:
+        return self._object.model_validate(self._cache.get(key=key))

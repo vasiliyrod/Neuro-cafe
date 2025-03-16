@@ -7,10 +7,11 @@ from backend.src.presentation.api.exceptions import (
     InvalidToken, 
     InsufficientAccessLevel,
     InvalidCredentials,
+    UserIdRequired,
 )
 import datetime
 from backend.src.presentation.api.auth.enums import AccessLevel, _access_level_by_role
-from backend.src.infrastructure.database.unit_of_work import get_unit_of_work
+
 
 def decode_access_token(token: str):
     try:
@@ -38,6 +39,7 @@ def create_access_token(data: dict, expires_delta: datetime.timedelta | None = N
     return {"access_token": encoded_jwt, "token_type": "bearer"}
 
 async def define_access_level(payload: dict[str, str]) -> AccessLevel:
+    from backend.src.infrastructure.database.unit_of_work import get_unit_of_work
     async for uow in get_unit_of_work():
         username = payload.pop("username", None)
         password = payload.pop("password", None)
@@ -50,10 +52,12 @@ async def define_access_level(payload: dict[str, str]) -> AccessLevel:
         role = await uow.user.get_role_by_username(username=username)
         return _access_level_by_role[role]
 
-def protect(min_access_level: AccessLevel):
+def protect(min_access_level: AccessLevel, uid_required: bool = True):
     def decorator(func):
         @wraps(func)
         async def wrapper(request: Request, *args, **kwargs):
+            if uid_required and getattr(request.state, 'user_id', None) is None:
+                raise UserIdRequired
             if min_access_level is AccessLevel.NoAuth:
                 return await func(request, *args, **kwargs)
             

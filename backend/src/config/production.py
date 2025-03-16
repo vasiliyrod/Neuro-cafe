@@ -1,7 +1,8 @@
 from typing import Literal
 from pydantic import Field, AmqpDsn, PostgresDsn, RedisDsn
 from backend.src.config.base import BaseConfig, Enviroment
-
+from backend.src.config.meta import MetaSettings
+from dataclasses import dataclass
 
 class ApplicationConfig(BaseConfig):
     port: str = Field(alias="APP_PORT")
@@ -53,7 +54,7 @@ class RabbitConfig(BaseConfig):
 
 class RedisConfig(BaseConfig):
     host: str = Field(alias="REDIS_HOST")
-    port: str = Field(alias="REDIS_PORT")
+    port: int = Field(alias="REDIS_PORT")
     password: str = Field(alias="REDIS_PASSWORD")
     
     @property
@@ -73,4 +74,7 @@ class ProductionConfig:
     database = DatabaseConfig()
     rabbitmq = RabbitConfig()
     redis = RedisConfig()
-    env: Enviroment = Literal[Enviroment.PROD]
+    
+    meta: MetaSettings = MetaSettings()
+    
+    env: Literal[Enviroment.PROD] = Enviroment.PROD

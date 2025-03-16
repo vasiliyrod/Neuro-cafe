@@ -1,15 +1,14 @@
-import logging
 from typing import AsyncGenerator
 from abc import ABC, abstractmethod
-from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
+
+from backend.src.infrastructure.database.connection.session import SessionManager
 from backend.src.infrastructure.database.repositories.dish import DishRepository
 from backend.src.infrastructure.database.repositories.user import UserRepository
-from backend.src.infrastructure.database.connection.session import SessionManager
-
-
-logger = logging.getLogger(__name__)
+from backend.src.infrastructure.database.repositories.order import OrderRepository
+from backend.src.infrastructure.database.repositories.order_history import OrderHistoryReposity
+from backend.src.infrastructure.database.repositories.review import ReviewReposity
 
 
 class IUnitOfWork(ABC):
@@ -43,6 +42,11 @@ class UnitOfWork(IUnitOfWork):
         
         self.dish = DishRepository(session=self.__session)
         self.user = UserRepository(session=self.__session)
+        self.order_history = OrderHistoryReposity(session=self.__session)
+        self.review = ReviewReposity(session=self.__session)
+        
+        self.order = OrderRepository()
+        
         
         return self
 

@@ -20,4 +20,5 @@ def get_settings() -> Config:
         return DevelopmentConfig()
     raise UnknownEnviroment
 
+
 settings = get_settings()

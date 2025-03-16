@@ -19,11 +19,6 @@ class AddDishResponse(BaseResponse):
     id: int
 
 
-class ListDishesRequest(BaseRequest):
-    type: str | None = None
-    cuisine: str | None = None
-
-
 class DishResponse(BaseResponse):
     id: int
     name: str

@@ -1,6 +1,9 @@
 from typing import Literal
 from pydantic import Field, AmqpDsn, PostgresDsn, RedisDsn
+from dataclasses import dataclass
+
 from backend.src.config.base import BaseConfig, Enviroment
+from backend.src.config.meta import MetaSettings
 
 
 class ApplicationConfig(BaseConfig):
@@ -62,7 +65,7 @@ class RabbitConfig(BaseConfig):
 
 class RedisConfig(BaseConfig):
     host: str = Field(alias="REDIS_HOST")
-    port: str = Field(alias="REDIS_PORT")
+    port: int = Field(alias="REDIS_PORT")
     password: str = Field(alias="REDIS_PASSWORD")
     
     @property
@@ -82,10 +85,18 @@ class LoggingConfig(BaseConfig):
     token: str = Field(alias="LOGGING_TOKEN")
     level: str = Field(alias="LOGGING_LEVEL")
 
+
+class BotConfig(BaseConfig):
+    api_token: str = Field(alias="BOT_API_TOKEN")
+
+
 class DevelopmentConfig:
     app = ApplicationConfig()
     database = DatabaseConfig()
     rabbitmq = RabbitConfig()
     redis = RedisConfig()
     logging = LoggingConfig()
-    env: Enviroment = Literal[Enviroment.TEST]
+    bot = BotConfig()
+    
+    meta = MetaSettings()
+    env: Literal[Enviroment.TEST] = Enviroment.TEST

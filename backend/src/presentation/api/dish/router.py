@@ -5,7 +5,6 @@ from backend.src.presentation.api.auth.enums import AccessLevel
 from backend.src.presentation.api.dish.schema import (
     AddDishRequest, 
     DishResponse, 
-    ListDishesRequest,
     AddDishResponse,
     UpdateDishRequest,
     UpdateDishResponse,
@@ -18,32 +17,32 @@ from backend.src.core.domain.dish import DishDTO, DishDiffDTO
 dish_router = APIRouter(prefix="/dishes", tags=["dish"])
 
 
-# @dish_router.post(
-#     path="",
-#     status_code=status.HTTP_201_CREATED,
-#     summary="Add Dish",
-#     response_model=AddDishResponse,
-# )
-# @protect(min_access_level=AccessLevel.Admin)
-# async def add_dish(
-#     request: Request,
-#     dish_data: AddDishRequest,
-#     uow: UnitOfWork = Depends(get_unit_of_work)
-# ) -> AddDishResponse:
-#     dish: DishDTO = await uow.dish.add(
-#         DishDTO(
-#             name=dish_data.name,
-#             type=dish_data.type,
-#             description=dish_data.description,
-#             all_ingredients=dish_data.all_ingredients,
-#             main_ingredients=dish_data.main_ingredients,
-#             img_link=dish_data.img_link,
-#             cost=dish_data.cost,
-#             weight=dish_data.weight,
-#             cuisine=dish_data.cuisine,
-#         )
-#     )
-#     return AddDishResponse(id=dish.id)
+@dish_router.post(
+    path="",
+    status_code=status.HTTP_201_CREATED,
+    summary="Add Dish",
+    response_model=AddDishResponse,
+)
+@protect(min_access_level=AccessLevel.Admin)
+async def add_dish(
+    request: Request,
+    dish_data: AddDishRequest,
+    uow: UnitOfWork = Depends(get_unit_of_work)
+) -> AddDishResponse:
+    dish: DishDTO = await uow.dish.add(
+        DishDTO(
+            name=dish_data.name,
+            type=dish_data.type,
+            description=dish_data.description,
+            all_ingredients=dish_data.all_ingredients,
+            main_ingredients=dish_data.main_ingredients,
+            img_link=dish_data.img_link,
+            cost=dish_data.cost,
+            weight=dish_data.weight,
+            cuisine=dish_data.cuisine,
+        )
+    )
+    return AddDishResponse(id=dish.id)
 
 
 @dish_router.get(
@@ -52,28 +51,35 @@ dish_router = APIRouter(prefix="/dishes", tags=["dish"])
     response_model=DishResponse,
     summary="Get Dish by Id",
 )
-@protect(min_access_level=AccessLevel.Admin)
+@protect(min_access_level=AccessLevel.Client)
 async def get_dish_by_id(
     request: Request,
     dish_id: int,
     uow: UnitOfWork = Depends(get_unit_of_work)
 ) -> DishResponse:
-    return await uow.dish.get_by_id(id=dish_id)
+    dish = await uow.dish.get_by_id(id=dish_id)
+    if dish is None:
+        raise EntityNotFound
+    return dish
 
 
-@dish_router.post(
+@dish_router.get(
     path="",
     status_code=status.HTTP_200_OK,
     response_model=list[DishResponse],
     summary="Get Dishes List",
 )
-@protect(min_access_level=AccessLevel.NoAuth)
+@protect(min_access_level=AccessLevel.Client)
 async def get_dishes_list(
     request: Request,
-    # dish_data: ListDishesRequest,
+    type: str | None = None,
+    cuisine: str | None = None,
     uow: UnitOfWork = Depends(get_unit_of_work)
 ) -> list[DishResponse]:
-    dishes: list[DishDTO] = await uow.dish.list()
+    dishes: list[DishDTO] = await uow.dish.list(
+        type=type,
+        cuisine=cuisine,
+    )
     return [
         DishResponse(
             **dish.model_dump()
@@ -87,6 +93,7 @@ async def get_dishes_list(
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Delete Dish",
 )
+@protect(min_access_level=AccessLevel.Admin)
 async def delete_dish(
     request: Request,
     dish_id: int,
@@ -100,7 +107,8 @@ async def delete_dish(
     status_code=status.HTTP_200_OK,
     summary="Update Dish",
 )
-async def delete_dish(
+@protect(min_access_level=AccessLevel.Admin)
+async def update_dish(
     request: Request,
     update_dish_data: UpdateDishRequest,
     dish_id: int,

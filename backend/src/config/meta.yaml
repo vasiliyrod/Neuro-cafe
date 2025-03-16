@@ -1,0 +1,58 @@
+cafe: 
+  name: "Neuro"
+  tg_link: "https://www.figma.com/design/dFS3vG8wqJGe6wURNWP0Qx/Untitled?node-id=70-13&t=dBfULkzVN0n3MbQS-0"
+  email: "info@cafe-neuro.ru"
+  phone: "+7 (999) 999-99-99"
+  longitude: 91.422759
+  latitude: 53.714688
+  address: "ул. Пушкина, д. Колотушкина"
+  desc: "Лучшее кафе!"
+
+staff:
+  - id: 1
+    name: "Красивый Крабс"
+    status: "Шеф-повар"
+    experience_years: 10
+    achievements: "Повар мира 2025, Главный повар мира 2024"
+    photo_link: "https://storage.yandexcloud.net/memory-minder-images/staff/image.jpg"
+
+  - id: 2
+    name: "Прекрасный Боб"
+    status: "Су-шеф"
+    experience_years: 12
+    achievements: "Су-Повар мира 2025, Главный су-повар мира 2024"
+    photo_link: "https://storage.yandexcloud.net/memory-minder-images/staff/image-4.jpg"
+
+  - id: 3
+    name: "Лейла Кулинарова"
+    status: "Повар-кондитер"
+    experience_years: 8
+    achievements: "Лучший повар вегетарианской кухни 2023, Награда за инновации в кулинарии 2024"
+    photo_link: "https://storage.yandexcloud.net/memory-minder-images/staff/image-1.jpg"
+
+  - id: 4
+    name: "Анна Гастрономова"
+    status: "Консультант по питанию"
+    experience_years: 9
+    achievements: "Эксперт в области здорового питания 2025, Лауреат премии за лучший кулинарный блог 2024"
+    photo_link: "https://storage.yandexcloud.net/memory-minder-images/staff/image-3.jpg"
+
+  - id: 5
+    name: "Иван Степанов"
+    status: "Кулинарный блогер"
+    experience_years: 5
+    achievements: "Лучший кулинарный блогер 2024, Награда за лучший видеоблог о еде 2025"
+    photo_link: "https://storage.yandexcloud.net/memory-minder-images/staff/image-2.jpg"
+
+interior:
+  - id: 1
+    img_link: https://storage.yandexcloud.net/memory-minder-images/interior/cafe-1.jpg
+  
+  - id: 2
+    img_link: https://storage.yandexcloud.net/memory-minder-images/interior/cafe-3.jpg
+  
+  - id: 3
+    img_link: https://storage.yandexcloud.net/memory-minder-images/interior/cafe-garderob.jpg
+  
+  - id: 4
+    img_link: https://storage.yandexcloud.net/memory-minder-images/interior/cafe-garderod-2.jpg

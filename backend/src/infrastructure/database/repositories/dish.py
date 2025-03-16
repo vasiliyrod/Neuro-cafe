@@ -5,7 +5,7 @@ from backend.src.infrastructure.database.models.dish import DishModel
 from backend.src.core.domain.dish import DishDTO
 
 
-class DishReposityBase(GenericRepository[DishModel, DishDTO], ABC):
+class DishReposityBase(GenericSqlRepository[DishModel, DishDTO], ABC):
     _model = DishModel
     _object = DishDTO
     
@@ -14,7 +14,7 @@ class DishReposityBase(GenericRepository[DishModel, DishDTO], ABC):
         raise NotImplementedError
 
 
-class DishRepository(GenericSqlRepository[DishModel, DishDTO], DishReposityBase):
+class DishRepository(DishReposityBase):
     async def get_by_name(self, name: str) -> DishModel | None:
         stmt = select(self._model).where(self._model.name == name)
         result = await self._session.execute(stmt)

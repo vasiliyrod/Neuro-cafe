@@ -3,6 +3,7 @@ from backend.src.core.enum.user import UserRole
 
 
 class UserDTO(BaseDTO):
-    username: str
-    password: str
+    username: str | None = None
+    password: str | None = None
     role: UserRole
+    telegram_id: int | None = None

@@ -7,7 +7,7 @@ from backend.src.core.domain.user import UserDTO
 from backend.src.core.enum.user import UserRole
 
 
-class UserReposityBase(GenericRepository[UserModel, UserDTO], ABC):
+class UserReposityBase(GenericSqlRepository[UserModel, UserDTO], ABC):
     _model = UserModel
     _object = UserDTO
     
@@ -20,12 +20,24 @@ class UserReposityBase(GenericRepository[UserModel, UserDTO], ABC):
         raise NotImplementedError
 
 
-class UserRepository(GenericSqlRepository[UserModel, UserDTO], UserReposityBase):
+class UserRepository(UserReposityBase):
     
-    async def add(self, user: UserModel) -> UserModel:
-        user.password = self._hash_password(user.password)
+    async def add(self, user: UserDTO) -> UserModel:
+        if user.password is not None:
+            user.password = self._hash_password(user.password)
+        
         return await super().add(user)
     
+    async def create_client_if_not_exists(self, telegram_id: int) -> None:
+        
+        stmt = select(self._model).where(self._model.telegram_id == telegram_id)
+        result = await self._session.execute(stmt)
+        user = result.scalars().first()
+        
+        if user is not None:
+            return
+        await self.add(UserDTO(telegram_id=telegram_id, role=UserRole.CLIENT))
+        
     async def validate_credentials(self, username: str, password: str) -> bool:
         stmt = select(self._model).where(self._model.username == username)
         result = await self._session.execute(stmt)

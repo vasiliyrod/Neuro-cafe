@@ -37,3 +37,8 @@ class AtLeastOneFieldRequired(ApiError):
 class EntityNotFound(ApiError):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Entity with such id not found"
+
+
+class UserIdRequired(ApiError):
+    status_code = status.HTTP_403_FORBIDDEN
+    detail = "User Id Required"

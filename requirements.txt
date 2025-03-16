@@ -1,0 +1,8 @@
+uvicorn==0.34.0
+SQLAlchemy==2.0.38
+pydantic==2.10.6
+pydantic_core==2.27.2
+pydantic-settings==2.7.1
+python-dotenv==1.0.1
+yaml-settings-pydantic==2.3.2
+python-yandex-cloud-logging==0.1.0
