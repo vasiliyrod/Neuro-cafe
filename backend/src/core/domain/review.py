@@ -3,6 +3,7 @@ from backend.src.core.domain.base import BaseDTO
 
 
 class ReviewDTO(BaseDTO):
+    id: int | None = None
     user_id: int
     overallRating: int
     aiRating: int

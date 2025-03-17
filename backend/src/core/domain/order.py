@@ -16,6 +16,7 @@ class OrderItemDTO(BaseModel):
 
 
 class OrderDTO(BaseDTO):
+    id: str | None
     dishes: dict[int, int]
     updated_at: datetime.datetime
     status: OrderStatus

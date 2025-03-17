@@ -15,6 +15,6 @@ class DishModel(DeclarativeBase):
     main_ingredients = Column(TEXT())
     img_link = Column(TEXT())
     cost = Column(FLOAT())
-    weight = Column(FLOAT()) 
+    weight = Column(TEXT()) 
     cuisine = Column(TEXT())
     

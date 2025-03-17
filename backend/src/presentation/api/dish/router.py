@@ -69,7 +69,7 @@ async def get_dish_by_id(
     response_model=list[DishResponse],
     summary="Get Dishes List",
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.NoAuth)
 async def get_dishes_list(
     request: Request,
     type: str | None = None,

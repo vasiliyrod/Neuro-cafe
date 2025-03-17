@@ -47,7 +47,6 @@ class UnitOfWork(IUnitOfWork):
         
         self.order = OrderRepository()
         
-        
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
@@ -68,9 +67,9 @@ class UnitOfWork(IUnitOfWork):
         if self.__session is not None:
             await self.__session.rollback()
 
+session_maker = SessionManager().get_session_maker()
 
 async def get_unit_of_work() -> AsyncGenerator[UnitOfWork, None]:
-    session_maker = SessionManager().get_session_maker()
     uow = UnitOfWork(session_factory=session_maker)
     async with uow:
         yield uow

@@ -4,7 +4,7 @@ endif
 
 
 DIRS := 
-FILES := .env
+FILES := Makefile
 VM_USER := georgepustovoi
 VM_IP := 158.160.139.50
 VM_PATH := neuro-cafe
@@ -48,7 +48,7 @@ run: clear_port
 	python3 -m backend
 
 clear_port:
-	@if lsof -t -i tcp:$(APP_PORT); then \
+	@if sudo lsof -t -i tcp:$(APP_PORT); then \
 		echo "Clearing port $(APP_PORT)..."; \
 		sudo lsof -t -i tcp:$(APP_PORT) | xargs kill -9; \
 	else \

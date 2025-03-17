@@ -12,7 +12,6 @@ class AddReviewRequest(BaseRequest):
 
 
 class ReviewResponse(BaseResponse):
+    id: int
     averageRating: float
-    foodRating: int
     comment: str
-    recommend: bool | None = None

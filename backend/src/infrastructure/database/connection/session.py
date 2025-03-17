@@ -6,26 +6,20 @@ from backend.src.config import settings
 
 class SessionManager:
     def __init__(self) -> None:
-        self.refresh()
-
-    def __new__(cls):
-        if not hasattr(cls, "instance"):
-            cls.instance = super(SessionManager, cls).__new__(cls)
-        return cls.instance  # noqa
+        self._engine = create_async_engine(
+            settings.database.dsn,
+            pool_size=10,
+            max_overflow=20,
+            echo=False,
+        )
+        self._sessionmaker = sessionmaker(self._engine, class_=AsyncSession, expire_on_commit=False)
 
     def get_session_maker(self) -> sessionmaker:
-        return sessionmaker(self.engine, class_=AsyncSession, expire_on_commit=False)
+        return self._sessionmaker
 
-    def refresh(self) -> None:
-        self.engine = create_async_engine(
-            settings.database.dsn,
-            echo=False,
-            future=True,
-            connect_args={"server_settings": {"jit": "off"}},
-        )
-
+session_manager = SessionManager()
 
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
-    session_maker = SessionManager().get_session_maker()
+    session_maker = session_manager.get_session_maker()
     async with session_maker() as session:
         yield session

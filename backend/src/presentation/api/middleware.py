@@ -10,18 +10,25 @@ logger = get_yc_logger()
 
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        logger.info(f"{request.method} {request.url}", details=await self._get_user_request_data(request))
         try:
             request.state.token = request.headers.get('X-Auth-Token')
-            if (user_id := request.headers.get('X-UID')) is not None:
-                request.state.user_id = int(user_id)
+            if (telegram_id := request.headers.get('X-UID')) is not None:
+                # костыли...
+                telegram_id = int(telegram_id)
+                async for uow in get_unit_of_work():
+                    created_user = await uow.user.create_client_if_not_exists(telegram_id=telegram_id)
+                    if created_user is not None:
+                        request.state.user_id = created_user.id
+                    else:
+                        request.state.user_id = await uow.user.get_by_telegram_id(telegram_id=telegram_id)
             else:
                 request.state.user_id = None
-            # по хорошему унести в отдельную мидльварь
-            async for uow in get_unit_of_work():
-                await uow.user.create_client_if_not_exists(telegram_id=request.state.user_id)
+            
+                
             response = await call_next(request)
             return response
+            logger.info(f"{request.method} {request.url}", details=await self._get_user_request_data(request))
+            
         except HTTPException as exc:
             logger.warn(
                 f"Handled error occurred\n"

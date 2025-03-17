@@ -12,6 +12,6 @@ class UserModel(DeclarativeBase):
     username = Column(TEXT(), nullable=True)
     password = Column(TEXT(), nullable=True)
     role = Column(TEXT())
-    
+        
     order_history = relationship("OrderHistoryModel", back_populates="user")
     reviews = relationship("ReviewModel", back_populates="user")

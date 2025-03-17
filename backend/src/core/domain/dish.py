@@ -9,7 +9,7 @@ class DishDTO(BaseDTO):
     main_ingredients: str
     img_link: str
     cost: float
-    weight: float
+    weight: str
     cuisine: str
 
 

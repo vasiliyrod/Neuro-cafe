@@ -43,13 +43,17 @@ async def define_access_level(payload: dict[str, str]) -> AccessLevel:
     async for uow in get_unit_of_work():
         username = payload.pop("username", None)
         password = payload.pop("password", None)
-
+        import datetime
+        p1 = datetime.datetime.now()
         if username is None or password is None or not await uow.user.validate_credentials(
             username=username,
             password=password
         ):
             raise InvalidCredentials
+        p2 = datetime.datetime.now()
         role = await uow.user.get_role_by_username(username=username)
+        p3 = datetime.datetime.now()
+        print(p3 - p2, p2 - p1)
         return _access_level_by_role[role]
 
 def protect(min_access_level: AccessLevel, uid_required: bool = True):
@@ -60,9 +64,8 @@ def protect(min_access_level: AccessLevel, uid_required: bool = True):
                 raise UserIdRequired
             if min_access_level is AccessLevel.NoAuth:
                 return await func(request, *args, **kwargs)
-            
+
             payload = decode_access_token(token=getattr(request.state, 'token', None))
-            
             access_level = await define_access_level(payload=payload)
 
             if access_level < min_access_level:

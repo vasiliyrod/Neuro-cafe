@@ -1,4 +1,5 @@
 import bcrypt
+from argon2 import PasswordHasher, exceptions
 from abc import abstractmethod, ABC
 from sqlalchemy import select
 from backend.src.infrastructure.database.repositories.base import GenericRepository, GenericSqlRepository
@@ -19,6 +20,7 @@ class UserReposityBase(GenericSqlRepository[UserModel, UserDTO], ABC):
     def get_role_by_username(self, username: str) -> UserModel | None:
         raise NotImplementedError
 
+password_hasher = PasswordHasher()
 
 class UserRepository(UserReposityBase):
     
@@ -36,7 +38,7 @@ class UserRepository(UserReposityBase):
         
         if user is not None:
             return
-        await self.add(UserDTO(telegram_id=telegram_id, role=UserRole.CLIENT))
+        return await self.add(UserDTO(telegram_id=telegram_id, role=UserRole.CLIENT))
         
     async def validate_credentials(self, username: str, password: str) -> bool:
         stmt = select(self._model).where(self._model.username == username)
@@ -45,8 +47,10 @@ class UserRepository(UserReposityBase):
         
         if user is None:
             return False
-
-        return bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8'))
+ 
+        return self._check_password_valid(password=password, hashed_password=user.password)
+        # return True
+    
     
     async def get_role_by_username(self, username: str) -> UserRole:
         stmt = select(self._model).where(self._model.username == username)
@@ -57,8 +61,27 @@ class UserRepository(UserReposityBase):
             raise RuntimeError
 
         return UserRole(user.role)
+
+    async def get_by_telegram_id(self, telegram_id: int) -> int:
+        stmt = select(self._model).where(self._model.telegram_id == telegram_id)
+        result = await self._session.execute(stmt)
+        user = result.scalars().first()
+        
+        if user is None:
+            raise RuntimeError
+
+        return user.id
     
     def _hash_password(self, plain_password: str) -> str:
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(plain_password.encode('utf-8'), salt)
-        return hashed_password.decode('utf-8')
+        # salt = bcrypt.gensalt()
+        # hashed_password = bcrypt.hashpw(plain_password.encode('utf-8'), salt)
+        # return hashed_password.decode('utf-8')
+        return password_hasher.hash(plain_password)
+
+    def _check_password_valid(self, password: str, hashed_password: str) -> bool:
+        try:
+            password_hasher.verify(hash=hashed_password, password=password)
+            return True
+        except exceptions.VerifyMismatchError:
+            return False
+        # return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))

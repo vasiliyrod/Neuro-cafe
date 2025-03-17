@@ -50,10 +50,10 @@ async def get_reviews(
     reviews: list[ReviewDTO] = await uow.review.list()
     return [
         ReviewResponse(
+            id=review.id,
             averageRating=review.averageRating,
-            foodRating=review.foodRating,
             comment=review.comment,
-            recommend=review.recommend,
         )
         for review in reviews
+        if review.comment
     ]

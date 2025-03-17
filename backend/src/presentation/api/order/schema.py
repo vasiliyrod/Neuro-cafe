@@ -16,14 +16,21 @@ class OrderItem(BaseModel):
 
 
 class OrderResponse(BaseResponse):
+    id: str
     dishes: list[OrderItem]
-    updated_at: datetime.datetime
+    date: datetime.datetime
+    # updated_at: datetime.datetime
     status: OrderStatus
 
 
 class HistoryOrderResponse(BaseResponse):
     id: int
     dishes: list[OrderItem]
-    created_at: datetime.datetime
-    completed_at: datetime.datetime
+    date: datetime.datetime
+    # created_at:
+    # completed_at: datetime.datetime
     status: OrderStatus
+
+
+class CompleteOrderRequest(BaseRequest):
+    id: str

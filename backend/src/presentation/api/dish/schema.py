@@ -11,7 +11,7 @@ class AddDishRequest(BaseRequest):
     main_ingredients: str
     img_link: str
     cost: float
-    weight: float
+    weight: str
     cuisine: str
 
 
@@ -28,7 +28,7 @@ class DishResponse(BaseResponse):
     main_ingredients: str
     img_link: str
     cost: float
-    weight: float
+    weight: str
     cuisine: str
 
 
@@ -40,7 +40,7 @@ class UpdateDishRequest(BaseRequest):
     main_ingredients: str | None = None
     img_link: str | None = None
     cost: float | None = None
-    weight: float | None = None
+    weight: str | None = None
     cuisine: str | None = None
 
     @model_validator(mode='after')
@@ -58,5 +58,5 @@ class UpdateDishResponse(BaseRequest):
     main_ingredients: str
     img_link: str
     cost: float
-    weight: float
+    weight: str
     cuisine: str
