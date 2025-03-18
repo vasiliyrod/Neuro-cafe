@@ -5,7 +5,8 @@ import config from '@/config/config';
 
 const YandexMap = ({ latitude, longitude }) => {
   useEffect(() => {
-    loadYandexMapScript(config.apiMap, () => {
+    loadYandexMapScript(config.apiMapKey, () => {
+      console.log('apiMapKey', config.apiMapKey);
       initYandexMap(latitude, longitude, 'map');
     });
   }, [latitude, longitude]);

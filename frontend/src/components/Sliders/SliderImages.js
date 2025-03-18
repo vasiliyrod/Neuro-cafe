@@ -47,9 +47,9 @@ const ImageSlider = () => {
               <div className={styles.slideWrapper}>
                 <div
                   className={styles.backgroundImage}
-                  style={{ backgroundImage: `url(${image.link})` }}
+                  style={{ backgroundImage: `url(${image.img_link})` }}
                 ></div>
-                <img src={image.link} alt={`Slide ${image.id}`} className={styles.slideImage} />
+                <img src={image.img_link} alt={`Slide ${image.id}`} className={styles.slideImage} />
               </div>
             </SwiperSlide>
           ))}

@@ -144,3 +144,16 @@
   background-color: #F1DBD2;
   color: black;
 }
+
+.toast {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1rem;
+  border-radius: 10px;
+}
+
+.toastSuccess {
+  background-color: #778477;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}

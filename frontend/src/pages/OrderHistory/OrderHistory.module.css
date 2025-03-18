@@ -37,7 +37,7 @@
 
 .completedBackground {
   background-color: #B9C8CD;
-  color: #2B3133; /* Синий */
+  color: #2B3133;
   box-shadow: 0 0 0.7rem #2B3133;
 }
 
@@ -70,24 +70,20 @@
 .orderStatus {
   padding: 5px 40px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
 }
 
-.orderStatus.завершен {
-  padding-right: 40px;
-  color: black;
+.orderStatus.completed {
+  width: 20%;
 }
 
-.orderStatus.в_работе {
-  background-color: #f1c40f;
-  width: 40%;
-  color: #fff;
+.orderStatus.in_progress {
+  width: 20%;
 }
 
-.orderStatus.отменен {
-  background-color: #e74c3c;
-  color: #fff;
+.orderStatus.canceled {
+  width: 20%;
 }
 
 .orderToggle {
@@ -137,4 +133,11 @@
   margin-top: 10px;
   text-align: right;
   color: #2B3133;
+}
+
+.noOrdersMessage {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #fdb496;
+  margin-top: 40px;
 }

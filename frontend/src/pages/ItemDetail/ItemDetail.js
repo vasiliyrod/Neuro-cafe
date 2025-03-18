@@ -83,7 +83,7 @@ const ItemDetail = () => {
           <div className={styles.overlay}>
             <div className={styles.dishInfo}>
               <h2 className={styles.dishName}>{dish.name}</h2>
-              <p className={styles.dishPrice}>{dish.cost} р, <span className={styles.weight}>{dish.weight} г</span></p>
+              <p className={styles.dishPrice}>{dish.cost} р, <span className={styles.weight}>{dish.weight}</span></p>
             </div>
             <div className={styles.cuisineSection}>
               <h2 className={styles.cuisine}># {dish.cuisine}</h2>
@@ -117,7 +117,7 @@ const ItemDetail = () => {
         <div className={styles.info}>
           <div className={styles.infoColumn}>
             <p className={styles.title}>Описание: </p>
-            <p className={styles.desc}>{dish.desc}</p>
+            <p className={styles.desc}>{dish.description}</p>
           </div>
           <div className={styles.infoColumn}>
             <p className={styles.title}>Ингредиенты: </p>

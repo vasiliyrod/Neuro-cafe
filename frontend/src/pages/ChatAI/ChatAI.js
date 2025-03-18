@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AiTwotoneAudio } from "react-icons/ai";
+import { IoSendSharp } from "react-icons/io5";
+import { BsSoundwave } from "react-icons/bs";
+import { FFmpeg } from '@ffmpeg/ffmpeg';
 
 import { sendChatMessage, getChatHistory } from '@/services/chat/chat';
 import { addDishToOrder } from '@/services/dishes/disheslist';
+import { recognizeSpeech } from '@/services/chat/audioToText';
 import styles from '@/pages/ChatAI/ChatAI.module.css';
 import { OrderContext } from '@/context/OrderContext';
 import { EditOrderContext } from '@/context/EditOrderContext';
-
 
 const ChatAIPage = () => {
   const [messages, setMessages] = useState([]);
@@ -16,46 +19,16 @@ const ChatAIPage = () => {
   const { updateOrderCount } = useContext(OrderContext);
   const { orderItems, updateQuantity } = useContext(EditOrderContext);
   const [isListening, setIsListening] = useState(false);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
 
   const chatWindowRef = useRef(null);
-
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.lang = 'ru-RU';
-  recognition.interimResults = false;
-  recognition.continuous = false;
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    setInputText(transcript);
-    setIsListening(false);
-  };
-
-  recognition.onerror = (event) => {
-    console.error('Ошибка распознавания речи:', event.error);
-    setIsListening(false);
-  };
-
-  const toggleListening = () => {
-    if (isListening) {
-      recognition.stop();
-      setIsListening(false);
-    } else {
-      recognition.start();
-      setIsListening(true);
-    }
-  };
 
   useEffect(() => {
     const loadHistory = async () => {
       try {
         const history = await getChatHistory();
         if (history.messages && history.messages.length > 0) {
-//          const formattedMessages = history.messages.map((msg) => ({
-//            text: str      msg.message,
-//            isUser: bool   msg.sender === "client",
-//            dishes: []     msg.dishes || [],
-//          }));
-
           setMessages(history.messages);
         } else {
           setMessages([{
@@ -96,19 +69,37 @@ const ChatAIPage = () => {
     };
   }, []);
 
+  const convertWebmToOgg = async (webmBlob) => {
+    const ffmpeg = new FFmpeg();
+    await ffmpeg.load();
+
+    const inputName = 'input.webm';
+    const outputName = 'output.ogg';
+
+    const arrayBuffer = await webmBlob.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    await ffmpeg.writeFile(inputName, uint8Array);
+
+    await ffmpeg.exec(['-i', inputName, '-acodec', 'libvorbis', outputName]);
+
+    const data = await ffmpeg.readFile(outputName);
+    return new Blob([data.buffer], { type: 'audio/ogg' });
+  };
+
   const handleAddToOrder = async (dishId) => {
     try {
       await addDishToOrder(dishId);
-      updateQuantity(dishId, 1);
+      await updateQuantity(dishId, 1);
       updateOrderCount();
     } catch (error) {
       console.error('Ошибка при добавлении блюда в заказ:', error);
     }
   };
 
-  const handleUpdateQuantity = (id, newQuantity) => {
+  const handleUpdateQuantity = async (id, newQuantity) => {
     if (newQuantity >= 0) {
-      updateQuantity(id, newQuantity);
+      await updateQuantity(id, newQuantity);
       updateOrderCount();
     }
   };
@@ -132,11 +123,59 @@ const ChatAIPage = () => {
 
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
+
       console.error('Ошибка при отправке сообщения:', error);
       const errorMessage = { text: 'Ошибка при получении ответа', isUser: false, dishes: [] };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
+
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const startListening = async () => {
+    if (isListening) return;
+
+    audioChunksRef.current = [];
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    const options = { mimeType: 'audio/webm; codecs=opus' };
+    mediaRecorderRef.current = new MediaRecorder(stream, options);
+
+    mediaRecorderRef.current.ondataavailable = (event) => {
+      audioChunksRef.current.push(event.data);
+    };
+
+    mediaRecorderRef.current.onstop = async () => {
+      const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm; codecs=opus' });
+
+      try {
+        const oggBlob = await convertWebmToOgg(audioBlob);
+        const text = await recognizeSpeech(oggBlob); // Используем сервис
+        setInputText(text);
+      } catch (error) {
+        console.error('Ошибка при обработке аудио:', error);
+      } finally {
+        setIsListening(false);
+        stream.getTracks().forEach((track) => track.stop());
+      }
+    };
+
+    mediaRecorderRef.current.start();
+    setIsListening(true);
+  };
+
+  const stopListening = () => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+    }
+  };
+
+  const toggleListening = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
     }
   };
 
@@ -219,13 +258,13 @@ const ChatAIPage = () => {
           className={styles.inputField}
         />
         <button onClick={handleSendMessage} className={styles.sendButton}>
-          ➤
+          <IoSendSharp />
         </button>
         <button
           onClick={toggleListening}
           className={`${styles.voiceButton} ${isListening ? styles.active : ''}`}
         >
-          {isListening ? '◼️' : <AiTwotoneAudio />}
+          {isListening ? <BsSoundwave /> : <AiTwotoneAudio />}
         </button>
       </div>
     </div>

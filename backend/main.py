@@ -6,6 +6,11 @@ from fastapi.middleware.cors import CORSMiddleware
 import random
 from typing import Optional
 
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+import aiohttp
+import os
+
 app = FastAPI()
 
 app.add_middleware(
@@ -42,11 +47,11 @@ class OrderItem(BaseModel):
 dishes = [
     Dish(
         id=1,
-        type="hot",
+        type="Основное блюдо",
         name="Курика",
         cost=600,
         all_ingredients="кукуруза! масло!",
-        main_ingredients="Сочная, курочк, рмивари, ркиасгик, а саискиа, киа иас, иарки аркиа, саи аик асвиа ",
+        main_ingredients="Апельсиновый сок, гранатовый сироп, кокосовое молоко",
         desc="Сочная курочк рмивари ркиасгик а саискиа киа иас иарки аркиа саи аик асвиа "
              "иа аки агиаг  иаркикарквиа виававо ааовивиа вси ика"
              "акакнпа пквм анпма нмам акгпа иави аив а пв иависпврс рпварвкарвиа авпа а рап ма враварва рви арвиави"
@@ -58,7 +63,7 @@ dishes = [
     ),
     Dish(
         id=2,
-        type="hot",
+        type="Основное блюдо",
         name="Говядина",
         cost=800,
         all_ingredients="говядина! специи!",
@@ -70,7 +75,7 @@ dishes = [
     ),
     Dish(
         id=3,
-        type="cold",
+        type="Основное блюдо",
         name="Банан",
         cost=50,
         all_ingredients="банан!",
@@ -626,3 +631,43 @@ async def get_history(request: Request):
     print(headers['X-UID'])
 
     return history
+
+
+
+
+@app.post("/audio_to_text")
+async def upload_audio(file: UploadFile = File(...)):
+    try:
+        audio_data = await file.read()
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Не прочитался файлик: {str(e)}"
+        )
+
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(
+                YANDEX_API_URL,
+                headers={
+                    "Authorization": f"Api-Key {YANDEX_API_KEY}",
+                    "x-folder-id": YANDEX_FOLDER_ID,
+                },
+                data=audio_data
+            ) as response:
+
+                if response.status != 200:
+                    error_data = await response.json()
+                    raise HTTPException(
+                        status_code=response.status,
+                        detail=error_data.get("error_message", "Ошибочка от самого Yandex...")
+                    )
+
+                result = await response.json()
+                return {"transcription": result.get("result", "Нет текста!")}
+
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Ошибочка при отправке Yandex SpeechKit: {str(e)}"
+            )

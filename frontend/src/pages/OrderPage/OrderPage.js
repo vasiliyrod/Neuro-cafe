@@ -10,13 +10,13 @@ const OrderPage = () => {
   const { updateOrderCount } = useContext(OrderContext);
   const navigate = useNavigate();
 
-  const handleUpdateQuantity = (id, newQuantity) => {
-    updateQuantity(id, newQuantity);
+  const handleUpdateQuantity = async (id, newQuantity) => {
+    await updateQuantity(id, newQuantity);
     updateOrderCount();
   };
 
-  const handleRemoveFromOrder = (id) => {
-    removeFromOrder(id);
+  const handleRemoveFromOrder = async (id) => {
+    await removeFromOrder(id);
     updateOrderCount();
   };
 

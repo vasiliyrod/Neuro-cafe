@@ -65,11 +65,11 @@ const ReviewSlider = () => {
             <div className={styles.slideWrapper}>
               <div className={styles.backgroundImage}>
                 <div className={styles.space}>
-                  <p className={styles.ratingNumber}>{review.ave_mark.toFixed(1)}</p>
-                  <p className={styles.mark}>{renderStars(review.ave_mark)}</p>
+                  <p className={styles.ratingNumber}>{review.averageRating.toFixed(1)}</p>
+                  <p className={styles.mark}>{renderStars(review.averageRating)}</p>
                   {/* <p className={styles.username}>{review.username}</p> */}
                 </div>
-                <p className={styles.text}>{review.text}</p>
+                <p className={styles.text}>{review.comment}</p>
               </div>
             </div>
           </SwiperSlide>

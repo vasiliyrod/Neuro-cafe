@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { submitFeedback } from '@/services/comments/comments';
 import styles from '@/pages/FeedbackPage/FeedbackPage.module.css';
@@ -47,7 +49,19 @@ const FeedbackPage = () => {
       console.log('Отзыв успешно отправлен:', response);
       setSubmitted(true);
 
-      navigate('/history');
+      toast.success('Спасибо за ваш отзыв!', {
+        className: styles.toastSuccess,
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setTimeout(() => {
+        navigate('/history');
+      }, 3000);
     } catch (error) {
       console.error('Ошибка при отправке отзыва:', error);
       alert('Произошла ошибка при отправке отзыва.');
@@ -115,6 +129,10 @@ const FeedbackPage = () => {
       >
         {submitted ? 'Спасибо за отзыв!' : 'Отправить отзыв'}
       </button>
+
+      <ToastContainer
+        toastClassName={styles.toast}
+      />
     </div>
   );
 };

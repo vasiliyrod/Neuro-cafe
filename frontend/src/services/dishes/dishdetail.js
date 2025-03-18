@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import config from '@/config/config';
 
 const userID = Cookies.get('UID');
-const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
+const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}/api/v1`;
 
 export const fetchDishDetails = async (id) => {
   try {
@@ -14,9 +14,12 @@ export const fetchDishDetails = async (id) => {
           [config.authHeader]: config.accessToken,
           [config.userIDheader]: userID,
           'Content-Type': 'application/json'
-        }
+        },
     }
     );
+
+    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error('Ошибка при загрузке данных о блюде:', error);

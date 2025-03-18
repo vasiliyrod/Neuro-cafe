@@ -18,7 +18,7 @@ const ErrorPage = () => {
 
   return (
     <div className={styles.body_container}>
-        <p> Вы не авторизованы.</p>
+        <p className={styles.p}> Вы не авторизованы.</p>
         <img
             src='https://i.postimg.cc/7ZTWMTzR/Group-12.png'
             alt="ERROR"

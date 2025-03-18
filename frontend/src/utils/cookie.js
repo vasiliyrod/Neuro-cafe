@@ -14,7 +14,7 @@ const UserIDChecker = ({ children }) => {
         Cookies.set('UID', userIDFromQuery, { expires: 7 });
       } else {
         const userIDFromCookies = Cookies.get('UID');
-        if (!userIDFromCookies && location.pathname !== '/errorlog') {
+        if (!userIDFromCookies && location.pathname !== '/errorlog' && location.pathname !== '/error') {
           navigate('/errorlog');
         }
       }

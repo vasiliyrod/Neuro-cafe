@@ -4,11 +4,11 @@ import Cookies from 'js-cookie';
 import config from '@/config/config';
 
 const userID = Cookies.get('UID');
-const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}`;
+const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}/api/v1`;
 
 export const submitFeedback = async (feedbackData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/feedback`, feedbackData, {
+    const response = await axios.post(`${API_BASE_URL}/reviews`, feedbackData, {
       headers: {
         [config.authHeader]: config.accessToken,
         [config.userIDheader]: userID,
@@ -28,9 +28,13 @@ export const fetchReviews = async () => {
     const response = await axios.get(`${API_BASE_URL}/reviews`, {
       headers: {
         [config.authHeader]: config.accessToken,
+        [config.userIDheader]: userID,
         'Content-Type': 'application/json',
       },
     });
+
+    console.log("REVIEW DATA", response.data);
+
     return response.data;
   } catch (error) {
     console.error('Ошибка при загрузке отзывов:', error);

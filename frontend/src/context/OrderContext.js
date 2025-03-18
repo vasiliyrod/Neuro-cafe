@@ -11,7 +11,7 @@ export const OrderProvider = ({ children }) => {
       const count = await OrderCount();
       setOrderCount(count);
     } catch (error) {
-      console.error('Ошибка при загрузке количества блюд:', error);
+      console.error('Ошибка при загрузке количества блюд context:', error);
     }
   };
 

@@ -71,7 +71,7 @@
   padding: 10px 20px;
   border-top: 1px solid #ddd;
   display: flex;
-  gap: 10px;
+  gap: 7px;
   align-items: center;
   justify-content: center;
   height: 12vh;
@@ -95,12 +95,14 @@
   background-color: #D7E2D7;
   color: #2B3133;
   border: none;
-  border-radius: 8px;
+  border-radius: 15px;
   cursor: pointer;
+  height: 40px;
+  width: 38px;
 }
 
 .sendButton:hover {
-  background-color: #ff6f61;
+  background-color: #fdb496;
 }
 
 .dishesContainer {
@@ -188,13 +190,15 @@
   padding: 5px;
   background-color: #D7E2D7;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
   font-size: 1.2rem;
+  height: 40px;
+  width: 38px;
 }
 
 .voiceButton.active {
-  background-color: #ff6f61;
+  background-color: #fdb496;
 }
 
 .quantity {
