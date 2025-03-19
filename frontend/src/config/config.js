@@ -5,8 +5,6 @@ const config = {
   accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyYWRtaW4iLCJwYXNzd29yZCI6InhkVlZEd1h4Nkg0VU53ZG8iLCJleHAiOjYxNzQxMTE1NzA2fQ.OXFe6GbaAFJEBz36Joqbeyld70hEoCArPPmWVo3yxd4",
   authHeader: "X-Auth-Token",
   userIDheader: "X-UID",
-  yandexCatalog: process.env.REACT_APP_YANDEX_SPEACH_CATALOG,
-  yandexKey: process.env.REACT_APP_YANDEX_SPEACH_API_KEY,
 };
 
 export default config;

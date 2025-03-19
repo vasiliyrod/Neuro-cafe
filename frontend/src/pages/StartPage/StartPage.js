@@ -15,7 +15,7 @@ const StartPage = () => {
   }, [organisation, navigate]);
 
   if (!organisation) {
-    navigate('/error');
+    return null;
   }
 
   return (
@@ -30,13 +30,13 @@ const StartPage = () => {
             />
           </div>
           <div className={styles.section}>
-            <p className={styles.sectionText1}>Выбирай быстро, смело<br/> и по настроению!<br/></p>
+            <p className={styles.sectionText1}>Выбирай быстро, смело<br /> и по настроению!<br /></p>
           </div>
           <div className={styles.section}>
             <Link to={`/chat`} className={styles.sectionButton}>ОТКРЫТЬ ЧАТ</Link>
           </div>
           <div className={styles.section}>
-            <p className={styles.sectionText}><br/><br/>И просто наслаждайся!</p>
+            <p className={styles.sectionText}><br /><br />И просто наслаждайся!</p>
           </div>
         </div>
       </div>
