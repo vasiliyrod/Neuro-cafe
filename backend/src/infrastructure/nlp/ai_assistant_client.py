@@ -141,13 +141,6 @@ class AiAssistant:
 
         return {"messages": prompt_referrer}
 
-    @staticmethod
-    def prompt_agent_handler(id_meals):
-        return {
-                "messages": [{"role": "system", "content": f"Твоя задача передать ОДИН РАЗ ids в tool и сказать, что ты все сделал."},
-                            {"role": "user", "content": f"ids: {id_meals}"}]
-                }
-
     def get_answer(self, question: str):
         result_agent_referrer = AiAssistant.agent_referrer(self.df, AiAssistant.llm).invoke(AiAssistant.prompt_agent_referrer(question))
         id_meals = result_agent_referrer["messages"][-1].content.split()
