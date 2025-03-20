@@ -9,6 +9,7 @@ from backend.src.infrastructure.database.repositories.user import UserRepository
 from backend.src.infrastructure.database.repositories.order import OrderRepository
 from backend.src.infrastructure.database.repositories.order_history import OrderHistoryReposity
 from backend.src.infrastructure.database.repositories.review import ReviewReposity
+from backend.src.infrastructure.database.repositories.chat import ChatRepository
 
 
 class IUnitOfWork(ABC):
@@ -46,7 +47,7 @@ class UnitOfWork(IUnitOfWork):
         self.review = ReviewReposity(session=self.__session)
         
         self.order = OrderRepository()
-        
+        self.chat = ChatRepository()
         
         return self
 

@@ -90,6 +90,10 @@ class BotConfig(BaseConfig):
     api_token: str = Field(alias="BOT_API_TOKEN")
 
 
+class AiConfig(BaseConfig):
+    api_token: str = Field(alias="GROQ_API_TOKEN")
+
+
 class DevelopmentConfig:
     app = ApplicationConfig()
     database = DatabaseConfig()
@@ -97,6 +101,7 @@ class DevelopmentConfig:
     redis = RedisConfig()
     logging = LoggingConfig()
     bot = BotConfig()
+    ai = AiConfig()
     
     meta = MetaSettings()
     env: Literal[Enviroment.TEST] = Enviroment.TEST

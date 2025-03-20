@@ -10,11 +10,6 @@ class OrderStatus(StrEnum):
     COMPLETED = "completed" # готов
 
 
-class OrderItemDTO(BaseModel):
-    dish_id: int 
-    count: int
-
-
 class OrderDTO(BaseDTO):
     dishes: dict[int, int]
     updated_at: datetime.datetime
