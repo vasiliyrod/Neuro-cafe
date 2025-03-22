@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from "react";
 
 // Event Handler
-const handleClick = (event: MouseEvent) => console.log(event);
+//const handleClick = (event: MouseEvent) => console.log(event);
 
 interface Props {
   items: string[];

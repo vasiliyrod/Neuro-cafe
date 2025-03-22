@@ -1,0 +1,31 @@
+.buttons-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    padding: 1rem;
+  }
+  
+  .left-aligned-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #f0f0f0; /* Неактивный цвет фона */
+    color: #666; /* Неактивный цвет текста */
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+  }
+  
+  .left-aligned-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .active-button {
+    background-color: #007bff; /* Активный цвет фона */
+    color: white; /* Активный цвет текста */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .active-button:hover {
+    background-color: #0069d9;
+  }

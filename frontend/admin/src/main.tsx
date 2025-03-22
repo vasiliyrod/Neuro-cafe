@@ -6,6 +6,7 @@ import Messaging from "./pages/Messaging";
 import Menu from "./pages/Menu";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Orders from "./pages/Orders";
 import {
   createBrowserRouter,
   Navigate,
@@ -14,6 +15,7 @@ import {
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="statistics" replace /> },
+  { path: "/orders", element: <Orders /> },
   { path: "/statistics", element: <Statistics /> },
   { path: "/messaging", element: <Messaging /> },
   { path: "/menu", element: <Menu /> },

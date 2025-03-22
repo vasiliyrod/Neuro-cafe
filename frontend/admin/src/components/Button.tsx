@@ -1,14 +1,14 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 interface Props {
-  style: string;
+  style: React.CSSProperties;
   onClickEvent: () => void;
   children: ReactNode;
 }
 
 const Button = ({ children, style, onClickEvent }: Props) => {
   return (
-    <button className={style} onClick={onClickEvent}>
+    <button style={style} onClick={onClickEvent}>
       {children}
     </button>
   );
