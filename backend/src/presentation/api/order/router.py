@@ -58,7 +58,7 @@ async def count_dishes(
     path="",
     status_code=status.HTTP_200_OK,
     response_model=list[OrderResponse],
-    summary="Get Dishes List",
+    summary="Get PENDING Orders For User",
 )
 @protect(min_access_level=AccessLevel.Client)
 async def get_orders_list(
@@ -101,6 +101,51 @@ async def get_order_historys_list(
         status=OrderStatus.IN_PROGRESS
     )
     orders_history = await uow.order_history.list(user_id=request.state.user_id)
+    result = [
+        OrderResponse(
+            id=order.id,
+            dishes=[
+                OrderItem(
+                    dish=DishResponse(**(await uow.dish.get_by_id(id=dish_id)).model_dump()),
+                    count=dish_count
+                )
+                for dish_id, dish_count in order.dishes.items()
+            ],
+            status=order.status,
+            date=order.updated_at,
+        )
+        for order in orders_in_progress
+    ]
+    result += [
+        HistoryOrderResponse(
+            id=order.id,
+            dishes=[
+                OrderItem(
+                    dish=DishResponse(**(await uow.dish.get_by_id(id=dish_id)).model_dump()),
+                    count=dish_count
+                )
+                for dish_id, dish_count in order.dishes.items()
+            ],
+            status=OrderStatus.COMPLETED,
+            date=order.completed_at,
+        )
+        for order in orders_history
+    ]
+    return result
+
+@order_router.get(
+    path="/history/all",
+    status_code=status.HTTP_200_OK,
+    response_model=list[HistoryOrderResponse | OrderResponse],
+    summary="Get Orders History",
+)
+@protect(min_access_level=AccessLevel.Client)
+async def get_order_historys_list(
+    request: Request,
+    uow: UnitOfWork = Depends(get_unit_of_work),
+) -> list[HistoryOrderResponse | OrderResponse]:
+    orders_in_progress = await uow.order.get_all_by_status(status=OrderStatus.IN_PROGRESS)
+    orders_history = await uow.order_history.list()
     result = [
         OrderResponse(
             id=order.id,

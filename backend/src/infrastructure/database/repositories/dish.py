@@ -10,7 +10,11 @@ class DishReposityBase(GenericSqlRepository[DishModel, DishDTO], ABC):
     _object = DishDTO
     
     @abstractmethod
-    def get_by_name(self, name: str) -> DishModel | None:
+    async def get_by_name(self, name: str) -> DishModel | None:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def get_types(self) -> list[str]:
         raise NotImplementedError
 
 
@@ -20,3 +24,7 @@ class DishRepository(DishReposityBase):
         result = await self._session.execute(stmt)
         return result.scalars().first()
     
+    async def get_types(self) -> list[str]:
+        stmt = select(self._model.type).distinct()
+        result = await self._session.execute(stmt)
+        return result.scalars().all()

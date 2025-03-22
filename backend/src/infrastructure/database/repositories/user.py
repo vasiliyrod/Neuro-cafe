@@ -72,6 +72,10 @@ class UserRepository(UserReposityBase):
 
         return user.id
     
+    async def get_avilable_telegram_ids(self) -> set[int]:
+        result = await self._session.execute(select(self._model.telegram_id).where(self._model.telegram_id != None))
+        return set(result.scalars().all())
+    
     def _hash_password(self, plain_password: str) -> str:
         # salt = bcrypt.gensalt()
         # hashed_password = bcrypt.hashpw(plain_password.encode('utf-8'), salt)

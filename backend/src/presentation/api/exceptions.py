@@ -5,8 +5,8 @@ from fastapi import HTTPException
 class ApiError(HTTPException):
     status_code: int = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail: str = "Unexpected Error Occured"
-    def __init__(self):
-        super().__init__(status_code=self.status_code, detail=self.detail)
+    def __init__(self, status_code: int | None = None, detail: str | None = None):
+        super().__init__(status_code=status_code or self.status_code, detail=detail or self.detail)
 
 
 class InvalidToken(ApiError):
@@ -42,3 +42,8 @@ class EntityNotFound(ApiError):
 class UserIdRequired(ApiError):
     status_code = status.HTTP_403_FORBIDDEN
     detail = "User Id Required"
+
+
+class UnableToLoadFile(ApiError):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Unable to load file"

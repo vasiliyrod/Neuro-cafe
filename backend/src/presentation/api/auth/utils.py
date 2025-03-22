@@ -53,7 +53,7 @@ async def define_access_level(payload: dict[str, str]) -> AccessLevel:
         p2 = datetime.datetime.now()
         role = await uow.user.get_role_by_username(username=username)
         p3 = datetime.datetime.now()
-        print(p3 - p2, p2 - p1)
+
         return _access_level_by_role[role]
 
 def protect(min_access_level: AccessLevel, uid_required: bool = True):

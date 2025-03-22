@@ -126,8 +126,8 @@ class GenericSqlRepository[ModelType, ObjectType](GenericRepository[ObjectType],
 
 
 class GenericCacheRepository[ObjectType](GenericRepository[ObjectType], ABC):
-    def __init__(self):
-        self._cache = RedisAdapter()
+    def __init__(self, prefix: str):
+        self._cache = RedisAdapter(prefix=prefix)
         
     async def add(self, key: int | str, value: ObjectType) -> None:
         self._cache.set(key=key, value=value)

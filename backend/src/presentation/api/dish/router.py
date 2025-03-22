@@ -46,6 +46,19 @@ async def add_dish(
 
 
 @dish_router.get(
+    path="/types",
+    status_code=status.HTTP_200_OK,
+    response_model=list[str],
+    summary="Get Dish Types Lidt",
+)
+@protect(min_access_level=AccessLevel.NoAuth)
+async def get_dish_types_list(
+    request: Request,
+    uow: UnitOfWork = Depends(get_unit_of_work)
+) -> list[str]:
+    return list(await uow.dish.get_types())
+
+@dish_router.get(
     path="/{dish_id}",
     status_code=status.HTTP_200_OK,
     response_model=DishResponse,
@@ -86,7 +99,6 @@ async def get_dishes_list(
         )
         for dish in dishes
     ]
-
 
 @dish_router.delete(
     path="/{dish_id}",

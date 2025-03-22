@@ -11,6 +11,8 @@ class ApplicationConfig(BaseConfig):
     host: str = Field(alias="APP_HOST")
     path_prefix: str = Field(alias="PATH_PREFIX")
 
+    proxy_url: str = Field(alias="PROXY_URL")
+    
     secret_key: str = Field(alias="ACCESS_TOKEN_SECRET_KEY")
     algorithm: str = Field(alias="ACCESS_TOKEN_ALGORITHM")
     access_token_expire_minutes: int = Field(alias="ACCESS_TOKEN_EXPIRE_MINUTES")
@@ -90,6 +92,19 @@ class BotConfig(BaseConfig):
     api_token: str = Field(alias="BOT_API_TOKEN")
 
 
+class SpeechKitConfig(BaseConfig):
+    api_url: str = Field(alias="SPEECHKIT_API_URL")
+    api_key: str = Field(alias="SPEECHKIT_API_KEY")
+    folder_id: str = Field(alias="SPEECHKIT_FOLDER_ID")
+
+
+class ObjectStorageConfig(BaseConfig):
+    service_name: str = Field(alias="S3_SERVICE_NAME")
+    endpoint_url: str = Field(alias="S3_URL")
+    aws_access_key_id: str = Field(alias="AWS_ACCESS_KEY_ID")
+    aws_secret_access_key: str = Field(alias="AWS_SECRET_ACCESS_KEY")
+
+
 class DevelopmentConfig:
     app = ApplicationConfig()
     database = DatabaseConfig()
@@ -97,6 +112,8 @@ class DevelopmentConfig:
     redis = RedisConfig()
     logging = LoggingConfig()
     bot = BotConfig()
+    speechkit = SpeechKitConfig()
+    s3 = ObjectStorageConfig()
     
     meta = MetaSettings()
     env: Literal[Enviroment.TEST] = Enviroment.TEST

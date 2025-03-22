@@ -18,10 +18,22 @@ class OrderReposityBase(GenericCacheRepository[OrderDTO], ABC):
         raise NotImplementedError
 
 class OrderRepository(OrderReposityBase):
+    
+    def __init__(self, prefix: str = "order") -> None:
+        super().__init__(prefix)
+        
     async def get_by_status(self, user_id: int, status: OrderStatus) -> None:
         return [
             self._object.model_validate(order)
             for order in self._cache.get(user_id)
+            if order["status"] == status
+        ]
+    
+    async def get_all_by_status(self, status: OrderStatus) -> None:
+        return [
+            self._object.model_validate(order)
+            for user_order in self._cache.get().values()
+            for order in user_order
             if order["status"] == status
         ]
         

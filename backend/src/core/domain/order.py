@@ -27,3 +27,4 @@ class OrderHistoryDTO(BaseDTO):
     created_at: datetime.datetime
     completed_at: datetime.datetime
     user_id: int
+    cost: float | None = None

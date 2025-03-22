@@ -1,15 +1,22 @@
-from uvicorn import run
+import asyncio
 from fastapi import FastAPI
 from fastapi_pagination import add_pagination
+from contextlib import asynccontextmanager
 from backend.src.config import Config, settings
-from backend.src.presentation.api.utils import get_hostname
 from backend.src.presentation.api import list_of_routes
 from backend.src.presentation.api.middleware import AuthMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from backend.src.presentation.telegram.__main__ import startup_bot
 
 def bind_routes(application: FastAPI, setting: Config) -> None:
     for route in list_of_routes:
         application.include_router(route, prefix=setting.app.path_prefix)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    asyncio.create_task(startup_bot())
+    yield
 
 
 def get_app() -> FastAPI:
@@ -23,6 +30,7 @@ def get_app() -> FastAPI:
     ]
 
     application = FastAPI(
+        lifespan=lifespan,
         title="NeuroCafe",
         description=description,
         docs_url="/swagger",
@@ -36,10 +44,10 @@ def get_app() -> FastAPI:
     application.add_middleware(AuthMiddleware)
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # Разрешенные origins
-        allow_credentials=True,  # Разрешить куки и заголовки авторизации
-        allow_methods=["*"],  # Разрешить все методы (GET, POST, PUT, DELETE и т.д.)
-        allow_headers=["*"],  # Разрешить все заголовки
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
     return application
 

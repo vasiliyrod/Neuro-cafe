@@ -9,11 +9,16 @@ from backend.src.infrastructure.database.repositories.user import UserRepository
 from backend.src.infrastructure.database.repositories.order import OrderRepository
 from backend.src.infrastructure.database.repositories.order_history import OrderHistoryReposity
 from backend.src.infrastructure.database.repositories.review import ReviewReposity
-
+from backend.src.infrastructure.database.repositories.chat import ChatRepository
 
 class IUnitOfWork(ABC):
     dish: DishRepository
     user: UserRepository
+    order: OrderHistoryReposity
+    review: ReviewReposity
+        
+    chat: ChatRepository
+    order: OrderRepository
 
     @abstractmethod
     async def __aenter__(self) -> "IUnitOfWork":
@@ -45,6 +50,7 @@ class UnitOfWork(IUnitOfWork):
         self.order_history = OrderHistoryReposity(session=self.__session)
         self.review = ReviewReposity(session=self.__session)
         
+        self.chat = ChatRepository()
         self.order = OrderRepository()
         
         return self

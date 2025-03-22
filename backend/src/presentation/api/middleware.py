@@ -10,6 +10,7 @@ logger = get_yc_logger()
 
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
+        logger.info(f"{request.method} {request.url}", details=await self._get_user_request_data(request))
         try:
             request.state.token = request.headers.get('X-Auth-Token')
             if (telegram_id := request.headers.get('X-UID')) is not None:
@@ -26,8 +27,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
             
                 
             response = await call_next(request)
+           
             return response
-            logger.info(f"{request.method} {request.url}", details=await self._get_user_request_data(request))
             
         except HTTPException as exc:
             logger.warn(
@@ -45,15 +46,23 @@ class AuthMiddleware(BaseHTTPMiddleware):
     async def _get_user_request_data(self, request: Request) -> dict[str, Any]:
         try:
             body = await request.json()
-        except json.JSONDecodeError:
+            client_host = request.client.host
+            client_port = request.client.port
+            method = request.method
+            url = request.url
+            base_url = request.base_url
+            headers = self._sanitize_headers(dict(request.headers))
+            cookies = request.cookies
+        except Exception as e:
             body = None
-        client_host = request.client.host
-        client_port = request.client.port
-        method = request.method
-        url = request.url
-        base_url = request.base_url
-        headers = self._sanitize_headers(dict(request.headers))
-        cookies = request.cookies
+            client_host = None
+            client_port = None
+            method = None
+            url = ""
+            base_url = ""
+            headers = None
+            cookies = {}
+       
         return {
             "client_host": client_host,
             "client_port": client_port,

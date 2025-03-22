@@ -1,20 +1,26 @@
 from backend.src.config import settings
 from typing import Any
 
-_cache = {}
+_cache = {
+    "chat": {},
+    "order": {},
+}
 
 class RedisAdapter:
-    def __init__(self) -> None:
+    def __init__(self, prefix: str) -> None:
         self.dsn = settings.redis.dsn
-    
-    def get(self, key: int | str) -> Any:
-        return _cache.get(key, {})
+        self.p = prefix
+        
+    def get(self, key: int | str | None = None) -> Any:
+        if key is None:
+            return _cache[self.p]
+        return _cache[self.p].get(key, {})
     
     def set(self, key: int | str, value: Any) -> None:
-        _cache[key] = value
+        _cache[self.p][key] = value
     
     def remove(self, key: int | str) -> None:
-        del _cache[key]
+        del _cache[self.p][key]
     
     def exists(self, key: int | str) -> bool:
-        return key in _cache.keys()
+        return key in _cache[self.p].keys()
