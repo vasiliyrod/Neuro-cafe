@@ -4,6 +4,7 @@ import { AiTwotoneAudio } from "react-icons/ai";
 import { IoSendSharp } from "react-icons/io5";
 import { BsSoundwave } from "react-icons/bs";
 import { FFmpeg } from '@ffmpeg/ffmpeg';
+import ReactMarkdown from 'react-markdown';
 
 import { sendChatMessage, getChatHistory } from '@/services/chat/chat';
 import { addDishToOrder } from '@/services/dishes/disheslist';
@@ -28,8 +29,8 @@ const ChatAIPage = () => {
     const loadHistory = async () => {
       try {
         const history = await getChatHistory();
-        if (history.messages && history.messages.length > 0) {
-          setMessages(history.messages);
+        if (history && history.length > 0) {
+          setMessages(history);
         } else {
           setMessages([{
             text: 'Добро пожаловать! Задайте мне любой вопрос, и я помогу вам подобрать подходящие блюда.',
@@ -151,7 +152,7 @@ const ChatAIPage = () => {
 
       try {
         const oggBlob = await convertWebmToOgg(audioBlob);
-        const text = await recognizeSpeech(oggBlob); // Используем сервис
+        const text = await recognizeSpeech(oggBlob);
         setInputText(text);
       } catch (error) {
         console.error('Ошибка при обработке аудио:', error);
@@ -185,11 +186,13 @@ const ChatAIPage = () => {
         <div className={styles.chatWindow} ref={chatWindowRef}>
           {messages.map((message, index) => (
             <div key={index}>
-              <div
-                className={`${styles.message} ${message.isUser ? styles.userMessage : styles.botMessage}`}
-              >
-                {message.text}
-              </div>
+              <div className={`${styles.message} ${message.isUser ? styles.userMessage : styles.botMessage}`}>
+                  {message.isUser ? (
+                    message.text
+                  ) : (
+                    <ReactMarkdown>{message.text}</ReactMarkdown>
+                  )}
+               </div>
 
               {message.dishes && message.dishes.length > 0 && (
                 <div className={styles.dishesContainer}>

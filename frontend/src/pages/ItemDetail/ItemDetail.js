@@ -7,6 +7,7 @@ import styles from '@/pages/ItemDetail/ItemDetail.module.css';
 import { OrderContext } from '@/context/OrderContext';
 import { EditOrderContext } from '@/context/EditOrderContext';
 import { addDishToOrder } from '@/services/dishes/disheslist';
+import Loader from '@/components/Loading/Loading';
 
 const ItemDetail = () => {
   const { updateOrderCount } = useContext(OrderContext);
@@ -41,7 +42,7 @@ const ItemDetail = () => {
   }, [id]);
 
   if (!dish) {
-    return <div>Загрузка...</div>;
+    return <Loader />;
   }
 
   const ingredientsList = dish.main_ingredients

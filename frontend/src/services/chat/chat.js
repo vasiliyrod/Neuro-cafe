@@ -30,7 +30,7 @@ export const sendChatMessage = async (message) => {
 
 export const getChatHistory = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/history`,
+    const response = await axios.get(`${API_BASE_URL}/chat`,
       {
         headers: {
           [config.authHeader]: config.accessToken,
@@ -39,6 +39,8 @@ export const getChatHistory = async () => {
         }
       }
     );
+
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error('Ошибка при получении истории сообщений:', error);

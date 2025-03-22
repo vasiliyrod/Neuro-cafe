@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { loadYandexMapScript, initYandexMap } from '@/services/Map/Map';
+import { loadYandexMapScript, initYandexMap } from '@/services/map/map';
 import config from '@/config/config';
 
 const YandexMap = ({ latitude, longitude }) => {

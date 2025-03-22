@@ -9,15 +9,15 @@ export const recognizeSpeech = async (audioBlob) => {
   formData.append('file', audioBlob, 'audio.ogg');
 
   try {
-    const response = await fetch(`${API_BASE_URL}/audio_to_text`, {
+    const response = await fetch(`${API_BASE_URL}/speech_to_text`, {
       method: 'POST',
       headers: {
           [config.authHeader]: config.accessToken,
           [config.userIDheader]: userID,
-          'Content-Type': 'application/json'
         },
       body: formData,
     });
+    console.log(response);
 
     if (!response.ok) {
       const errorData = await response.json();

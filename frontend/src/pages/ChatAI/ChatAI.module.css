@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 90vh;
   padding-top: 10px;
-  background-color: #FDFAF0;
+  background-color: #F3F1EB;
   position: relative;
   align-items: center;
   justify-content: center;
@@ -28,8 +28,17 @@
   padding: 10px;
   background-color: #F3F1EB;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 15px;
   margin-bottom: 10px;
+}
+
+.chatWindow {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chatWindow::-webkit-scrollbar {
+  display: none;
 }
 
 .message {
@@ -48,12 +57,14 @@
   color: #2B3133;
   margin-left: auto;
   max-width: 40%;
+  border-radius: 17px 22px 2px 17px;
 }
 
 .botMessage {
   background-color: #B9C8CD;
   color: #2B3133;
   margin-right: auto;
+  border-radius: 25px 25px 25px 2px;
 }
 
 .loading {
@@ -81,7 +92,7 @@
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 15px;
+  border-radius: 20px 3px;
   max-width: 600px;
   font-family: "Kelly Slab", serif;
   font-weight: 400;
@@ -95,7 +106,7 @@
   background-color: #D7E2D7;
   color: #2B3133;
   border: none;
-  border-radius: 15px;
+  border-radius: 11px 3px;
   cursor: pointer;
   height: 40px;
   width: 38px;
@@ -111,6 +122,8 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   border: 1px solid #ddd;
+  width: 100%;
+  max-width: 420px;
 }
 
 .dish {
@@ -124,6 +137,8 @@
   font-family: "Kelly Slab", serif;
   font-weight: 400;
   font-style: bold;
+  width: 90%;
+  max-width: 400px;
 }
 
 .image {
@@ -168,6 +183,7 @@
   font-weight: 400;
   font-style: bold;
   font-size: 0.7rem;
+  width: 50%;
 }
 
 .detailsButton {
@@ -184,6 +200,7 @@
   font-size: 0.7rem;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .voiceButton {
@@ -195,6 +212,7 @@
   font-size: 1.2rem;
   height: 40px;
   width: 38px;
+  border-radius: 11px 3px;
 }
 
 .voiceButton.active {
@@ -215,11 +233,17 @@
   background-color: #778477;
   color: white;
   border: none;
-  padding: 6px 15px;
-  border-radius: 10px;
+  padding: 3px 7px;
+  border-radius: 4px;
   cursor: pointer;
   font-family: "Kelly Slab", serif;
   font-weight: 400;
   font-style: bold;
   font-size: 0.7rem;
+}
+
+.quantitySection {
+  display: flex;
+  width: 50%;
+  justify-content: right;
 }

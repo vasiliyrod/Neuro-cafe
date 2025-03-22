@@ -1,0 +1,137 @@
+.container {
+  background-color: #242333;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.content {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.welcomeText {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.text_typical {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.movieContainer {
+  margin-bottom: 30px;
+}
+
+.movieLabel {
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.movieSelect {
+  background-color: #fff;
+  border: 0;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 5px 15px;
+  color: #000;
+}
+
+.tablesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.row {
+  display: contents;
+}
+
+.table {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 2px solid #444451;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.table.empty {
+  background-color: transparent;
+  border: 2px dashed #444451;
+  cursor: default;
+}
+
+.table.single {
+  border-color: #6feaf6;
+}
+
+.table.double {
+  border-color: #f6b26f;
+}
+
+.table.triple {
+  border-color: #6ff6a1;
+}
+
+.table.selected {
+  border-color: #fff;
+}
+
+.seats {
+  display: flex;
+  gap: 5px;
+}
+
+.seat {
+  background-color: #444451;
+  height: 12px;
+  width: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.seat.singleSeat {
+  background-color: #6feaf6;
+}
+
+.bookingSummary {
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.highlight {
+  color: #6feaf6;
+}
+
+.footer {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.footerContent {
+  font-size: 1rem;
+}
+
+.footerText {
+  margin: 5px 0;
+}
+
+.iconLink {
+  display: inline-block;
+  margin: 10px 0;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
