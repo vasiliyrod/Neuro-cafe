@@ -3,8 +3,8 @@ ifeq ($(shell test -e 'backend/.env' && echo -n yes),yes)
 endif
 
 
-DIRS := 
-FILES := Makefile
+DIRS := backend
+FILES := .env
 VM_USER := georgepustovoi
 VM_IP := 158.160.139.50
 VM_PATH := neuro-cafe
