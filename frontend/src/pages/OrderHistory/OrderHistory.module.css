@@ -49,7 +49,7 @@
 .defaultBackground {
   background-color: #F1DBD2;
   background-color: #FDFAF0;
-  color: #fdb496;
+  color: #BE5022;
   box-shadow: 0 0 0.5rem #fdb496;
 }
 
@@ -80,6 +80,7 @@
 
 .orderStatus.in_progress {
   width: 20%;
+  color: #A93B0E;
 }
 
 .orderStatus.canceled {

@@ -183,3 +183,86 @@
   justify-content: space-between;
   width: 100%;
 }
+
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.tablePopup {
+  padding: 20px;
+  text-align: center;
+  background-color: #F3F1EB;
+  font-style: normal;
+  font-size: 1.5rem;
+  color: #617061;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px #F3F1EB;
+}
+
+.tablePopup h3 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.tableInput {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  font-size: 16px;
+  text-align: center;
+  color: #617061;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+}
+
+.popupButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.popupCancelButton {
+  flex: 1;
+  padding: 10px;
+  background-color: #2B3133;
+  color: #F3F1EB;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+}
+
+.popupConfirmButton {
+  flex: 1;
+  padding: 10px;
+  background-color: #FDB496;
+  color: #2B3133;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+}
+
+.popupConfirmButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

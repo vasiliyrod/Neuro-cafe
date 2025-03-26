@@ -5,6 +5,7 @@ import { IoSendSharp } from "react-icons/io5";
 import { BsSoundwave } from "react-icons/bs";
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import ReactMarkdown from 'react-markdown';
+import Cookies from 'js-cookie';
 
 import { sendChatMessage, getChatHistory } from '@/services/chat/chat';
 import { addDishToOrder } from '@/services/dishes/disheslist';
@@ -22,6 +23,7 @@ const ChatAIPage = () => {
   const [isListening, setIsListening] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const userID = Cookies.get('UID');
 
   const chatWindowRef = useRef(null);
 
@@ -231,6 +233,7 @@ const ChatAIPage = () => {
                               <button
                                 onClick={() => handleAddToOrder(dish.id)}
                                 className={styles.addButton}
+                                disabled={!userID}
                               >
                                 Добавить в заказ
                               </button>

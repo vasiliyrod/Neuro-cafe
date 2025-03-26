@@ -9,14 +9,12 @@ const UserIDChecker = ({ children }) => {
   useEffect(() => {
       const queryParams = new URLSearchParams(location.search);
       const userIDFromQuery = queryParams.get('UID');
+      console.log(userIDFromQuery);
 
       if (userIDFromQuery) {
         Cookies.set('UID', userIDFromQuery, { expires: 7 });
       } else {
         const userIDFromCookies = Cookies.get('UID');
-        if (!userIDFromCookies && location.pathname !== '/errorlog' && location.pathname !== '/error') {
-          navigate('/errorlog');
-        }
       }
     }, [location, navigate]);
 

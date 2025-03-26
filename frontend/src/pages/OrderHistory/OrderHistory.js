@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 import styles from "@/pages/OrderHistory/OrderHistory.module.css";
 import { fetchOrderHistory } from "@/services/dishes/orderhistory";
@@ -8,8 +10,15 @@ import { fetchOrderHistory } from "@/services/dishes/orderhistory";
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [activeId, setActiveId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const userID = Cookies.get('UID');
+
+    if (!userID) {
+      navigate('/errorlog');
+      return;
+    }
     const navbar = document.querySelector('nav');
     if (navbar) {
       navbar.style.backgroundColor = '#FDFAF0';
@@ -26,8 +35,10 @@ const OrderHistory = () => {
     const loadOrders = async () => {
       try {
         const data = await fetchOrderHistory();
-        const reversedData = [...data].reverse();
-        setOrders(reversedData);
+        const sortedData = [...data].sort((a, b) => {
+          return new Date(b.date) - new Date(a.date);
+        });
+        setOrders(sortedData);
       } catch (error) {
         console.error("Ошибка при загрузке данных:", error);
       }
@@ -45,17 +56,17 @@ const OrderHistory = () => {
       <h1 className={styles.his}>История заказов</h1>
       <div className={styles.orderContainer}>
         {orders.length === 0 ? (
-                  <p className={styles.noOrdersMessage}>...Пока нет заказов...</p>
-                ) : (
-                  orders.map((order) => (
-                    <OrderItem
-                      key={order.id}
-                      order={order}
-                      isActive={activeId === order.id}
-                      onClick={() => handleToggle(order.id)}
-                    />
-                  ))
-                )}
+          <p className={styles.noOrdersMessage}>...Пока нет заказов...</p>
+        ) : (
+          orders.map((order) => (
+            <OrderItem
+              key={order.id}
+              order={order}
+              isActive={activeId === order.id}
+              onClick={() => handleToggle(order.id)}
+            />
+          ))
+        )}
       </div>
     </div>
   );

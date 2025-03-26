@@ -1,5 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Popup from 'reactjs-popup';
+import Cookies from 'js-cookie';
 
 import { EditOrderContext } from '@/context/EditOrderContext';
 import styles from '@/pages/OrderPage/OrderPage.module.css';
@@ -9,6 +11,8 @@ const OrderPage = () => {
   const { orderItems, total, updateQuantity, removeFromOrder } = useContext(EditOrderContext);
   const { updateOrderCount } = useContext(OrderContext);
   const navigate = useNavigate();
+  const [tableNumber, setTableNumber] = useState('');
+  const [isTablePopupOpen, setIsTablePopupOpen] = useState(false);
 
   const handleUpdateQuantity = async (id, newQuantity) => {
     await updateQuantity(id, newQuantity);
@@ -20,9 +24,31 @@ const OrderPage = () => {
     updateOrderCount();
   };
 
+  const handleOrderButtonClick = () => {
+    if (!isOrderEmpty) {
+      setIsTablePopupOpen(true);
+    }
+  };
+
+  const handleConfirmTable = () => {
+    if (tableNumber) {
+      setIsTablePopupOpen(false);
+      navigate('/confirmation', { state: { tableNumber } });
+    } else {
+      alert('Пожалуйста, укажите номер стола');
+    }
+  };
+
   const isOrderEmpty = orderItems.length === 0;
 
   useEffect(() => {
+    const userID = Cookies.get('UID');
+
+    if (!userID) {
+      navigate('/errorlog');
+      return;
+    }
+
     const navbar = document.querySelector('nav');
     if (navbar) {
       navbar.style.backgroundColor = 'white';
@@ -98,10 +124,46 @@ const OrderPage = () => {
         <button
           className={styles.orderButton}
           disabled={isOrderEmpty}
-          onClick={handleOrderClick}
+          onClick={handleOrderButtonClick}
         >
           Оформить заказ
         </button>
+
+        <Popup
+          open={isTablePopupOpen}
+          onClose={() => setIsTablePopupOpen(false)}
+          modal
+          nested
+          closeOnDocumentClick={false}
+          contentStyle={{ padding: '0', border: 'none' }} // Добавьте это
+          overlayStyle={{ background: 'rgba(0,0,0,0.5)' }} // И это
+        >
+          <div className={styles.tablePopup}>
+            <h3>Укажите номер стола</h3>
+            <input
+              type="text"
+              value={tableNumber}
+              onChange={(e) => setTableNumber(e.target.value)}
+              placeholder="...№..."
+              className={styles.tableInput}
+            />
+            <div className={styles.popupButtons}>
+              <button
+                onClick={() => setIsTablePopupOpen(false)}
+                className={styles.popupCancelButton}
+              >
+                Отмена
+              </button>
+              <button
+                onClick={handleConfirmTable}
+                className={styles.popupConfirmButton}
+                disabled={!tableNumber}
+              >
+                Готово
+              </button>
+            </div>
+          </div>
+        </Popup>
       </div>
     </div>
   );

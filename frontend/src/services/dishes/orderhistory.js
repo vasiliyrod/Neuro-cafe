@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import config from '@/config/config';
 
 const userID = Cookies.get('UID');
-const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}/api/v1`;
+const API_BASE_URL = config.apiURL;
 
 export const fetchOrderHistory = async () => {
   try {

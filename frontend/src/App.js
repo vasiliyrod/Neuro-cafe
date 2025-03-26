@@ -13,7 +13,7 @@ import FeedbackPage from '@/pages/FeedbackPage/FeedbackPage';
 import OrderHistory from '@/pages/OrderHistory/OrderHistory';
 import ErrorPage from '@/pages/Errors/Error';
 import ErrorLogPage from '@/pages/Errors/ErrorLog';
-import Booking from '@/pages/Booking/Booking';
+import BookingPage from '@/pages/Booking/Booking';
 
 import Navbar from '@/components/Nav/Navbar';
 import UserIDChecker from '@/utils/cookie';
@@ -55,7 +55,7 @@ const App = () => {
                 <Route path="/history" element={<OrderHistory />} />
                 <Route path="/error" element={<ErrorPage />} />
                 <Route path="/errorlog" element={<ErrorLogPage />} />
-                <Route path="/booking" element={<Booking />} />
+                <Route path="/booking" element={<BookingPage />} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

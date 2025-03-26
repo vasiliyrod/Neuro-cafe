@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
 import { fetchDishes, addDishToOrder } from '@/services/dishes/disheslist';
 import { OrderContext } from '@/context/OrderContext';
 import { EditOrderContext } from '@/context/EditOrderContext';
@@ -18,6 +20,7 @@ const ItemList = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const typeRefs = useRef({});
+  const userID = Cookies.get('UID');
 
   useEffect(() => {
     const navbar = document.querySelector('nav');
@@ -251,6 +254,7 @@ const ItemList = () => {
                           <button
                             onClick={(e) => handleAddToOrder(dish.id, e)}
                             className={styles.addButton}
+                            disabled={!userID}
                           >
                             +
                           </button>

@@ -18,22 +18,18 @@ const ErrorPage = () => {
 
   return (
     <div className={styles.body_container}>
-        <p className={styles.p}> Вы не авторизованы.</p>
-        <img
-            src='https://i.postimg.cc/7ZTWMTzR/Group-12.png'
-            alt="ERROR"
-          />
+        <p className={styles.p}> Вы не авторизованы!</p>
+           <a
+                href={organisation.tg_link}
+                target="tg"
+                rel="tg"
+                className={styles.iconLink}
+              >
+              <FaTelegramPlane className={styles.icon}/>
+            </a>
 
-        <p className={styles.text}> Войдите через наше телеграм приложение.</p>
+        <p className={styles.text}> Войдите через наше телеграм приложение, <br/> чтобы пользоваться всеми функциями.</p>
 
-        <a
-            href={organisation.tg_link}
-            target="tg"
-            rel="tg"
-            className={styles.iconLink}
-          >
-          <FaTelegramPlane />
-        </a>
     </div>
   );
 };

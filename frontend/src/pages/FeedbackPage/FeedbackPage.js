@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
 import { submitFeedback } from '@/services/comments/comments';
 import styles from '@/pages/FeedbackPage/FeedbackPage.module.css';
@@ -19,6 +20,13 @@ const FeedbackPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const userID = Cookies.get('UID');
+
+    if (!userID) {
+      navigate('/errorlog');
+      return;
+    }
+
     const navbar = document.querySelector('nav');
     if (navbar) {
       navbar.style.backgroundColor = '#778477';

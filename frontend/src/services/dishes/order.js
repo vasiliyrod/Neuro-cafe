@@ -3,7 +3,7 @@ import config from '@/config/config';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}/api/v1`;
+const API_BASE_URL = config.apiURL;
 const userID = Cookies.get('UID');
 
 export const fetchOrder = async () => {
@@ -117,7 +117,7 @@ export const addToOrder = async (dish) => {
 };
 
 
-export const confirmOrder = async () => {
+export const confirmOrder = async (location) => {
   try {
     const response = await fetch(`${API_BASE_URL}/orders/in_progress`, {
       method: 'POST',
@@ -126,7 +126,7 @@ export const confirmOrder = async () => {
           [config.userIDheader]: userID,
           'Content-Type': 'application/json'
         },
-      body: JSON.stringify({ status: 'заказ заказан' }),
+      body: JSON.stringify({ table_id: location }),
     });
 
     if (!response.ok) {

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import config from '@/config/config';
 
-const API_BASE_URL = `http://${config.apiHost}:${config.apiPort}/api/v1`;
+const API_BASE_URL = config.apiURL;
 const userID = Cookies.get('UID');
 
 

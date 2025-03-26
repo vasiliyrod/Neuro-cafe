@@ -252,3 +252,10 @@
     font-size: 1rem;
   }
 }
+
+.addButton:disabled,
+.quantityButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #ccc;
+}

@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import styles from '@/pages/OrderDone/OrderDone.module.css';
 
 const OrderDone = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userID = Cookies.get('UID');
+
+    if (!userID) {
+      navigate('/errorlog');
+      return;
+    }
+  }, []);
 
   const handleOrderClick = () => {
      navigate('/history');
@@ -13,6 +23,8 @@ const OrderDone = () => {
   const handleOrderClick1 = () => {
      navigate('/review');
   };
+
+
 
   return (
     <div className={styles.container}>

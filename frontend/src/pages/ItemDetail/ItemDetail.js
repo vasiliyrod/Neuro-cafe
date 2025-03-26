@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import { fetchDishDetails } from '@/services/dishes/dishdetail';
 import Navbar from '@/components/Nav/Navbar';
@@ -14,6 +15,7 @@ const ItemDetail = () => {
   const { orderItems, updateQuantity } = useContext(EditOrderContext);
   const { id } = useParams();
   const [dish, setDish] = useState(null);
+  const userID = Cookies.get('UID');
 
   useEffect(() => {
     const navbar = document.querySelector('nav');
@@ -108,6 +110,7 @@ const ItemDetail = () => {
                 <button
                   onClick={(e) => handleAddToOrder(dish.id, e)}
                   className={styles.addButton}
+                  disabled={!userID}
                 >
                   Заказать
                 </button>

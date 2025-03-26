@@ -420,3 +420,10 @@
   color: rgb(110, 121, 110);
   text-decoration: none;
 }
+
+.addButton:disabled,
+.quantityButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #ccc;
+}
