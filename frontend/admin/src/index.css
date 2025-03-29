@@ -28,6 +28,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  
 }
 
 h1 {
@@ -65,4 +66,13 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+/* Глобальный CSS (например, index.css) */
+@keyframes ani {
+  0% {left: 40px; width: 0;}
+  100% {left: 0; width: 75px;}
+}
+
+.dish-card-animation {
+  animation: ani 1s linear forwards;
 }

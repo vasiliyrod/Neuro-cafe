@@ -7,69 +7,84 @@ interface Props {
 
 function NavigationBar({ page }: Props) {
   const containerStyle: React.CSSProperties = {
-    width: "100vw",
-    height: "7vh",
-    backgroundColor: "#002F55",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
+    backgroundColor: "#ffffff",
+    height: "70px",
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.03)",
   };
 
-  const textStyle: React.CSSProperties = {
-    color: "white",
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    textShadow: "1px 1px 1px rgba(0, 0, 0, 0.5)",
-    padding: "13px",
-    //backgroundColor: "rgba(0, 0, 0, 0.3)",
-    borderRadius: "10px",
-    textAlign: "center",
+  const titleStyle: React.CSSProperties = {
+    color: "#2D3748",
+    fontSize: "1.4rem",
+    fontWeight: 600,
+    letterSpacing: "0.3px",
+    marginLeft: "1rem",
   };
+
+  const buttonStyle = (isActive: boolean): React.CSSProperties => ({
+    transition: "all 0.2s ease",
+    borderRadius: "6px",
+    margin: "0 4px",
+    fontWeight: 500,
+    borderWidth: "1px",
+    padding: "8px 16px",
+    ...(isActive && {
+      boxShadow: "0 2px 6px rgba(0, 123, 255, 0.2)",
+    }),
+  });
 
   return (
-    <div className="container-fluid text-center  bg-secondary">
-      <div className="row " style={containerStyle}>
-        <div className="col">
-          <div style={textStyle}>Нейрокафе | Администрирование</div>
-        </div>
-        <div className="col">
-          <Link to="/statistics">
-            <Button
-              variant={page === "Статистика" ? "primary" : "outline-light"}
-              style={{ margin: "5px" }}
-            >
-              Статистика
-            </Button>
-          </Link>
+    <div style={containerStyle} className="sticky-top">
+      <div className="container-fluid">
+        <div className="d-flex justify-content-between align-items-center">
+          <div style={titleStyle}>
+            Нейрокафе
+            <span className="d-none d-md-inline"> | Администрирование</span>
+          </div>
 
-          <Link to="/menu">
-            <Button
-              variant={page === "Меню" ? "primary" : "outline-light"}
-              style={{ margin: "5px" }}
-            >
-              Меню
-            </Button>
-          </Link>
+          <div className="d-flex flex-nowrap overflow-auto py-2">
+            <Link to="/statistics" className="text-decoration-none">
+              <Button
+                variant={page === "Статистика" ? "primary" : "outline-dark"}
+                style={buttonStyle(page === "Статистика")}
+                className="btn-sm"
+              >
+                Статистика
+              </Button>
+            </Link>
 
-          <Link to="/messaging">
-            <Button
-              variant={page === "Рассылка" ? "primary" : "outline-light"}
-              style={{ margin: "5px" }}
-            >
-              Рассылка
-            </Button>
-          </Link>
-          <Link to="/orders">
-            <Button
-              variant={page === "Заказы" ? "primary" : "outline-light"}
-              style={{ margin: "5px" }}
-            >
-              Заказы
-            </Button>
-          </Link>
+            <Link to="/menu" className="text-decoration-none">
+              <Button
+                variant={page === "Меню" ? "primary" : "outline-dark"}
+                style={buttonStyle(page === "Меню")}
+                className="btn-sm"
+              >
+                Меню
+              </Button>
+            </Link>
+
+            <Link to="/messaging" className="text-decoration-none">
+              <Button
+                variant={page === "Рассылка" ? "primary" : "outline-dark"}
+                style={buttonStyle(page === "Рассылка")}
+                className="btn-sm"
+              >
+                Рассылка
+              </Button>
+            </Link>
+
+            <Link to="/orders" className="text-decoration-none">
+              <Button
+                variant={page === "Заказы" ? "primary" : "outline-dark"}
+                style={buttonStyle(page === "Заказы")}
+                className="btn-sm"
+              >
+                Заказы
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

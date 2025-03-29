@@ -1,6 +1,8 @@
 import React, { useState, useRef, FormEvent } from "react";
 import "./MessageForm.css";
 import { sendMessage } from "../../services/sendMessage";
+import "../StyleСhooseButtons.css";
+import { useNavigate } from "react-router";
 
 interface TelegramMessageFormProps {}
 
@@ -11,6 +13,7 @@ const MessageForm: React.FC<TelegramMessageFormProps> = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,6 +38,10 @@ const MessageForm: React.FC<TelegramMessageFormProps> = () => {
       setSelectedFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
+      if (err.response?.status === 403) {
+        navigate("/login");
+        return; // Выходим, чтобы не обновлять состояние ошибки
+      }
       setError("Ошибка при отправке сообщения. Попробуйте снова.");
     } finally {
       setIsLoading(false);
@@ -57,7 +64,7 @@ const MessageForm: React.FC<TelegramMessageFormProps> = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="file">Прикрепить файл (опционально):</label>
+          <label htmlFor="file">Прикрепить файл:</label>
           <input
             type="file"
             id="file"
@@ -71,7 +78,11 @@ const MessageForm: React.FC<TelegramMessageFormProps> = () => {
           <div className="success-message">Сообщение успешно отправлено!</div>
         )}
 
-        <button type="submit" className="submit-button" disabled={isLoading}>
+        <button
+          type="submit"
+          className="left-aligned-button active-button"
+          disabled={isLoading}
+        >
           {isLoading ? "Отправка..." : "Отправить"}
         </button>
       </form>

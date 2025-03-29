@@ -6,9 +6,10 @@ import { changeDish } from "../../services/changeDish";
 interface Props {
   item: IDish;
   onUpdate?: (updatedDish: IDish) => void;
+  onDelete?: (dishId: number) => void;
 }
 
-const DishCard = ({ item, onUpdate }: Props) => {
+const DishCard = ({ item, onUpdate, onDelete }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedItem, setEditedItem] = useState<IDish>({ ...item });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -215,6 +216,12 @@ const DishCard = ({ item, onUpdate }: Props) => {
                   </div>
 
                   <div className="d-flex justify-content-between mt-4">
+                    <button
+                      className="btn btn-lg btn-danger"
+                      onClick={() => onDelete && onDelete(editedItem.id)}
+                    >
+                      Удалить блюдо
+                    </button>
                     <button
                       className="btn btn-lg btn-secondary"
                       onClick={handleCancel}

@@ -43,11 +43,11 @@ const HistoryGrid: React.FC<HistoryGridProps> = ({ orders }) => {
       ) : (
         completedOrders.map((order) => (
           <div key={order.id} style={orderCardStyles}>
-            <h3>Order #{order.id}</h3>
-            <p>Date: {new Date(order.date).toLocaleString()}</p>
-            <p>
-              Status: <strong>{order.status}</strong>
-            </p>
+            <h3>Заказ #{order.id}</h3>
+            <div>
+              <strong>{new Date(order.date).toLocaleString()}</strong>
+            </div>
+            <p>{order.status}</p>
 
             <div>
               {order.dishes.map(({ dish, count }) => (

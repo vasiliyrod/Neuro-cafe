@@ -1,3 +1,4 @@
+import authToken from "../config/authToken";
 import API_BASE_URL from "../config/config";
 
 export const sendMessage = {
@@ -9,7 +10,7 @@ export const sendMessage = {
     const response = await fetch(`${API_BASE_URL}/maillist?text=${text}`, {
       method: "POST",
       headers: {
-        [import.meta.env.VITE_authHeader]: String(import.meta.env.VITE_accessToken),
+        [import.meta.env.VITE_authHeader]: String(authToken()),
         [import.meta.env.VITE_userIDheader]: String(import.meta.env.VITE_userId),
       },
       body: formData,

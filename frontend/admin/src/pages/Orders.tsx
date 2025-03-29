@@ -5,13 +5,16 @@ import DishGrid from "../components/orders/OrdersGrid";
 import HistoryGrid from "../components/orders/HistoryGrid";
 import IOrders from "../components/interfaces/IOrders";
 import { getOrders } from "../services/getOrders";
+import { completeOrder } from "../services/completeOrder";
+import { useNavigate } from "react-router-dom";
+import authToken from "../config/authToken";
 
-function Statistics() {
+function Orders() {
   const [orders, setOrders] = useState<IOrders[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [menuType, setMenuType] = useState<"current" | "history">("current");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const loadOrders = async () => {
       setIsLoading(true);
@@ -20,6 +23,10 @@ function Statistics() {
         const data = await getOrders.getAllOrders();
         setOrders(data);
       } catch (err) {
+        if (err.response?.status === 403) {
+          navigate("/login");
+          return; // Выходим, чтобы не обновлять состояние ошибки
+        }
         setError(err.message);
       } finally {
         setIsLoading(false);
@@ -39,14 +46,36 @@ function Statistics() {
     setMenuType(choice as "current" | "history");
   };
 
-  const handleToggle = (orderId: string) => {
-    // Обновляем локальное состояние
-    setOrders((prev) =>
-      prev.map((order) =>
-        order.id === orderId ? { ...order, status: "completed" } : order
-      )
-    );
+  const handleToggle = async (orderId: string, clientId: string) => {
+    try {
+      setIsLoading(true);
+      await completeOrder.sendOrderId(orderId, clientId);
+
+      // Обновляем состояние только после успешного запроса
+      setOrders((prev) =>
+        prev.map((order) =>
+          order.id === orderId ? { ...order, status: "completed" } : order
+        )
+      );
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authToken()) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+
+  // Если токен отсутствует, показываем пустой контейнер до срабатывания редиректа
+  if (!authToken()) {
+    return null;
+  }
 
   return (
     <>
@@ -68,4 +97,4 @@ function Statistics() {
   );
 }
 
-export default Statistics;
+export default Orders;

@@ -1,15 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Container, Card } from "react-bootstrap";
+import { getToken } from "../services/getToken";
+import { useNavigate } from "react-router";
+import authToken from "../config/authToken";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authToken()) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
+
+  // Если токен отсутствует, показываем пустой контейнер до срабатывания редиректа
+  if (!authToken()) {
+    return null;
+  }
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Здесь должна быть логика авторизации (обращение к бэкэенду)
-    console.log("Username:", username);
-    console.log("Password:", password);
+    try {
+      const response = await getToken.getAdminToken(username, password);
+      localStorage.setItem("authToken", response); // Вот тут надо проверить чтобы всё правильно было
+      navigate("/menu");
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+      setError("Введены неверные учетные данные");
+    }
   };
 
   return (
@@ -43,6 +65,7 @@ const Login = () => {
             <Button variant="primary" type="submit">
               Войти
             </Button>
+            <p>{error}</p>
           </div>
         </Form>
       </Card>

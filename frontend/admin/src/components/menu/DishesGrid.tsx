@@ -36,7 +36,7 @@ const ProductsGrid = ({ items, type, onClickItem }: Props) => {
                       onClickItem(item);
                     }}
                   >
-                    Изменить
+                    Подробнее
                   </button>
                 </div>
               </div>

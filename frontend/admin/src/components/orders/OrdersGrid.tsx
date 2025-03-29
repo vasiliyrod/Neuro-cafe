@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import IOrders from "../interfaces/IOrders";
 
 const gridStyles: React.CSSProperties = {
@@ -23,21 +23,39 @@ const dishItemStyles: React.CSSProperties = {
   borderBottom: "1px solid #eee",
 };
 
-const getButtonStyles = (isCompleted: boolean): React.CSSProperties => ({
+// Добавим стили для чекбокса
+const checkboxStyles: React.CSSProperties = {
+  marginLeft: "10px",
+  position: "relative",
+  display: "inline-block",
+  width: "23px",
+  height: "23px",
+};
+
+const getButtonStyles = (
+  isCompleted: boolean,
+  isHovered: boolean // Добавляем параметр для состояния наведения
+): React.CSSProperties => ({
   padding: "5px 10px",
   border: "none",
   borderRadius: "4px",
   cursor: "pointer",
-  backgroundColor: isCompleted ? "#4CAF50" : "#f0f0f0",
+  backgroundColor: isCompleted
+    ? "#4CAF50"
+    : isHovered
+    ? "#e0e0e0" // Цвет при наведении
+    : "#f0f0f0", // Стандартный цвет
   color: isCompleted ? "white" : "#333",
+  transition: "background-color 0.3s ease", // Добавляем плавный переход
 });
 
 interface OrdersGridProps {
   orders: IOrders[];
-  onToggle: (orderId: string) => void;
+  onToggle: (orderId: string, clientId: string) => void;
 }
 
 const OrdersGrid: React.FC<OrdersGridProps> = ({ orders, onToggle }) => {
+  const [hoveredOrderId, setHoveredOrderId] = useState<string | null>(null); // Состояние для отслеживания наведения
   const inProgressOrders = orders.filter(
     (order) => order.status === "in_progress"
   );
@@ -48,13 +66,15 @@ const OrdersGrid: React.FC<OrdersGridProps> = ({ orders, onToggle }) => {
         <div>No orders in progress</div>
       ) : (
         inProgressOrders.map((order) => {
-          const isOrderCompleted = order.status === "completed"; // Определяем статус заказа
+          const isOrderCompleted = order.status === "completed";
 
           return (
             <div key={order.id} style={orderCardStyles}>
-              <h3>Order {new Date(order.date).toLocaleString()}</h3>
-              <p>Date: {new Date(order.date).toLocaleString()}</p>
-              <p>Status: {order.status}</p>
+              <h3>Столик {order.table_id}</h3>
+              <div>
+                <strong>{new Date(order.date).toLocaleString()}</strong>
+              </div>
+              <p>{order.status}</p>
 
               <div>
                 {order.dishes.map(({ dish, count }) => (
@@ -65,14 +85,25 @@ const OrdersGrid: React.FC<OrdersGridProps> = ({ orders, onToggle }) => {
                         x{count}
                       </div>
                     </div>
+                    {/* Добавлен чекбокс */}
+                    <input
+                      type="checkbox"
+                      style={checkboxStyles}
+                      // Можно добавить атрибуты, но логика не привязана
+                    />
                   </div>
                 ))}
               </div>
 
               <div style={{ marginTop: "15px", textAlign: "right" }}>
                 <button
-                  onClick={() => onToggle(order.id)} // Прямой вызов onToggle
-                  style={getButtonStyles(isOrderCompleted)}
+                  onClick={() => onToggle(order.id, order.user_id)}
+                  style={getButtonStyles(
+                    isOrderCompleted,
+                    hoveredOrderId === order.id // Передаем состояние наведения
+                  )}
+                  onMouseEnter={() => setHoveredOrderId(order.id)} // Обработчик наведения
+                  onMouseLeave={() => setHoveredOrderId(null)} // Обработчик ухода курсора
                 >
                   {isOrderCompleted ? "Выполнено" : "Выполнить"}
                 </button>
