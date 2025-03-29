@@ -22,7 +22,7 @@ cafe_router = APIRouter(prefix="/cafe", tags=["cafe"])
     summary="Cafe Meta Information",
     response_model=CafeResponse,
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def get_cafe_meta(request: Request) -> CafeResponse:  
     cafe = settings.meta.cafe
     return CafeResponse(
@@ -43,7 +43,7 @@ async def get_cafe_meta(request: Request) -> CafeResponse:
     summary="Meta Information About Staff",
     response_model=list[StaffResponse],
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def get_staff_list_meta(request: Request) -> list[StaffResponse]:  
     return [
         StaffResponse(
@@ -63,7 +63,7 @@ async def get_staff_list_meta(request: Request) -> list[StaffResponse]:
     summary="Meta Information About Staff",
     response_model=list[InteriorResponse],
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def get_staff_list_meta(request: Request) -> list[InteriorResponse]:  
     return [
         InteriorResponse(

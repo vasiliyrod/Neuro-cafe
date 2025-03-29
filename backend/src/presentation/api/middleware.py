@@ -1,4 +1,3 @@
-import json
 from typing import Any
 from fastapi import Request, HTTPException
 from fastapi.responses import JSONResponse
@@ -13,7 +12,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
         logger.info(f"{request.method} {request.url}", details=await self._get_user_request_data(request))
         try:
             request.state.token = request.headers.get('X-Auth-Token')
-            if (telegram_id := request.headers.get('X-UID')) is not None:
+            telegram_id = request.headers.get('X-UID')
+            if telegram_id not in (None, "", "undefined"):
                 # костыли...
                 telegram_id = int(telegram_id)
                 async for uow in get_unit_of_work():
@@ -44,35 +44,61 @@ class AuthMiddleware(BaseHTTPMiddleware):
             return JSONResponse(content={"detail": f"Error: {str(exc)}"}, status_code=500)
     
     async def _get_user_request_data(self, request: Request) -> dict[str, Any]:
-        try:
-            body = await request.json()
-            client_host = request.client.host
-            client_port = request.client.port
-            method = request.method
-            url = request.url
-            base_url = request.base_url
-            headers = self._sanitize_headers(dict(request.headers))
-            cookies = request.cookies
-        except Exception as e:
-            body = None
-            client_host = None
-            client_port = None
-            method = None
-            url = ""
-            base_url = ""
-            headers = None
-            cookies = {}
-       
-        return {
-            "client_host": client_host,
-            "client_port": client_port,
-            "method": method,
-            "url": str(url),
-            "body": body, 
-            "base_url": str(base_url),
-            "headers": headers,
-            "cookies": dict(cookies)
+        data = {
+            'body': None,
+            'client_host': None,
+            'client_port': None,
+            'method': 'GET',  
+            'url': '',
+            'base_url': '',
+            'headers': {},
+            'cookies': {}
         }
+
+        try:
+            data['body'] = await request.json()
+        except:
+            data['body'] = None
+
+        try:
+            if hasattr(request, 'client') and request.client:
+                data['client_host'] = request.client.host if hasattr(request.client, 'host') else None
+                data['client_port'] = request.client.port if hasattr(request.client, 'port') else None
+        except:
+            pass
+
+        try:
+            if hasattr(request, 'method'):
+                data['method'] = request.method
+        except:
+            pass
+
+        try:
+            if hasattr(request, 'url'):
+                data['url'] = str(request.url)
+        except:
+            pass
+
+        try:
+            if hasattr(request, 'base_url'):
+                data['base_url'] = str(request.base_url)
+        except:
+            pass
+
+        try:
+            if hasattr(request, 'headers'):
+                headers = dict(request.headers)
+                data['headers'] = self._sanitize_headers(headers) if hasattr(self, '_sanitize_headers') else headers
+        except:
+            data['headers'] = {}
+
+        try:
+            if hasattr(request, 'cookies'):
+                data['cookies'] = dict(request.cookies)
+        except:
+            data['cookies'] = {}
+
+        return data
     
     def _sanitize_headers(self, headers: dict[str, Any]) -> None:
         BLACK_LIST = ("x-auth-token",)

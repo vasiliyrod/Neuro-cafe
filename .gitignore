@@ -233,3 +233,5 @@ backend/.pytest_cache/
 
 venv/
 .venv/
+
+ssl/

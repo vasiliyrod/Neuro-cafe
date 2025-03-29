@@ -11,6 +11,7 @@ class OrderHistoryModel(DeclarativeBase):
 
     id = Column(INTEGER(), primary_key=True)
     user_id = Column(INTEGER(), ForeignKey("users.id"))
+    table_id = Column(INTEGER())
     dishes = Column(JSONB())
     created_at = Column(DateTime())
     completed_at = Column(DateTime(), default=datetime.datetime.now)

@@ -42,7 +42,7 @@ async def add_review(
     summary="List Reviews",
     response_model=list[ReviewResponse],
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def get_reviews(
     request: Request,
     uow: UnitOfWork = Depends(get_unit_of_work)

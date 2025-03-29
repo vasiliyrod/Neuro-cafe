@@ -31,8 +31,8 @@ class OrderRepository(OrderReposityBase):
     
     async def get_all_by_status(self, status: OrderStatus) -> None:
         return [
-            self._object.model_validate(order)
-            for user_order in self._cache.get().values()
+            self._object(**order, user_id=user_id)
+            for user_id, user_order in self._cache.get().items()
             for order in user_order
             if order["status"] == status
         ]
@@ -50,9 +50,10 @@ class OrderRepository(OrderReposityBase):
     async def count_dishes(self, user_id: int) -> int:
         return sum(self._get_or_create_pending_order(user_id=user_id)["dishes"].values())
     
-    async def set_in_progress(self, user_id: int) -> OrderDTO:
+    async def set_in_progress(self, user_id: int, table_id: int) -> OrderDTO:
         order = self._get_pending_order(user_id=user_id)
         order["updated_at"] = datetime.datetime.now()
+        order["table_id"] = table_id
         self._cache.set(
             key=user_id,
             value=self._update_user_pending_order(user_id=user_id, new_pending_order=order, status=OrderStatus.IN_PROGRESS)
@@ -62,9 +63,13 @@ class OrderRepository(OrderReposityBase):
     async def remove(self, user_id: int, order_id: str) -> None:
         from backend.src.presentation.api.exceptions import EntityNotFound
         removed_order = None
+        new_orders = []
         for order in self._cache.get(key=user_id):
             if order.get("id") == order_id:
                 removed_order = self._object.model_validate(order)
+            else:
+                new_orders.append(order)
+        self._cache.set(key=user_id, value=new_orders)  
         if not removed_order:
             raise EntityNotFound
         return removed_order
@@ -102,3 +107,32 @@ class OrderRepository(OrderReposityBase):
                 return order
         raise EntityNotFound
     
+    def retrieve_pending_order(self, user_id: int) -> dict[str, Any]:
+        cart = self._get_or_create_pending_order(user_id=user_id)
+        if not cart.get("dishes"):
+            return """
+            Корзина пользователя на данный момент пуста
+        """
+        return self._format_order_str(cart)
+
+async def retrieve_pending_order(user_id: int | None) -> str:
+    from backend.src.infrastructure.database.unit_of_work import get_unit_of_work
+    if user_id is None:
+        return """
+        Пользователь не зарегистрировался - у него нет корзины
+    """
+    async for uow in get_unit_of_work():
+        cart = uow.order._get_or_create_pending_order(user_id=user_id)
+        if not cart.get("dishes"):
+            return """
+            Корзина пользователя на данный момент пуста
+        """
+        st = "Корзина пользователя на данный момент состоит из блюд\n"
+        st += "Название блюда, цена, количество, граммовка, кухня, ингридиенты\n"
+        for dish_id, dish_count in cart["dishes"].items():
+            dish_obj = await uow.dish.get_by_id(dish_id)
+            st += f"{dish_obj.name}, {dish_obj.cost}, {dish_count}, {dish_obj.weight}, {dish_obj.cuisine}, {dish_obj.main_ingredients}\n"
+        return st
+
+async def retrieve_ordered_orders_for_today(user_id: int) -> str:
+    pass

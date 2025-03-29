@@ -33,8 +33,8 @@ def get_app() -> FastAPI:
         lifespan=lifespan,
         title="NeuroCafe",
         description=description,
-        docs_url="/swagger",
-        openapi_url="/openapi",
+        docs_url=f"{settings.app.path_prefix}/swagger",
+        openapi_url=f"{settings.app.path_prefix}/openapi",
         version="0.1.0",
         openapi_tags=tags_metadata,
     )

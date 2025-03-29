@@ -4,6 +4,8 @@ from typing import Any
 _cache = {
     "chat": {},
     "order": {},
+    "booking": {},
+    "user_booking": {},
 }
 
 class RedisAdapter:

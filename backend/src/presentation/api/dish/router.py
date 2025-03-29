@@ -64,7 +64,7 @@ async def get_dish_types_list(
     response_model=DishResponse,
     summary="Get Dish by Id",
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def get_dish_by_id(
     request: Request,
     dish_id: int,
@@ -82,7 +82,7 @@ async def get_dish_by_id(
     response_model=list[DishResponse],
     summary="Get Dishes List",
 )
-@protect(min_access_level=AccessLevel.NoAuth)
+@protect(min_access_level=AccessLevel.NoAuth, uid_required=False)
 async def get_dishes_list(
     request: Request,
     type: str | None = None,

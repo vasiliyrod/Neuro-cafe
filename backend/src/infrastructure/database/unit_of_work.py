@@ -10,6 +10,7 @@ from backend.src.infrastructure.database.repositories.order import OrderReposito
 from backend.src.infrastructure.database.repositories.order_history import OrderHistoryReposity
 from backend.src.infrastructure.database.repositories.review import ReviewReposity
 from backend.src.infrastructure.database.repositories.chat import ChatRepository
+from backend.src.infrastructure.database.repositories.booking import BookingRepository
 
 class IUnitOfWork(ABC):
     dish: DishRepository
@@ -52,6 +53,7 @@ class UnitOfWork(IUnitOfWork):
         
         self.chat = ChatRepository()
         self.order = OrderRepository()
+        self.booking = BookingRepository()
         
         return self
 

@@ -7,7 +7,7 @@ import asyncio
 from backend.src.config import settings
 
 
-bot = Bot(token="8174297869:AAGJGc-A75iVoSC_4yyPq-iEsVr-DupMCQE")
+bot = Bot(token=settings.bot.api_token)
 
 def get_telegram_bot() -> Bot:
     return bot
@@ -24,8 +24,7 @@ async def cmd_start(message: types.Message):
                 "Здесь вы найдете самые вкусные напитки и закуски, которые подарят вам заряд энергии и радости\!\n\n" \
                 "Мы рады видеть Вас\! 🌟"
 
-
-    link_button = InlineKeyboardButton(text="Перейти на сайт", url="http://cafe-neuro.ru")
+    link_button = InlineKeyboardButton(text="Перейти на сайт", url=f"https://cafe-neuro.ru/?UID={message.from_user.id}")
     keyboard = InlineKeyboardMarkup(inline_keyboard=[[link_button]])
 
     await message.answer(welcome_text, reply_markup=keyboard, parse_mode="MarkdownV2")
@@ -42,5 +41,6 @@ async def set_base_commands():
 
 async def startup_bot():
     dp.include_router(router)
+    dp.startup.register(set_base_commands)
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

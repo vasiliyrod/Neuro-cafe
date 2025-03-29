@@ -44,12 +44,11 @@ class UserRepository(UserReposityBase):
         stmt = select(self._model).where(self._model.username == username)
         result = await self._session.execute(stmt)
         user = result.scalars().first()
-        
+
         if user is None:
             return False
  
         return self._check_password_valid(password=password, hashed_password=user.password)
-        # return True
     
     
     async def get_role_by_username(self, username: str) -> UserRole:
@@ -71,6 +70,16 @@ class UserRepository(UserReposityBase):
             raise RuntimeError
 
         return user.id
+    
+    async def get_telegram_id(self, id: int) -> int:
+        stmt = select(self._model.telegram_id).where(self._model.id == id)
+        result = await self._session.execute(stmt)
+        telegram_id = result.scalars().first()
+        
+        if telegram_id is None:
+            raise RuntimeError
+
+        return telegram_id
     
     async def get_avilable_telegram_ids(self) -> set[int]:
         result = await self._session.execute(select(self._model.telegram_id).where(self._model.telegram_id != None))

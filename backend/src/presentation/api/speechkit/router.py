@@ -18,7 +18,7 @@ speechkit_router = APIRouter(prefix="", tags=["speechkit"])
     status_code=status.HTTP_200_OK,
     summary="Convert Speech To Text",
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def speech_to_text(
     request: Request,
     file: UploadFile = File(...),

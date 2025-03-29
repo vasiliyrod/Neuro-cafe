@@ -20,24 +20,25 @@ chat_router = APIRouter(prefix="/chat", tags=["chat"])
     summary="Add message",
     response_model=AddMessageResponse
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def add_message(
     request: Request,
     message_data: AddMessageRequest,
     uow: UnitOfWork = Depends(get_unit_of_work)
 ) -> AddMessageResponse:
-    assistant_answer = await context.ai_assistant.get_answer(message_data.message)
-    await uow.chat.write_message(
-        user_id=request.state.user_id,
-        message=MessageDTO(
-            isUser=1,
-            text=message_data.message,
+    assistant_answer = await context.ai_assistant.get_answer(request=message_data.message, user_id=request.state.user_id)
+    if request.state.user_id is not None:
+        await uow.chat.write_message(
+            user_id=request.state.user_id,
+            message=MessageDTO(
+                isUser=1,
+                text=message_data.message,
+            )
         )
-    )
-    await uow.chat.write_message(
-        user_id=request.state.user_id,
-        message=assistant_answer
-    )
+        await uow.chat.write_message(
+            user_id=request.state.user_id,
+            message=assistant_answer
+        )
     return AddMessageResponse(
         dishes=[
             DishResponse(**(await uow.dish.get_by_id(id=dish_id)).model_dump())
@@ -53,11 +54,13 @@ async def add_message(
     summary="Chat history message",
     response_model=list[HistoryChatResponse]
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def list_message_history(
     request: Request,
     uow: UnitOfWork = Depends(get_unit_of_work)
 ) -> list[HistoryChatResponse]:
+    if request.state.user_id is None:
+        return []
     messages = await uow.chat.read_messages(user_id=request.state.user_id)
     return [
         HistoryChatResponse(

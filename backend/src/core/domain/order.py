@@ -18,8 +18,10 @@ class OrderItemDTO(BaseModel):
 class OrderDTO(BaseDTO):
     id: str | None
     dishes: dict[int, int]
+    user_id: int | None = None
     updated_at: datetime.datetime
     status: OrderStatus
+    table_id: int | None = None
 
 
 class OrderHistoryDTO(BaseDTO):
@@ -28,3 +30,4 @@ class OrderHistoryDTO(BaseDTO):
     completed_at: datetime.datetime
     user_id: int
     cost: float | None = None
+    table_id: int | None = None

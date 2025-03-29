@@ -1,4 +1,5 @@
 import jwt
+import datetime
 from fastapi import Request
 from backend.src.config import settings
 from functools import wraps
@@ -9,7 +10,6 @@ from backend.src.presentation.api.exceptions import (
     InvalidCredentials,
     UserIdRequired,
 )
-import datetime
 from backend.src.presentation.api.auth.enums import AccessLevel, _access_level_by_role
 
 
@@ -24,7 +24,7 @@ def decode_access_token(token: str):
     except jwt.ExpiredSignatureError:
         raise TokenExpired
     except jwt.InvalidTokenError:
-        return InvalidToken
+        raise InvalidToken
 
 def create_access_token(data: dict, expires_delta: datetime.timedelta | None = None):
     to_encode = data.copy()
@@ -43,16 +43,12 @@ async def define_access_level(payload: dict[str, str]) -> AccessLevel:
     async for uow in get_unit_of_work():
         username = payload.pop("username", None)
         password = payload.pop("password", None)
-        import datetime
-        p1 = datetime.datetime.now()
         if username is None or password is None or not await uow.user.validate_credentials(
             username=username,
             password=password
         ):
             raise InvalidCredentials
-        p2 = datetime.datetime.now()
         role = await uow.user.get_role_by_username(username=username)
-        p3 = datetime.datetime.now()
 
         return _access_level_by_role[role]
 
@@ -62,6 +58,9 @@ def protect(min_access_level: AccessLevel, uid_required: bool = True):
         async def wrapper(request: Request, *args, **kwargs):
             if uid_required and getattr(request.state, 'user_id', None) is None:
                 raise UserIdRequired
+            elif not uid_required:
+                return await func(request, *args, **kwargs)
+            
             if min_access_level is AccessLevel.NoAuth:
                 return await func(request, *args, **kwargs)
 

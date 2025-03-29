@@ -15,6 +15,21 @@ services:
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
 
+    # frontend:
+    #   build:
+    #     context: ./frontend
+    #     dockerfile: Dockerfile
+    #   ports:
+    #     - "80:80"
+    #   volumes:
+    #     - ./frontend:/app
+    #     - /app/node_modules
+    #   environment:
+    #     - CHOKIDAR_USEPOLLING=true
+      # networks:
+      #   - app-network
+      # depends_on:
+      #   - backend
   # cache:
   #   image: redis:latest
   #   restart: always

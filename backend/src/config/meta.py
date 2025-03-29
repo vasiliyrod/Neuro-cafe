@@ -29,6 +29,12 @@ class Interior(BaseModel):
     id: int
     img_link: str
 
+class Table(BaseModel):
+    id: int
+    x: int
+    y: int
+    seats_count: int
+
 
 class MetaSettings(BaseYamlSettings):
     model_config = YamlSettingsConfigDict(
@@ -38,3 +44,4 @@ class MetaSettings(BaseYamlSettings):
     cafe: Cafe
     staff: list[Staff]
     interior: list[Interior]
+    tables: list[Table]

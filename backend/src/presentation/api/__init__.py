@@ -9,6 +9,8 @@ from backend.src.presentation.api.chat.router import chat_router
 from backend.src.presentation.api.base.router import base_router
 from backend.src.presentation.api.maillist.router import maillist_router
 from backend.src.presentation.api.analytics.router import analytics_router
+from backend.src.presentation.api.booking.router import booking_router
+
 
 list_of_routes = [
     auth_router,
@@ -22,4 +24,5 @@ list_of_routes = [
     base_router,
     maillist_router,
     analytics_router,
+    booking_router,
 ]

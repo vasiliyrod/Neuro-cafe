@@ -21,5 +21,5 @@ class DishDiffDTO(BaseDTO):
     main_ingredients: str | None = None
     img_link: str | None = None
     cost: float | None = None
-    weight: float | None = None
+    weight: str | None = None
     cuisine: str | None = None

@@ -11,7 +11,10 @@ from backend.src.presentation.api.order.schema import (
     OrderItem, 
     OrderResponse,
     HistoryOrderResponse,
-    CompleteOrderRequest
+    CompleteOrderRequest,
+    HistoryOrderResponsePerUser,
+    OrderResponsePerUser,
+    InProgressOrderRequest,
 )
 from backend.src.presentation.api.exceptions import EntityNotFound
 from backend.src.core.domain.order import OrderStatus
@@ -46,11 +49,13 @@ async def update_order(
     status_code=status.HTTP_200_OK,
     summary="Get Dishes Count In Order",
 )
-@protect(min_access_level=AccessLevel.NoAuth)
+@protect(min_access_level=AccessLevel.NoAuth, uid_required=False)
 async def count_dishes(
     request: Request,
     uow: UnitOfWork = Depends(get_unit_of_work)
 ) -> int:
+    if request.state.user_id is None:
+        return 0
     return await uow.order.count_dishes(user_id=request.state.user_id)
 
 
@@ -60,11 +65,13 @@ async def count_dishes(
     response_model=list[OrderResponse],
     summary="Get PENDING Orders For User",
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def get_orders_list(
     request: Request,
     uow: UnitOfWork = Depends(get_unit_of_work)
 ) -> list[OrderResponse]:
+    if request.state.user_id is None:
+        return []
     orders = await uow.order.list(user_id=request.state.user_id)
     return [
         OrderResponse(
@@ -91,11 +98,13 @@ async def get_orders_list(
     response_model=list[HistoryOrderResponse | OrderResponse],
     summary="Get Orders History",
 )
-@protect(min_access_level=AccessLevel.Client)
+@protect(min_access_level=AccessLevel.Client, uid_required=False)
 async def get_order_historys_list(
     request: Request,
     uow: UnitOfWork = Depends(get_unit_of_work)
 ) -> list[HistoryOrderResponse | OrderResponse]:
+    if request.state.user_id is None:
+        return []
     orders_in_progress = await uow.order.get_by_status(
         user_id=request.state.user_id, 
         status=OrderStatus.IN_PROGRESS
@@ -136,18 +145,18 @@ async def get_order_historys_list(
 @order_router.get(
     path="/history/all",
     status_code=status.HTTP_200_OK,
-    response_model=list[HistoryOrderResponse | OrderResponse],
+    response_model=list[HistoryOrderResponsePerUser | OrderResponsePerUser],
     summary="Get Orders History",
 )
 @protect(min_access_level=AccessLevel.Client)
 async def get_order_historys_list(
     request: Request,
     uow: UnitOfWork = Depends(get_unit_of_work),
-) -> list[HistoryOrderResponse | OrderResponse]:
+) -> list[HistoryOrderResponsePerUser | OrderResponsePerUser]:
     orders_in_progress = await uow.order.get_all_by_status(status=OrderStatus.IN_PROGRESS)
     orders_history = await uow.order_history.list()
     result = [
-        OrderResponse(
+        OrderResponsePerUser(
             id=order.id,
             dishes=[
                 OrderItem(
@@ -156,13 +165,15 @@ async def get_order_historys_list(
                 )
                 for dish_id, dish_count in order.dishes.items()
             ],
+            user_id=await uow.user.get_telegram_id(id=order.user_id),
+            table_id=order.table_id,
             status=order.status,
             date=order.updated_at,
         )
         for order in orders_in_progress
     ]
     result += [
-        HistoryOrderResponse(
+        HistoryOrderResponsePerUser(
             id=order.id,
             dishes=[
                 OrderItem(
@@ -171,6 +182,8 @@ async def get_order_historys_list(
                 )
                 for dish_id, dish_count in order.dishes.items()
             ],
+            user_id=await uow.user.get_telegram_id(id=order.user_id),
+            table_id=order.table_id,
             status=OrderStatus.COMPLETED,
             date=order.completed_at,
         )
@@ -178,16 +191,22 @@ async def get_order_historys_list(
     ]
     return result
 
+
 @order_router.post(
     path="/in_progress",
     status_code=status.HTTP_200_OK,
 )
 @protect(min_access_level=AccessLevel.Client)
-async def complete_order(
+async def in_progress_order(
     request: Request,
+    in_progress_order_request: InProgressOrderRequest,
     uow: UnitOfWork = Depends(get_unit_of_work),
 ) -> None:
-    await uow.order.set_in_progress(user_id=request.state.user_id)
+    await uow.order.set_in_progress(
+        user_id=request.state.user_id, 
+        table_id=in_progress_order_request.table_id
+    )
+
 
 @order_router.post(
     path="/complete",

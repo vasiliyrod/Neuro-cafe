@@ -32,5 +32,19 @@ class HistoryOrderResponse(BaseResponse):
     status: OrderStatus
 
 
+class InProgressOrderRequest(BaseRequest):
+    table_id: int
+
+
 class CompleteOrderRequest(BaseRequest):
     id: str
+
+
+class HistoryOrderResponsePerUser(HistoryOrderResponse):
+    table_id: int | None = None
+    user_id: int
+
+
+class OrderResponsePerUser(OrderResponse):
+    table_id: int | None = None
+    user_id: int
