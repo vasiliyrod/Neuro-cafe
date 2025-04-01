@@ -30,12 +30,12 @@
   font-family: "Amatic SC", serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: black;
   height: 4vh;
   margin-top: 2vh;
   margin-bottom: 2vh;
-  width: 17vh;
+  width: 110px;
   border: none;
   border-radius: 10px;
   background-color: #FDFAF0;
@@ -60,7 +60,7 @@
   padding-left: 8vh;
   padding-right: 8vh;
   border: none;
-  border-radius: 10px;
+  border-radius: 18px;
   background-color: rgb(110, 121, 110);
 }
 

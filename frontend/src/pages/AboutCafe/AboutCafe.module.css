@@ -14,6 +14,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-width: 100%;
 }
 
 .section {
@@ -26,11 +27,13 @@
   margin-bottom: 20px;
   margin-top: 15vh;
   font-style: bold;
+  max-width: 90%;
 }
 
 .text_typical {
   font-style: normal;
   font-size: 1rem;
+  max-width: 90%;
 }
 
 .text_typical1 {
@@ -100,6 +103,7 @@
 
 .image {
   margin-bottom: 30px;
+  max-width: 90%;
 }
 
 .image1 {

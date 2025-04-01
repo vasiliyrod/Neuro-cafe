@@ -9,6 +9,7 @@ from typing import Optional
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import aiohttp
+from datetime import date, time
 import os
 
 app = FastAPI()
@@ -671,3 +672,89 @@ async def upload_audio(file: UploadFile = File(...)):
                 status_code=500,
                 detail=f"Ошибочка при отправке Yandex SpeechKit: {str(e)}"
             )
+
+
+
+
+
+class BookingRequest(BaseModel):
+    date: date
+    startTime: str
+    endTime: str
+
+class BookTableRequest(BaseModel):
+    date: date
+    startTime: str
+    endTime: str
+    tableIds: List[int]
+
+bookings_db = [
+    {"tableId": 1, "date": "2023-01-01", "startTime": "10:00", "endTime": "12:00"},
+    {"tableId": 2, "date": "2023-01-01", "startTime": "12:00", "endTime": "14:00"},
+    {"tableId": 3, "date": "2023-01-01", "startTime": "14:00", "endTime": "16:00"},
+    {"tableId": 20, "date": "2023-01-01", "startTime": "14:00", "endTime": "16:00"},
+]
+
+tables_layout = [
+    {'id': 1, 'x': 9, 'y': 31, 'seats_count': 4},
+    {'id': 2, 'x': 9, 'y': 9, 'seats_count': 4},
+    {'id': 3, 'x': 26, 'y': 9, 'seats_count': 4},
+    {'id': 4, 'x': 47, 'y': 10, 'seats_count': 4},
+    {'id': 5, 'x': 47, 'y': 35, 'seats_count': 4},
+    {'id': 6, 'x': 47, 'y': 61, 'seats_count': 4},
+    {'id': 7, 'x': 47, 'y': 87, 'seats_count': 4},
+    {'id': 8, 'x': 65, 'y': 77, 'seats_count': 4},
+    {'id': 9, 'x': 65, 'y': 50, 'seats_count': 4},
+    {'id': 10, 'x': 65, 'y': 23, 'seats_count': 4},
+    {'id': 11, 'x': 87, 'y': 11, 'seats_count': 6},
+    {'id': 12, 'x': 87, 'y': 36, 'seats_count': 6},
+    {'id': 13, 'x': 87, 'y': 62, 'seats_count': 6},
+    {'id': 14, 'x': 87, 'y': 88, 'seats_count': 6},
+    {'id': 15, 'x': 12, 'y': 51, 'seats_count': 1},
+    {'id': 16, 'x': 12, 'y': 55, 'seats_count': 1},
+    {'id': 17, 'x': 12, 'y': 59, 'seats_count': 1},
+    {'id': 18, 'x': 12, 'y': 65, 'seats_count': 1},
+    {'id': 19, 'x': 12, 'y': 69, 'seats_count': 1},
+    {'id': 20, 'x': 12, 'y': 73, 'seats_count': 1},
+    {'id': 21, 'x': 12, 'y': 80, 'seats_count': 1},
+    {'id': 22, 'x': 12, 'y': 84, 'seats_count': 1},
+    {'id': 23, 'x': 12, 'y': 88, 'seats_count': 1}
+]
+
+@app.get("/api/v1/bookings")
+async def get_booked_tables():
+    return {"bookedTables": [b["tableId"] for b in bookings_db]}
+
+@app.post("/api/v1/tables")
+async def get_available_tables(booking: BookingRequest):
+    print(bookings_db)
+    try:
+        booked_ids = [b["tableId"] for b in bookings_db]
+        available_tables = [t for t in tables_layout if t["id"] not in booked_ids]
+        return {"availableTables": available_tables}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api/v1/book")
+async def book_tables(booking: BookTableRequest):
+    print(booking)
+    try:
+        booked_ids = [b["tableId"] for b in bookings_db]
+        for table_id in booking.tableIds:
+            if table_id in booked_ids:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Стол {table_id} уже забронирован"
+                )
+
+        for table_id in booking.tableIds:
+            bookings_db.append({
+                "tableId": table_id,
+                "date": booking.date,
+                "startTime": booking.startTime,
+                "endTime": booking.endTime
+            })
+
+        return {"message": "Бронирование успешно завершено"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

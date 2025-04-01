@@ -1,5 +1,5 @@
 import React, { useRef, useContext } from 'react';
-import { AiOutlineSchedule } from 'react-icons/ai';
+import { BsJournalText } from "react-icons/bs";
 
 import styles from '@/components/Nav/Navbar.module.css';
 import useScroll from '@/hooks/useScroll';
@@ -24,7 +24,7 @@ const Navbar = () => {
           <li>
             <a href="/order" className={styles.order}>
               {orderCount}
-              <AiOutlineSchedule size={30} />
+              <BsJournalText size={28} />
             </a>
           </li>
         </ul>

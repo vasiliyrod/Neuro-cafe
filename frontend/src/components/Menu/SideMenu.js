@@ -39,12 +39,16 @@ class SideMenu extends Component {
                 <a href="/chat" className={styles.current}> Чат с ИИ</a>
             </div>
             <div className={styles.link}>
-                <img src="https://i.postimg.cc/CMfYCzgL/icons8-50.png" alt="О нас" width="25" />
+                <img src="https://i.postimg.cc/Dysn804T/icons8-48.png" alt="О нас" width="25" />
                 ︎<a href="/order" className={styles.current}> Корзина</a>
             </div>
             <div className={styles.link}>
-                  <img src="https://i.postimg.cc/ydZ5R3SM/icons8-50.png" alt="О нас" width="25" />
+                  <img src="https://i.postimg.cc/g0MPf6Qv/icons8-48.png" alt="О нас" width="25" />
                   <a href="/history" className={styles.current}> История</a>
+            </div>
+            <div className={styles.link}>
+                <img src="https://i.postimg.cc/6515GgYr/icons8-50.png" alt="Бронирование" width="25" />
+                <a href="/booking" className={styles.current}> Бронирование</a>
             </div>
           </div>
         </aside>

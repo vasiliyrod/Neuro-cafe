@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: top;
   min-height: 100vh;
-  background-color: rgb(110, 121, 110);
+  background-color: #FDFAF0;
   font-family: "Kelly Slab", serif;
   font-weight: 400;
   font-style: normal;
@@ -18,6 +18,7 @@
   margin-top: 15vh;
   margin-bottom: 30px;
   color: #DBD8CE;
+  color: rgb(110, 121, 110);
 }
 
 .orderContainer {
@@ -39,22 +40,32 @@
   background-color: #B9C8CD;
   color: #2B3133;
   box-shadow: 0 0 0.7rem #2B3133;
+
+  background-color: #F1DBD2;
+  background-color: #D7E2D7;
+  color: rgb(110, 121, 110);
+  box-shadow: 0 0 0.5rem rgb(110, 121, 110);
 }
 
 .activeBackground {
   background-color: #ffffff;
-  background-color: #D7E2D7;
+  background-color: #EAE7E7;
 }
 
 .defaultBackground {
   background-color: #F1DBD2;
-  background-color: #FDFAF0;
-  color: #BE5022;
-  box-shadow: 0 0 0.5rem #fdb496;
+  background-color: #D7E2D7;
+  color: rgb(110, 121, 110);
+  box-shadow: 0 0 0.7rem rgb(110, 121, 110);
+
+  background-color: #B9C8CD;
+  color: #2B3133;
+  box-shadow: 0 0 0.5rem #2B3133;
 }
 
 .order.active:not(.completedBackground) {
   background-color: #a2f5a2;
+  box-shadow: 0 0 0.7rem rgb(110, 121, 110);
 }
 
 .orderHeader {
@@ -80,7 +91,6 @@
 
 .orderStatus.in_progress {
   width: 20%;
-  color: #A93B0E;
 }
 
 .orderStatus.canceled {
@@ -92,6 +102,7 @@
   top: 20px;
   right: 20px;
   font-size: 16px;
+
 }
 
 .faChevronDown,
@@ -139,6 +150,6 @@
 .noOrdersMessage {
   text-align: center;
   font-size: 1.2rem;
-  color: #fdb496;
+  color: rgb(110, 121, 110);
   margin-top: 40px;
 }

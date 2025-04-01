@@ -1,6 +1,8 @@
 .container {
   display: flex;
+  justify-alert: center;
   flex-direction: column;
+  align-items: center;
   min-height: 100vh;
   background-color: #FDFAF0;
   font-family: "Kelly Slab", serif;
@@ -58,6 +60,8 @@
   padding: 20px;
   color: rgb(110, 121, 110);
   border-radius: 10px;
+  max-width: 480px;
+  padding-top: 0;
 }
 
 .bookingForm h2 {
@@ -85,13 +89,13 @@
 
 .formGroup input {
   width: 90%;
-  min-width: 200px;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 15px;
   font-size: 16px;
   background-color: #FDFAF0;
   color: rgb(110, 121, 110);
+  width: 250px;
 }
 
 .submitButton{
@@ -108,22 +112,22 @@
   font-size: 0.9rem;
   transition: background-color 0.3s;
   margin-top: 20px;
-  min-width: 220px;
+  width: 270px;
 }
 
 .selectButton {
-  padding: 15px 45px;
+  padding: 10px 25px;
   width: 100%;
   background-color: #2B3133;
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
-  margin-bottom: 10%;
+  margin-bottom: 10px;
   font-family: "Kelly Slab", serif;
   font-weight: 400;
   font-style: bold;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   transition: background-color 0.3s;
 }
 
@@ -303,4 +307,413 @@
   height: 7px;
   border-radius: 50%;
   transition: all 0.2s;
+}
+
+
+
+
+.radioContainer {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.customRadio {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.available .customRadio {
+  background-color: #D7E2D7;
+  border: 2px solid rgb(110, 121, 110);
+}
+
+.selected .customRadio {
+  background-color: red;
+  border: 2px solid #FDB496;
+}
+
+.booked .customRadio {
+  background-color: #2B3133;
+  border: 2px solid #2B3133;
+  cursor: not-allowed;
+}
+
+.selected .customRadio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgb(110, 121, 110);
+}
+
+.container {
+  display: flex;
+  justify-content: top;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #FDFAF0;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 11vh;
+}
+
+.twoColumnLayout {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.radioContainer {
+  position: absolute;
+  z-index: 200;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  opacity: 0,
+}
+
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.customRadio {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  transition: all 0.2s;
+  opacity: 0,
+}
+
+.available .customRadio {
+  background-color: #D7E2D7;
+  border: 2px solid rgb(110, 121, 110);
+  opacity: 0,
+}
+
+.selected .customRadio {
+  background-color: #FDB496;
+  border: 2px solid #FDB496;
+  opacity: 0,
+}
+
+.booked .customRadio {
+  background-color: #2B3133;
+  border: 2px solid #2B3133;
+  cursor: not-allowed;
+  opacity: 0,
+}
+
+.selected .customRadio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgb(110, 121, 110);
+  opacity: 0,
+}
+
+
+.popup-content {
+  background-color: #FDFAF0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  color: rgb(110, 121, 110);
+  width: auto;
+  max-width: 300px;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+  color: rgb(110, 121, 110);
+  text-align: center;
+}
+
+.popup-content p {
+  margin: 10px 0;
+}
+
+.popup-content button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px 7px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+  font-size: 0.3rem;
+  transition: background-color 0.3s;
+}
+
+.popup-content .selectButton {
+  background-color: rgb(110, 121, 110);
+  color: #FDFAF0;
+}
+
+
+.popup-content button:hover {
+  opacity: 0.9;
+}
+
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  width: 40px !important;
+  height: 40px !important;
+  z-index: 2;
+  margin: 0;
+}
+
+.currentBooking {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgb(110, 121, 110);
+  border-radius: 8px;
+  border: 1px solid rgb(110, 121, 110);
+  color: #FDFAF0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  margin-bottom: 20px;
+  display: flex;
+  justify-alert: center;
+  flex-direction: column;
+  align-items: right;
+  text-align: left;
+}
+
+.currentBooking h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.currentBooking p {
+  margin: 8px 0;
+}
+
+.currentBooking strong {
+  color: #FFCDB9;
+}
+
+.cancelButton {
+  padding: 8px 16px;
+  background-color: rgb(110, 121, 110);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Kelly Slab", serif;
+  transition: background-color 0.3s;
+  margin-left: 15px;
+}
+
+.cancelButton:hover {
+  background-color: #FFCDB9;
+}
+
+.cancelButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.currentBooking {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(110, 121, 110);
+  border-radius: 8px;
+  border: 1px solid rgb(110, 121, 110);
+  color: #FDFAF0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  margin-bottom: 20px;
+}
+
+.bookingInfo {
+  flex: 1;
+}
+
+.currentBooking h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+
+.cancelButton {
+  padding: 3px 9px;
+  color: black;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: "Kelly Slab", serif;
+  transition: background-color 0.3s;
+  margin-left: 15px;
+  background-color: rgb(110, 121, 110);
+}
+
+.cancelButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.occupiedIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #D9D9D9;
+  font-size: 30px;
+  z-index: 3;
+}
+
+
+.radioContainer {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.booked {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.occupiedIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 20px;
+  z-index: 10;
+  opacity: 1;
+}
+
+
+
+.radioContainer {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.occupiedContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.occupiedIcon {
+  color: #2B3133;
+  font-size: 20px;
+  opacity: 1;
+}
+
+
+.tableMarker {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.occupiedMarker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.occupiedIcon {
+  color: #FDFAF0;
+  font-size: 25px;
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+}
+
+.tableMarker input:checked ~ .occupiedMarker {
+  background-color: #FDB496;
 }

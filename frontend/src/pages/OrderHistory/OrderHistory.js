@@ -83,6 +83,17 @@ const OrderItem = ({ order, isActive, onClick }) => {
     return styles.defaultBackground;
   };
 
+  const getStatusText = (status) => {
+    switch (status.toLowerCase()) {
+      case "in_progress":
+        return "В работе";
+      case "completed":
+        return "Выполнен";
+      default:
+        return status;
+    }
+  };
+
   const totalCost = order.dishes.reduce((sum, dish) => sum + (dish.dish.cost * dish.count), 0);
 
   const orderDate = new Date(order.date);
@@ -105,7 +116,7 @@ const OrderItem = ({ order, isActive, onClick }) => {
       <div className={styles.orderHeader}>
         <span className={styles.orderDate}>{formattedDate}</span>
         <span className={`${styles.orderStatus} ${styles[order.status.toLowerCase()]}`}>
-          {order.status}
+          {getStatusText(order.status)}
         </span>
       </div>
 

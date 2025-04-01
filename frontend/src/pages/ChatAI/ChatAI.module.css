@@ -213,6 +213,7 @@
   height: 40px;
   width: 38px;
   border-radius: 11px 3px;
+  color: #2B3133;
 }
 
 .voiceButton.active {
@@ -253,4 +254,8 @@
   opacity: 0.6;
   cursor: not-allowed;
   background-color: #ccc;
+}
+
+.colo {
+  color: #2B3133;
 }

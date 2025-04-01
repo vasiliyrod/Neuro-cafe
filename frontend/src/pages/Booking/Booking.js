@@ -1,136 +1,249 @@
 import React, { useState, useEffect } from 'react';
 import styles from '@/pages/Booking/Booking.module.css';
+import Popup from 'reactjs-popup';
+import Cookies from 'js-cookie';
+import 'reactjs-popup/dist/index.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { BsXLg } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
+
+import {
+  fetchCurrentBooking,
+  cancelBooking,
+  fetchAvailableTables,
+  createBooking
+} from '@/services/booking/booking';
 
 const BookingPage = () => {
-  const [sampleCheckboxes, setSampleCheckboxes] = useState([]);
-  const [bookingInfo, setBookingInfo] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [tables, setTables] = useState([]);
+  const navigate = useNavigate();
+  const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState({
     date: '',
     startTime: '',
     endTime: ''
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [showHall, setShowHall] = useState(false);
+  const [currentBooking, setCurrentBooking] = useState(null);
+  const [formErrors, setFormErrors] = useState({
+    timeError: '',
+    dateError: '',
+    durationError: '',
+    workingHoursError: ''
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const bookingResponse = await fetch('http://localhost:8001/api/bookings');
-        const bookingData = await bookingResponse.json();
-        setBookingInfo(bookingData.bookedTables || []);
+    const userID = Cookies.get('UID');
 
-        if (formData.date && formData.startTime && formData.endTime) {
-          const tablesResponse = await fetch('http://localhost:8001/api/tables', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-          });
-          const tablesData = await tablesResponse.json();
-          setSampleCheckboxes(tablesData.availableTables || []);
-        }
+    if (!userID) {
+      navigate('/errorlog');
+      return;
+    }
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.backgroundColor = '#FDFAF0';
+    }
+
+    return () => {
+      if (navbar) {
+        navbar.style.backgroundColor = '';
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const loadCurrentBooking = async () => {
+      try {
+        const booking = await fetchCurrentBooking();
+        setCurrentBooking(booking);
       } catch (error) {
-        console.error('Ошибка загрузки данных:', error);
-      } finally {
-        setIsLoading(false);
+        console.error('Ошибка:', error);
       }
     };
 
-    fetchData();
+    loadCurrentBooking();
+  }, []);
 
-    const navbar = document.querySelector('nav');
-    if (navbar) navbar.style.backgroundColor = '#FDFAF0';
-
-    return () => {
-      if (navbar) navbar.style.backgroundColor = '';
+  const validateForm = () => {
+    const errors = {
+      timeError: '',
+      dateError: '',
+      durationError: '',
+      workingHoursError: ''
     };
-  }, [formData.date, formData.startTime, formData.endTime]);
+    let isValid = true;
 
-  const handleOptionChange = (id) => {
-    setSelectedOptions(prev =>
-      prev.includes(id)
-        ? prev.filter(item => item !== id)
-        : [...prev, id]
-    );
+    if (currentBooking) {
+      toast.error('У вас уже есть активное бронирование');
+      return false;
+    }
+
+    if (formData.startTime && formData.endTime) {
+      const start = new Date(`2000-01-01T${formData.startTime}`);
+      const end = new Date(`2000-01-01T${formData.endTime}`);
+
+      if (end <= start) {
+        errors.timeError = 'Время окончания должно быть позже времени начала';
+        isValid = false;
+      }
+
+      const duration = (end - start) / (1000 * 60 * 60);
+      if (duration > 3) {
+        errors.durationError = 'Максимальная продолжительность бронирования - 3 часа';
+        isValid = false;
+      }
+
+      const startHours = start.getHours();
+      const endHours = end.getHours();
+      if (startHours < 9 || endHours > 22 || (endHours === 22 && end.getMinutes() > 0)) {
+        errors.workingHoursError = 'Бронирование доступно только с 9:00 до 22:00';
+        isValid = false;
+      }
+    }
+
+    if (formData.date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const selectedDate = new Date(formData.date);
+
+      if (selectedDate < today) {
+        errors.dateError = 'Нельзя выбрать прошедшую дату';
+        isValid = false;
+      }
+
+      if (selectedDate.getTime() === today.getTime()) {
+        const now = new Date();
+        const startTime = new Date(`2000-01-01T${formData.startTime}`);
+        if (startTime.getHours() < now.getHours() ||
+            (startTime.getHours() === now.getHours() && startTime.getMinutes() < now.getMinutes())) {
+          errors.timeError = 'Нельзя выбрать прошедшее время для сегодняшней даты';
+          isValid = false;
+        }
+      }
+    }
+
+    setFormErrors(errors);
+    return isValid;
+  };
+
+  const handleCancelBooking = async () => {
+    if (!currentBooking) return;
+
+    setIsLoading(true);
+    try {
+      await cancelBooking();
+      const booking = await fetchCurrentBooking();
+      setCurrentBooking(booking);
+      toast.success('Бронирование успешно отменено!');
+    } catch (error) {
+      console.error('Ошибка:', error);
+      toast.error(error.message || 'Произошла ошибка при отмене бронирования');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    setFormErrors({
+      timeError: '',
+      dateError: '',
+      durationError: '',
+      workingHoursError: ''
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.date || !formData.startTime || !formData.endTime) {
-      alert('Пожалуйста, заполните все поля формы');
+      toast.error('Пожалуйста, заполните все поля формы');
+      return;
+    }
+
+    if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8001/api/tables', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
-      const data = await response.json();
-      setSampleCheckboxes(data.availableTables || []);
+      const data = await fetchAvailableTables(
+        formData.date,
+        formData.startTime,
+        formData.endTime
+      );
+      setTables(data);
+      setShowHall(true);
     } catch (error) {
-      console.error('Ошибка отправки формы:', error);
+      console.error('Ошибка:', error);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleBooking = async () => {
-    if (!isSelectionValid || !formData.date || !formData.startTime || !formData.endTime) {
-      alert('Пожалуйста, заполните все данные и выберите столы');
+    if (!selectedOption) {
+      toast.error('Пожалуйста, выберите стол');
+      return;
+    }
+
+    if (currentBooking) {
+      toast.error('У вас уже есть активное бронирование');
       return;
     }
 
     setIsLoading(true);
     try {
-      const bookingRequest = {
-        ...formData,
-        tableIds: selectedOptions
-      };
-
-      const response = await fetch('http://localhost:8001/api/book', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookingRequest)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Ошибка бронирования');
-      }
-
-      const bookingResponse = await fetch('http://localhost:8001/api/bookings');
-      const bookingData = await bookingResponse.json();
-      setBookingInfo(bookingData.bookedTables || []);
-
-      setSelectedOptions([]);
-
-      alert('Бронирование успешно завершено!');
+      await createBooking(
+        selectedOption,
+        formData.date,
+        formData.startTime,
+        formData.endTime
+      );
+      const booking = await fetchCurrentBooking();
+      setCurrentBooking(booking);
+      setSelectedOption(null);
+      setPopupOpen(false);
+      setShowHall(false);
+      setFormData({ date: '', startTime: '', endTime: '' });
+      toast.success('Бронирование успешно завершено!');
     } catch (error) {
       console.error('Ошибка бронирования:', error);
-      alert(error.message || 'Произошла ошибка при бронировании');
+      toast.error(error.message || 'Произошла ошибка при бронировании');
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleOptionChange = (id) => {
+    const table = tables.find(t => t.id === id);
+    if (table && !table.occupied && !currentBooking) {
+      setSelectedOption(id);
+      setPopupOpen(true);
+    }
+  };
+
   const isFormValid = formData.date && formData.startTime && formData.endTime;
-  const isSelectionValid = selectedOptions.length > 0;
 
   return (
     <div className={styles.container}>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName={styles.toast}
+      />
       <div className={styles.twoColumnLayout}>
         <div className={styles.bookingForm}>
           <h2>Форма бронирования</h2>
@@ -144,7 +257,9 @@ const BookingPage = () => {
                 value={formData.date}
                 onChange={handleInputChange}
                 required
+                min={new Date().toISOString().split('T')[0]}
               />
+              {formErrors.dateError && <p className={styles.errorText}>{formErrors.dateError}</p>}
             </div>
 
             <div className={styles.formGroup}>
@@ -156,6 +271,8 @@ const BookingPage = () => {
                 value={formData.startTime}
                 onChange={handleInputChange}
                 required
+                min="09:00"
+                max="22:00"
               />
             </div>
 
@@ -168,26 +285,52 @@ const BookingPage = () => {
                 value={formData.endTime}
                 onChange={handleInputChange}
                 required
+                min="09:00"
+                max="22:00"
               />
+              {formErrors.timeError && <p className={styles.errorText}>{formErrors.timeError}</p>}
+              {formErrors.durationError && <p className={styles.errorText}>{formErrors.durationError}</p>}
+              {formErrors.workingHoursError && <p className={styles.errorText}>{formErrors.workingHoursError}</p>}
             </div>
 
             <button
               type="submit"
               className={styles.submitButton}
-              disabled={!isFormValid || isLoading}
+              disabled={!isFormValid || isLoading || currentBooking}
             >
-              {isLoading ? 'Загрузка...' : 'Узнать занятость'}
+              {isLoading ? 'Загрузка...' : 'Показать доступные столы'}
             </button>
+            {currentBooking && <p className={styles.errorText}>У вас уже есть активное бронирование</p>}
           </form>
         </div>
 
         <div className={styles.seatSelection}>
+          {currentBooking && (
+            <div className={styles.currentBooking}>
+              <div className={styles.bookingInfo}>
+                <h3>Ваше текущее бронирование</h3>
+                <p><strong>Стол №:</strong> {currentBooking.table_id}</p>
+                <p><strong>Дата:</strong> {currentBooking.date}</p>
+                <p><strong>Время:</strong> {currentBooking.timeStart.slice(0, 5)} - {currentBooking.timeEnd.slice(0, 5)}</p>
+              </div>
+              <button
+                className={styles.cancelButton}
+                onClick={handleCancelBooking}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Отмена...' : 'Отменить бронь'}
+              </button>
+            </div>
+          )}
+
           <h2>Схема зала</h2>
 
-          {isLoading && sampleCheckboxes.length === 0 ? (
+          {!showHall ? (
+            <p>Пожалуйста, заполните форму и нажмите "Показать доступные столы"</p>
+          ) : isLoading ? (
             <p>Загружаем данные...</p>
-          ) : sampleCheckboxes.length === 0 ? (
-            <p>Пожалуйста, укажите дату и время для просмотра доступных столов</p>
+          ) : tables.length === 0 ? (
+            <p>На выбранное время нет доступных столов</p>
           ) : (
             <>
               <div className={styles.tableWrapper}>
@@ -198,59 +341,76 @@ const BookingPage = () => {
                     className={styles.tableImage}
                   />
                   <div className={styles.gridTable}>
-                    {sampleCheckboxes.map((cell) => {
-                      const isBooked = bookingInfo.includes(cell.id);
-                      const isSelected = selectedOptions.includes(cell.id);
-
-                      return (
-                        <div
-                          key={`${cell.x}-${cell.y}`}
-                          className={`${styles.checkboxContainer} ${
-                            isBooked ? styles.booked :
-                            isSelected ? styles.selected :
-                            styles.available
-                          }`}
-                          style={{
-                            left: `${cell.x}%`,
-                            top: `${cell.y}%`,
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            id={`option-${cell.id}`}
-                            checked={isSelected}
-                            onChange={() => !isBooked && handleOptionChange(cell.id)}
-                            disabled={isBooked}
-                            className={styles.hiddenCheckbox}
-                          />
-                          <div className={styles.customCheckbox} />
-                        </div>
-                      );
-                    })}
+                    {tables.map((table) => (
+                      <div
+                        key={`${table.x}-${table.y}`}
+                        className={styles.tableMarker}
+                        style={{
+                          left: `${table.x}%`,
+                          top: `${table.y}%`,
+                        }}
+                        onClick={() => !table.occupied && !currentBooking && handleOptionChange(table.id)}
+                      >
+                        <input
+                          type="radio"
+                          id={`option-${table.id}`}
+                          name="tableSelection"
+                          checked={selectedOption === table.id}
+                          onChange={() => {}}
+                          disabled={table.occupied || currentBooking}
+                          className={styles.hiddenRadio}
+                        />
+                        {table.occupied && (
+                          <div className={styles.occupiedMarker}>
+                            <BsXLg className={styles.occupiedIcon} />
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <div className={styles.selectionResult}>
-                <h3>Выбранные места:</h3>
-                {selectedOptions.length > 0 ? (
-                  <ul>
-                    {selectedOptions.map(id => (
-                      <li key={id}>Стол №{id}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>Пожалуйста, выберите места</p>
-                )}
-              </div>
-
-              <button
-                className={styles.selectButton}
-                onClick={handleBooking}
-                disabled={!isSelectionValid || isLoading}
+              <Popup
+                open={popupOpen && selectedOption !== null && !currentBooking}
+                onClose={() => setPopupOpen(false)}
+                position="right center"
+                modal
+                nested
+                contentStyle={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  backgroundColor: '#FDFAF0',
+                  padding: '20px',
+                  borderRadius: '10px',
+                  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.8)',
+                  color: 'rgb(110, 121, 110)',
+                  width: 'auto',
+                  maxWidth: '300px'
+                }}
+                overlayStyle={{ background: 'rgba(97,112,97,0.5)' }}
               >
-                {isLoading ? 'Бронируем...' : 'Забронировать'}
-              </button>
+                <div className={styles.popupContent}>
+                  <h3>Информация о столе №{selectedOption}</h3>
+                  {selectedOption && (
+                    <div>
+                      <p><strong>Дата:</strong> {formData.date}</p>
+                      <p><strong>Время:</strong> {formData.startTime} - {formData.endTime}</p>
+                      <p><strong>Мест:</strong> {tables.find(t => t.id === selectedOption)?.seats_count || 'Не указано'}</p>
+                    </div>
+                  )}
+                  <button
+                    className={styles.selectButton}
+                    onClick={handleBooking}
+                    disabled={isLoading || currentBooking}
+                  >
+                    {isLoading ? 'Бронируем...' : 'Забронировать'}
+                  </button>
+                  {currentBooking && <p className={styles.errorText}>У вас уже есть активное бронирование</p>}
+                </div>
+              </Popup>
             </>
           )}
         </div>

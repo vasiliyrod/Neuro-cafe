@@ -270,7 +270,7 @@ const ChatAIPage = () => {
           onClick={toggleListening}
           className={`${styles.voiceButton} ${isListening ? styles.active : ''}`}
         >
-          {isListening ? <BsSoundwave /> : <AiTwotoneAudio />}
+          {isListening ? <BsSoundwave className={styles.colo}/> : <AiTwotoneAudio className={styles.colo}/>}
         </button>
       </div>
     </div>

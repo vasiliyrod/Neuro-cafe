@@ -135,8 +135,11 @@ const OrderPage = () => {
           modal
           nested
           closeOnDocumentClick={false}
-          contentStyle={{ padding: '0', border: 'none' }} // Добавьте это
-          overlayStyle={{ background: 'rgba(0,0,0,0.5)' }} // И это
+          contentStyle={{ padding: '0',
+                          border: 'none',
+                          width: '250px',
+                          'border-radius': '20px'}}
+          overlayStyle={{ background: 'rgba(0,0,0,0.5)' }}
         >
           <div className={styles.tablePopup}>
             <h3>Укажите номер стола</h3>
