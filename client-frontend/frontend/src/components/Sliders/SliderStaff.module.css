@@ -1,0 +1,98 @@
+.sliderContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-yop: 50px;
+  margin-bottom: 50px;
+}
+
+.slideWrapper {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.slideWrapper:hover {
+  transform: scale(1.05);
+}
+
+.slideImage {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.slideContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(110, 121, 110, 0.8);
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.slideName {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.slideRole {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.customNextButton,
+.customPrevButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.customNextButton::after,
+.customPrevButton::after {
+  font-size: 20px;
+  color: #333;
+}
+
+.customNextButton {
+  right: 10px;
+}
+
+.customPrevButton {
+  left: 10px;
+}
+
+.customPagination {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #fff;
+}

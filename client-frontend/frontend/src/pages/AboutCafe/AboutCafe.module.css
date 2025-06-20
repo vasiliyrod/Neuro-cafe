@@ -1,0 +1,179 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+  background-color: #FDFAF0;
+  font-family: "Kelly Slab", serif;
+  font-weight: 400;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.section {
+  height: 50vh;
+}
+
+.welcomeText {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 15vh;
+  font-style: bold;
+  max-width: 90%;
+}
+
+.text_typical {
+  font-style: normal;
+  font-size: 1rem;
+  max-width: 90%;
+}
+
+.text_typical1 {
+  width: 100%;
+  font-style: normal;
+  font-size: 1.2rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.addressText {
+  font-size: 1.5rem;
+  color: #555;
+}
+
+.title {
+  color: #F3F1EB;
+  background-color: rgb(110, 121, 110);
+  width: 100%;
+  font-size: 2rem;
+  padding: 10px 0;
+}
+
+.title1 {
+  color: rgb(110, 121, 110);
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+.footer {
+  background-color: rgb(110, 121, 110);
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.footerContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footerText {
+  margin: 25px 30px;
+  font-size: 14px;
+}
+
+.iconLink {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);
+  transition: opacity 0.3s ease;
+}
+
+.icon:hover {
+  opacity: 0.8;
+}
+
+.image {
+  margin-bottom: 30px;
+  max-width: 90%;
+}
+
+.image1 {
+  width: 190px;
+  height: 190px;
+  object-fit: cover;
+}
+
+.gridContainer {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.title2 {
+  color: black;
+  width: 100%;
+  font-size: 1.7rem;
+  padding: 5px 0;
+}
+
+.title2_1 {
+  color: black;
+  width: 100%;
+  font-size: 1.3rem;
+  padding: 10px 0;
+}
+
+.centre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 55px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image {
+  animation: fadeIn 1s ease-in-out;
+}
