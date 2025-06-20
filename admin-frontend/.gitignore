@@ -186,13 +186,13 @@ fabric.properties
 
 
 # Игнорировать папку node_modules (зависимости React)
-frontend/node_modules/
+../frontend/node_modules/
 
 # Игнорировать виртуальное окружение Python (если используется)
-backend/venv/
-backend/.venv/
-backend/env/
-backend/.env/
+admin-frontend/backend/venv/
+admin-frontend/backend/.venv/
+admin-frontend/backend/env/
+admin-frontend/backend/.env/
 
 # Игнорировать файлы, созданные Python
 __pycache__/
@@ -227,8 +227,8 @@ frontend/.DS_Store
 frontend/yarn.lock
 
 # Игнорировать файлы, созданные FastAPI (если есть)
-backend/.mypy_cache/
-backend/.pytest_cache/
+admin-frontend/backend/.mypy_cache/
+admin-frontend/backend/.pytest_cache/
 
 
 venv/
