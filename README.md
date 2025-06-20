@@ -34,92 +34,15 @@
 
 ---
 
-
-<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px;">
-  <div style="text-align: center; width: 90px;">
-    <a href="https://github.com/vivatttt">
-      <img src="https://github.com/vivatttt.png" width="60" height="60" style="border-radius: 50%; object-fit: cover;">
-    </a>
-    <p style="margin: 5px 0 0; font-size: 11px; line-height: 1.2;">
-      <strong>Георгий Путовой</strong><br>
-      <span style="color: #666;">Backend</span>
-    </p>
-  </div>
-  
-  <div style="text-align: center; width: 90px;">
-    <a href="https://github.com/DariaDusheiko">
-      <img src="https://github.com/DariaDusheiko.png" width="60" height="60" style="border-radius: 50%; object-fit: cover;">
-    </a>
-    <p style="margin: 5px 0 0; font-size: 11px; line-height: 1.2;">
-      <strong>Дарья Душейко</strong><br>
-      <span style="color: #666;">Frontend</span>
-    </p>
-  </div>
-  
-  <div style="text-align: center; width: 90px;">
-    <a href="https://github.com/vasiliyrod">
-      <img src="https://github.com/vasiliyrod.png" width="60" height="60" style="border-radius: 50%; object-fit: cover;">
-    </a>
-    <p style="margin: 5px 0 0; font-size: 11px; line-height: 1.2;">
-      <strong>Василий Родманич</strong><br>
-      <span style="color: #666;">Frontend</span>
-    </p>
-  </div>
-  
-  <div style="text-align: center; width: 90px;">
-    <a href="https://github.com/djentelmanick">
-      <img src="https://github.com/djentelmanick.png" width="60" height="60" style="border-radius: 50%; object-fit: cover;">
-    </a>
-    <p style="margin: 5px 0 0; font-size: 11px; line-height: 1.2;">
-      <strong>Николай Плясов</strong><br>
-      <span style="color: #666;">AI Engineer</span>
-    </p>
-  </div>
-  
-  <div style="text-align: center; width: 90px;">
-    <a href="https://github.com/fedyanewlife">
-      <img src="https://github.com/fedyanewlife.png" width="60" height="60" style="border-radius: 50%; object-fit: cover;">
-    </a>
-    <p style="margin: 5px 0 0; font-size: 11px; line-height: 1.2;">
-      <strong>Федор Чашкин</strong><br>
-      <span style="color: #666;">Backend</span>
-    </p>
-  </div>
-</div>
+💻 Backend-разработчики
+<div style="display: flex; gap: 20px; margin-bottom: 20px;"> <div align="center" style="width: 120px;"> <a href="https://github.com/vivatttt"> <img src="https://github.com/vivatttt.png" width="80" height="80" style="border-radius: 50%; border: 3px solid #617061; object-fit: cover;"> </a> <h4 style="margin: 10px 0 5px;">Георгий Путовой</h4> <p style="margin: 0; color: #666; font-size: 14px;">Backend</p> </div> <div align="center" style="width: 120px;"> <a href="https://github.com/fedyanewlife"> <img src="https://github.com/fedyanewlife.png" width="80" height="80" style="border-radius: 50%; border: 3px solid #617061; object-fit: cover;"> </a> <h4 style="margin: 10px 0 5px;">Федор Чашкин</h4> <p style="margin: 0; color: #666; font-size: 14px;">Backend</p> </div> </div>
+🎨 Frontend-разработчики
+<div style="display: flex; gap: 20px; margin-bottom: 20px;"> <div align="center" style="width: 120px;"> <a href="https://github.com/DariaDusheiko"> <img src="https://github.com/DariaDusheiko.png" width="80" height="80" style="border-radius: 50%; border: 3px solid #3498db; object-fit: cover;"> </a> <h4 style="margin: 10px 0 5px;">Дарья Душейко</h4> <p style="margin: 0; color: #666; font-size: 14px;">Frontend</p> </div> <div align="center" style="width: 120px;"> <a href="https://github.com/vasiliyrod"> <img src="https://github.com/vasiliyrod.png" width="80" height="80" style="border-radius: 50%; border: 3px solid #3498db; object-fit: cover;"> </a> <h4 style="margin: 10px 0 5px;">Василий Родманич</h4> <p style="margin: 0; color: #666; font-size: 14px;">Frontend</p> </div> </div>
+🧠 AI-разработчик
+<div align="center" style="width: 120px; margin: 0 auto;"> <a href="https://github.com/djentelmanick"> <img src="https://github.com/djentelmanick.png" width="80" height="80" style="border-radius: 50%; border: 3px solid #9b59b6; object-fit: cover;"> </a> <h4 style="margin: 10px 0 5px;">Николай Плясов</h4> <p style="margin: 0; color: #666; font-size: 14px;">AI Engineer</p> </div> </div>
 
 ---
 
  **Нейро-кафе** делает заказы быстрыми и удобными — попробуйте сами!
  
-
-<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0 30px;">
-  <div style="text-align: center; width: 90px;">
-    <a href="https://cafe-neuro.ru" style="text-decoration: none;">
-      <div style="width: 60px; height: 60px; border-radius: 50%; 
-           background: linear-gradient(135deg, #2ecc71, #27ae60);
-           display: flex; align-items: center; justify-content: center; 
-           margin: 0 auto; box-shadow: 0 4px 8px rgba(46, 204, 113, 0.2);
-           transition: transform 0.3s ease;">
-        <span style="color: white; font-size: 13px; font-weight: 500; 
-              font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-              text-align: center; line-height: 1.2; letter-spacing: 0.5px;
-              text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-          Нейро<br>Кафе
-        </span>
-      </div>
-    </a>
-    <p style="margin: 5px 0 0; font-size: 11px; line-height: 1.2;">
-      <strong>Наш проект</strong><br>
-      <span style="color: #666;">cafe-neuro.ru</span>
-    </p>
-  </div>
-</div>
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap');
-  a:hover div {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(46, 204, 113, 0.3);
-  }
-</style>
-
+<div align="center" style="margin: 40px 0;"> <a href="https://cafe-neuro.ru" style="text-decoration: none;"> <div style="display: inline-flex; align-items: center; background: linear-gradient(135deg, #617061, #5a645a); padding: 12px 24px; border-radius: 50px; color: white; font-weight: 600; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); transition: all 0.3s ease;"> <span style="margin-right: 8px;">🌐</span> Перейти на cafe-neuro.ru </div> </a> <p style="margin-top: 15px; color: #666; font-size: 14px;"> Оцените удобство нейросетевого заказа! </p> </div><style> a:hover div { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4); } h3, h4 { font-family: 'Segoe UI', Roboto, sans-serif; } p { font-family: 'Segoe UI', Roboto, sans-serif; } </style>
