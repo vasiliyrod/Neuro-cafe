@@ -41,4 +41,3 @@
  
 [![Нейро-Кафе](https://img.shields.io/badge/Перейти_на-cafe--neuro.ru-2ecc71?style=for-the-badge&logo=&logoColor=white&labelColor=617061&color=f3ddd4)](https://cafe-neuro.ru)
 
-*Нейро-кафе делает заказы быстрыми и удобными — попробуйте сами!*
